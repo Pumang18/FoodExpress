@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Your Cart - FoodExpress</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="../css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="home.html">
+                <i class="fas fa-utensils text-primary me-2"></i>
+                FoodExpress
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="home.html">Restaurants</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="cart.html">Cart <span class="badge bg-primary cart-count">0</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="profile.html">My Orders</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <div class="dropdown">
+                        <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle me-1"></i>
+                            Customer
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuLink">
+                            <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="../index.html">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav> -->
+
+    <div class="container mt-4">
+        <h2 class="mb-4">Your Cart</h2>
+        
+        <div id="empty-cart-message" class="text-center py-5 d-none">
+            <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
+            <h3>Your cart is empty</h3>
+            <p class="text-muted">Add items from restaurants to get started</p>
+            <a href="home.html" class="btn btn-primary mt-3">Browse Restaurants</a>
+        </div>
+
+        <div id="cart-items-container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card mb-4">
+                        <div class="card-header bg-white">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">Items</h5>
+                                <span id="restaurant-name" class="badge bg-light text-dark"></span>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="cart-item d-flex align-items-center p-3 border-bottom">
+                                <div class="flex-shrink-0 me-3">
+                                    <img src="https://via.placeholder.com/60" alt="Margherita Pizza" width="60" height="60" class="rounded">
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-0">Margherita Pizza</h6>
+                                    <p class="text-muted mb-0">$10.00</p>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <button class="btn btn-sm btn-outline-secondary decrease-quantity" data-index="0">-</button>
+                                    <span class="mx-2">2</span>
+                                    <button class="btn btn-sm btn-outline-secondary increase-quantity" data-index="0">+</button>
+                                    <button class="btn btn-sm btn-outline-danger ms-3 remove-item" data-index="0">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                                <div class="ms-3 text-end">
+                                    <span class="fw-bold">$20.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card cart-summary">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">Order Summary</h5>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Subtotal</span>
+                                <span id="subtotal">0.00</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Delivery Fee</span>
+                                <span id="delivery-fee">2.99</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Tax</span>
+                                <span id="tax">0.00</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between mb-4">
+                                <span class="fw-bold">Total</span>
+                                <span class="fw-bold" id="total">0.00</span>
+                            </div>
+                            <form id="checkout-form">
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Delivery Address</label>
+                                    <input type="text" class="form-control" id="address" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="payment-method" class="form-label">Payment Method</label>
+                                    <select class="form-select" id="payment-method" required>
+                                        <option value="">Select a payment method</option>
+                                        <option value="cash">Cash on Delivery</option>
+                                        <option value="card">Credit/Debit Card</option>
+                                    </select>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary" id="place-order">Place Order</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <!-- <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">FoodExpress</h5>
+                    <p>The best food ordering platform for your favorite restaurants.</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50">Help Center</a></li>
+                        <li><a href="#" class="text-white-50">Contact Us</a></li>
+                        <li><a href="#" class="text-white-50">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5 class="mb-3">Contact</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-envelope me-2"></i> support@foodexpress.com</li>
+                        <li><i class="fas fa-phone me-2"></i> (123) 456-7890</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 bg-white-50">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0">&copy; 2025 FoodExpress. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer> -->
+
+    <!-- Order Success Modal -->
+    <div class="modal fade" id="orderSuccessModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Order Placed Successfully</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <div class="py-4">
+                        <i class="fas fa-check-circle text-success fa-5x mb-3"></i>
+                        <h4>Thank you for your order!</h4>
+                        <p>Your order has been placed successfully.</p>
+                        <p>Order #: <span id="order-number" class="fw-bold"></span></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="profile.html" class="btn btn-primary">View My Orders</a>
+                    <a href="home.html" class="btn btn-outline-secondary">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="../../js/cart.js"></script> -->
+</body>
+</html>

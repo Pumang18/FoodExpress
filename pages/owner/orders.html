@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Manage Orders - FoodExpress</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link href="../css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar -->
+
+        <!-- Main content -->
+        <div class="col-md-9 col-lg-12 ms-sm-auto">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            <h1 class="h2">Manage Orders</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="input-group me-2">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Search Orders..."
+                  aria-label="Search Orders"
+                />
+                <button class="btn btn-outline-secondary" type="button">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">
+                  Today
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">
+                  This Week
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">
+                  This Month
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Order status tabs -->
+
+          <!-- Orders table -->
+          <div class="tab-content" id="orderTabsContent">
+            <div
+              class="tab-pane fade show active"
+              id="all-orders"
+              role="tabpanel"
+              aria-labelledby="all-orders-tab"
+            >
+              <div class="table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Order ID</th>
+                      <th>Date & Time</th>
+                      <th>Customer</th>
+                      <th>Items</th>
+                      <th>Total</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="orders-table"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order Detail Modal -->
+    <div
+      class="modal fade"
+      id="orderDetailModal"
+      tabindex="-1"
+      aria-labelledby="orderDetailModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="orderDetailModalLabel">
+              Order #ORD-5272
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <h6>Order Information</h6>
+                <p class="mb-1">
+                  <strong>Date & Time:</strong> Apr 12, 2025 11:30 AM
+                </p>
+                <p class="mb-1">
+                  <strong>Payment Status:</strong>
+                  <span class="badge bg-success">Paid</span>
+                </p>
+              </div>
+              <div class="col-md-6">
+                <h6>Customer Information</h6>
+                <p class="mb-1"><strong>Name:</strong> Alice Smith</p>
+                <p class="mb-1"><strong>Phone:</strong> (555) 123-4567</p>
+                <p class="mb-1">
+                  <strong>Email:</strong> alice.smith@example.com
+                </p>
+                <p class="mb-1"><strong>Address:</strong> N/A - Pickup Order</p>
+                <p class="mb-1"><strong>Pickup Time:</strong> 12:00 PM</p>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-12">
+                <h6>Order Items</h6>
+                <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Pepperoni Pizza</td>
+                        <td>1</td>
+                        <td>₹14.99</td>
+                        <td>₹14.99</td>
+                      </tr>
+                      <tr>
+                        <td>Garlic Bread</td>
+                        <td>1</td>
+                        <td>₹4.99</td>
+                        <td>₹4.99</td>
+                      </tr>
+                      <tr>
+                        <td>Iced Tea</td>
+                        <td>1</td>
+                        <td>₹2.49</td>
+                        <td>₹2.49</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="3" class="text-end">
+                          <strong>Subtotal:</strong>
+                        </td>
+                        <td>₹22.47</td>
+                      </tr>
+                      <tr>
+                        <td colspan="3" class="text-end">
+                          <strong>Tax (8%):</strong>
+                        </td>
+                        <td>₹1.80</td>
+                      </tr>
+                      <tr>
+                        <td colspan="3" class="text-end">
+                          <strong>Delivery Fee:</strong>
+                        </td>
+                        <td>₹0.00</td>
+                      </tr>
+                      <tr>
+                        <td colspan="3" class="text-end">
+                          <strong>Total:</strong>
+                        </td>
+                        <td><strong>₹24.27</strong></td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+
+            <button type="button" class="btn btn-primary">Print Receipt</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      async function getOrders() {
+        const response = await fetch(`${apiUrl}/orders`);
+        return await response.json();
+      }
+      async function getUsers() {
+        const response = await fetch(`${apiUrl}/users`);
+        return await response.json();
+      }
+
+      async function getOrderItems() {
+        const response = await fetch(`${apiUrl}/orderItems`);
+        return await response.json();
+      }
+
+      async function buildOrdersWithItems() {
+        const orders = await getOrders();
+        const orderItems = await getOrderItems();
+        const users = await getUsers();
+
+        return orders.map((order) => {
+          const items = orderItems.filter((item) => item.orderId === order.id);
+          const customer = users.find((user) => user.id === order.userId);
+          return {
+            ...order,
+            items,
+            customerName: customer ? customer.name : "Unknown",
+          };
+        });
+      }
+
+      async function renderOrdersTable() {
+        const ordersWithItems = await buildOrdersWithItems();
+        const tableBody = document.getElementById("orders-table");
+        tableBody.innerHTML = "";
+
+        for (const order of ordersWithItems) {
+          console.log(order);
+          const itemList = order.items
+            .map((item) => `ItemID: ${item.itemId} x${item.quantity}`)
+            .join(", ");
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+              <td><a href="#" onclick="openOrderDetails('${order.id}')">#ORD-${
+            order.id
+          }</a></td>
+              <td>${new Date(order.orderDate).toLocaleString()}</td>
+              <td>${order.customerName}</td>
+              <td>${itemList}</td>
+              <td>₹${parseFloat(order.totalAmount).toFixed(2)}</td>
+              <td>
+                <div class="dropdown">
+                  <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Actions
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" onclick="openOrderDetails('${
+                      order.id
+                    }')">View Details</a></li>
+                    <li><a class="dropdown-item" href="#">Print Receipt</a></li>
+                  </ul>
+                </div>
+              </td>
+            `;
+          tableBody.appendChild(row);
+        }
+      }
+
+      // Handle order detail viewing (can be extended to populate the modal)
+      function openOrderDetails(orderId) {
+        alert(`Order details for: #ORD-${orderId}`);
+        // Optional: dynamically populate modal content based on orderId
+      }
+
+      // Call on page load
+      renderOrdersTable();
+    </script>
+  </body>
+</html>

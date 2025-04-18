@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home - FoodExpress</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link href="../css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+      <div class="container">
+        <a class="navbar-brand" href="home.html">
+          <i class="fas fa-utensils text-primary me-2"></i>
+          FoodExpress
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="home.html">Restaurants</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" onclick="loadPage('cart.html')"
+                >Cart <span class="badge bg-primary cart-count">0</span></a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link"  onclick="loadPage('profile.html')">My Orders</a>
+            </li>
+          </ul>
+          <div class="d-flex align-items-center">
+            <div class="dropdown">
+              <a
+                class="btn btn-outline-secondary dropdown-toggle"
+                href="#"
+                role="button"
+                id="dropdownMenuLink"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="fas fa-user-circle me-1"></i>
+                Customer
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="dropdownMenuLink"
+              >
+                <li>
+                  <a class="dropdown-item" onclick="loadPage('profile.html')" >Profile</a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <a class="dropdown-item" href="../../index.html">Logout</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-4" id="main-content">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Restaurants</h2>
+        <div class="d-flex">
+          <div class="input-group me-2" style="width: 300px">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search restaurants..."
+            />
+            <button class="btn btn-outline-primary" type="button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" id="restaurantList">
+        <!-- Restaurant cards will be dynamically loaded -->
+        <!-- <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Grill & Chill</h5>
+                        <p class="card-text mb-1">
+                            <i class="fas fa-map-marker-alt text-primary me-1"></i> Kolkata
+                        </p>
+                        <p class="card-text mb-2">
+                            <i class="fas fa-phone text-primary me-1"></i> +91 9888777666
+                        </p>
+                        <a href="restaurant.html?id=grill-&-chill" class="btn btn-primary w-100">View Menu</a>
+                    </div>
+                </div>
+            </div> -->
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 mb-4 mb-md-0">
+            <h5 class="mb-3">FoodExpress</h5>
+            <p>
+              The best food ordering platform for your favorite restaurants.
+            </p>
+          </div>
+          <div class="col-md-4 mb-4 mb-md-0">
+            <h5 class="mb-3">Quick Links</h5>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-white-50">Help Center</a></li>
+              <li><a href="#" class="text-white-50">Contact Us</a></li>
+              <li><a href="#" class="text-white-50">Privacy Policy</a></li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <h5 class="mb-3">Contact</h5>
+            <ul class="list-unstyled">
+              <li>
+                <i class="fas fa-envelope me-2"></i> support@foodexpress.com
+              </li>
+              <li><i class="fas fa-phone me-2"></i> (123) 456-7890</li>
+            </ul>
+          </div>
+        </div>
+        <hr class="my-4 bg-white-50" />
+        <div class="row">
+          <div class="col-12 text-center">
+            <p class="mb-0">&copy; 2025 FoodExpress. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="../../js/customer.js"></script> -->
+    <script>
+      function loadPage(page) {
+        fetch(`${page}`)
+          .then((response) => response.text())
+          .then((data) => {
+            const container = document.getElementById("main-content");
+            container.innerHTML = data;
+
+            // Extract and evaluate scripts manually
+            const scripts = container.querySelectorAll("script");
+            scripts.forEach((script) => {
+              const newScript = document.createElement("script");
+              if (script.src) {
+                newScript.src = script.src;
+              } else {
+                newScript.textContent = script.textContent;
+              }
+              document.body.appendChild(newScript);
+              script.remove(); // Optional: remove the original script tag
+            });
+          })
+          .catch((err) => {
+            document.getElementById("main-content").innerHTML =
+              '<p class="text-danger">Failed to load content.</p>';
+            console.error(err);
+          });
+
+
+      }
+
+
+
+
+
+    </script>
+  </body>
+</html>

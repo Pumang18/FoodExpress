@@ -1,0 +1,267 @@
+{
+  "users": [
+    {
+      "name": "Alice Mishra",
+      "email": "alice@gmail.com",
+      "phone": "9876543210",
+      "address": "Delhi, India",
+      "password": "pass123",
+      "userType": "Customer",
+      "id": "94a9"
+    },
+    {
+      "userId": 2,
+      "name": "Bob Khan",
+      "email": "bob@gmail.com",
+      "password": "pass123",
+      "phone": "9123456789",
+      "address": "Mumbai, India",
+      "userType": "Customer",
+      "id": "b63e"
+    },
+    {
+      "userId": 3,
+      "name": "Riya Verma",
+      "email": "riya@gmail.com",
+      "password": "pass123",
+      "phone": "9988776655",
+      "address": "Pune, India",
+      "userType": "Owner",
+      "id": "6004"
+    },
+    {
+      "userId": 4,
+      "name": "Raj Malhotra",
+      "email": "raj@gmail.com",
+      "password": "pass123",
+      "phone": "7766554433",
+      "address": "Chennai, India",
+      "userType": "Owner",
+      "id": "eba8"
+    },
+    {
+      "userId": 5,
+      "name": "Sneha Das",
+      "email": "sneha@gmail.com",
+      "password": "pass123",
+      "phone": "8665544332",
+      "address": "Bangalore, India",
+      "userType": "Customer",
+      "id": "e189"
+    },
+    {
+      "userId": 6,
+      "name": "Kunal Mehta",
+      "email": "kunal@gmail.com",
+      "password": "pass123",
+      "phone": "8001234567",
+      "address": "Kolkata, India",
+      "userType": "Customer",
+      "id": "6e2d"
+    },
+    {
+      "id": "dcf2",
+      "name": "Dev Phadol",
+      "email": "dev@gmail.com",
+      "phone": "7894561236",
+      "address": "Pimpri",
+      "password": "pass123",
+      "userType": "Owner"
+    }
+  ],
+  "restaurants": [
+    {
+      "name": "Tandoori Treats New",
+      "location": "Nashik",
+      "contact": "9823456789",
+      "id": "ded8"
+    },
+    {
+      "name": "Spice Symphony",
+      "location": "Kolkata",
+      "contact": "9787654321",
+      "id": "1dd1"
+    },
+    {
+      "restaurantId": 3,
+      "userId": 3,
+      "name": "Biryani Junction",
+      "location": "Pune",
+      "contact": "9900887766",
+      "id": "ef67"
+    },
+    {
+      "restaurantId": 4,
+      "userId": 4,
+      "name": "Veggie Delight",
+      "location": "Chennai",
+      "contact": "9554433221",
+      "id": "36ed"
+    },
+    {
+      "restaurantId": 5,
+      "userId": 3,
+      "name": "Paneer Palace",
+      "location": "Pune",
+      "contact": "9345678901",
+      "id": "80d3"
+    },
+    {
+      "id": "fc06",
+      "name": "Dev Misal",
+      "location": "Pimpri",
+      "contact": "7894561236",
+      "userId": "dcf2"
+    }
+  ],
+  "foodItems": [
+    {
+      "name": "Chicken Biryani",
+      "category": "main-courses",
+      "price": "270",
+      "id": "8cfc"
+    },
+    {
+      "name": "Paneer Butter Masala ",
+      "category": "main-courses",
+      "price": "250",
+      "id": "6bbc"
+    },
+    {
+      "itemId": 3,
+      "id": "3d1b",
+      "name": "Veg Noodles",
+      "price": 160,
+      "restaurantId": 4,
+      "category": "main-courses"
+    },
+    {
+      "itemId": 4,
+      "id": "8f83",
+      "name": "Tandoori Chicken",
+      "price": 280,
+      "restaurantId": 1,
+      "category": "appetizers"
+    },
+    {
+      "itemId": 5,
+      "id": "2add",
+      "name": "Chicken Butter Masala",
+      "category": "appetizer",
+      "price": 280
+    },
+    {
+      "itemId": 6,
+      "id": "7988",
+      "name": "Coke",
+      "category": "drink",
+      "price": 10
+    },
+    {
+      "name": "Dal Khichadi",
+      "category": "main-courses",
+      "price": "125",
+      "id": "85ea"
+    },
+    {
+      "id": "a760",
+      "name": "GulabJamun",
+      "category": "dessert",
+      "price": "50"
+    }
+  ],
+  "orders": [
+    {
+      "orderId": 1,
+      "userId": "94a9",
+      "restaurantId": 3,
+      "orderDate": "2025-04-12",
+      "totalAmount": 498,
+      "id": "7a93"
+    },
+    {
+      "orderId": 2,
+      "userId": "b63e",
+      "restaurantId": 1,
+      "orderDate": "2025-04-12",
+      "totalAmount": 280,
+      "id": "c041"
+    },
+    {
+      "orderId": 3,
+      "userId": "e189",
+      "restaurantId": 5,
+      "orderDate": "2025-04-11",
+      "totalAmount": 220,
+      "id": "8a07"
+    },
+    {
+      "orderId": 4,
+      "userId": "6e2d",
+      "restaurantId": 2,
+      "orderDate": "2025-04-10",
+      "totalAmount": 240,
+      "id": "b23e"
+    },
+    {
+      "orderId": 5,
+      "userId": "94a9",
+      "restaurantId": 4,
+      "orderDate": "2025-04-09",
+      "totalAmount": 160,
+      "id": "f0b7"
+    },
+    {
+      "orderId": 6,
+      "userId": "b63e",
+      "restaurantId": 6,
+      "orderDate": "2025-04-08",
+      "totalAmount": 160,
+      "id": "af8f"
+    }
+  ],
+  "orderItems": [
+    {
+      "orderItemId": 1,
+      "orderId": 1,
+      "itemId": "8cfc",
+      "quantity": 2,
+      "id": "5ce8"
+    },
+    {
+      "orderItemId": 2,
+      "orderId": 2,
+      "itemId": "8f83",
+      "quantity": 1,
+      "id": "65d5"
+    },
+    {
+      "orderItemId": 3,
+      "orderId": 3,
+      "itemId": "6bbc",
+      "quantity": 1,
+      "id": "58d3"
+    },
+    {
+      "orderItemId": 4,
+      "orderId": 4,
+      "itemId": "2add",
+      "quantity": 2,
+      "id": "bc36"
+    },
+    {
+      "orderItemId": 5,
+      "orderId": 5,
+      "itemId": "3d1b",
+      "quantity": 1,
+      "id": "dc4a"
+    },
+    {
+      "orderItemId": 6,
+      "orderId": 6,
+      "itemId": "8f83",
+      "quantity": 2,
+      "id": "10f8"
+    }
+  ]
+}

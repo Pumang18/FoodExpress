@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Restaurant Profile - FoodExpress</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="../css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar -->
+            
+
+            <!-- Main content -->
+            <div class="col-md-9 col-lg-12 ms-sm-auto">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Restaurant Profile</h1>
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <!-- Restaurant Profile Card -->
+                        <div class="card profile-section">
+                            <div class="card-body text-center">
+                                <div class="mb-3">
+                                    <img src="https://via.placeholder.com/150" alt="Restaurant Logo" class="img-fluid rounded-circle">
+                                    <div class="mt-2">
+                                        <button class="btn btn-sm btn-outline-primary">Change Logo</button>
+                                    </div>
+                                </div>
+                                <h4>Pizza Palace</h4> 
+                                <p class="text-muted">
+                                    <i class="fas fa-map-marker-alt me-1"></i> Downtown
+                                </p>
+                                
+                                <p class="text-muted">
+                                    <i class="fas fa-phone me-1"></i> (555) 123-4567
+                                </p>
+                                
+                                <hr>
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#updatePasswordModal">
+                                        <i class="fas fa-key me-2"></i>Change Password
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Status Card -->
+                        
+                        
+                    </div>
+                    
+                    <div class="col-lg-8">
+                        <!-- Restaurant Details Form -->
+                        <div class="card profile-section">
+                            <div class="card-header bg-white">
+                                <h5 class="card-title mb-0">Restaurant Details</h5>
+                            </div>
+                            <div class="card-body">
+                                <form>
+                                    <div class="row mb-3">
+                                        <div class="col-md">
+                                            <label for="restaurantName" class="form-label">Restaurant Name</label>
+                                            <input type="text" class="form-control" id="restaurantName" value="Pizza Palace">
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-md">
+                                            <label for="contactPhone" class="form-label">Phone Number</label>
+                                            <input type="tel" class="form-control" id="contactPhone" value="(555) 123-4567">
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="restaurantAddress" class="form-label">Location</label>
+                                        <input type="text" class="form-control" id="restaurantAddress" value="123 Main Street, Downtown">
+                                    </div>
+                                    
+                                    
+                                    
+                                    
+                                   <hr>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    <div class="text-end">
+                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Password Modal -->
+    <div class="modal fade" id="updatePasswordModal" tabindex="-1" aria-labelledby="updatePasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updatePasswordModalLabel">Change Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Current Password</label>
+                            <input type="password" class="form-control" id="currentPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input type="password" class="form-control" id="newPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                            <input type="password" class="form-control" id="confirmPassword" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary">Update Password</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+

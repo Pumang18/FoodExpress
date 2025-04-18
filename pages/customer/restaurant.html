@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Restaurant Menu - FoodExpress</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link href="../../css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    
+
+    <div class="container mt-4">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="home.html">Restaurants</a></li>
+          <li
+            class="breadcrumb-item active"
+            aria-current="page"
+            id="restaurant-name"
+          >
+            Restaurant Name
+          </li>
+        </ol>
+      </nav>
+
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 text-center text-md-start">
+              <img
+                src="https://via.placeholder.com/300x200"
+                class="img-fluid rounded"
+                id="restaurant-image"
+                alt="Restaurant"
+              />
+            </div>
+            <div class="col-md-8">
+              <div class="d-flex justify-content-between align-items-center">
+                <h2 id="restaurant-title">Restaurant Name</h2>
+              </div>
+              <p>
+                <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                <span id="restaurant-location">Location</span>
+              </p>
+              <p>
+                <i class="fas fa-phone text-primary me-2"></i>
+                <span id="restaurant-contact">Contact</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-12">
+          <ul class="nav nav-pills" id="menuCategories" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link active"
+                id="appetizers-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#appetizers"
+                type="button"
+                role="tab"
+              >
+                Appetizers
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="main-courses-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#main-courses"
+                type="button"
+                role="tab"
+              >
+                Main Courses
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="desserts-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#desserts"
+                type="button"
+                role="tab"
+              >
+                Desserts
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="drinks-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#drinks"
+                type="button"
+                role="tab"
+              >
+                Drinks
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="tab-content" id="menuContent">
+        <div class="tab-pane fade show active" id="appetizers" role="tabpanel">
+          <div class="row" id="appetizers-list">
+            <!-- Appetizer items will be loaded here -->
+          </div>
+        </div>
+        <div class="tab-pane fade" id="main-courses" role="tabpanel">
+          <div class="row" id="main-courses-list">
+            <!-- Main course items will be loaded here -->
+          </div>
+        </div>
+        <div class="tab-pane fade" id="desserts" role="tabpanel">
+          <div class="row" id="desserts-list">
+            <!-- Dessert items will be loaded here -->
+          </div>
+        </div>
+        <div class="tab-pane fade" id="drinks" role="tabpanel">
+          <div class="row" id="drinks-list">
+            <!-- Drink items will be loaded here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- View Cart Floating Button -->
+    <div class="position-fixed bottom-0 end-0 m-4">
+      <a href="cart.html" class="btn btn-primary rounded-circle p-3 shadow">
+        <i class="fas fa-shopping-cart fa-lg"></i>
+        <span
+          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-count"
+          >0</span
+        >
+      </a>
+    </div>
+
+    <!-- Footer -->
+   
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/restaurant.js"></script>
+  </body>
+</html>

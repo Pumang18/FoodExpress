@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Manage Menu - FoodExpress</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link href="../css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <!-- Sidebar -->
+
+        <!-- Main content -->
+        <div class="col-md-9 col-lg-12 ms-sm-auto">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            <h1 class="h2">Manage Menu Items</h1>
+          </div>
+          <div class="container mt-5">
+            <div class="card-header"></div>
+            <div class="card-body">
+              <form>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="itemName" class="form-label">Item Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="itemName"
+                      required
+                    />
+                  </div>
+                  <div class="col-md-6">
+                    <label for="itemCategory" class="form-label"
+                      >Category</label
+                    >
+                    <select class="form-select" id="itemCategory" required>
+                      <option value="">Select Category</option>
+                      <option value="appetizer">Appetizer</option>
+                      <option value="main-courses">Main Course</option>
+                      <option value="dessert">Dessert</option>
+                      <option value="drink">Drink</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <label for="itemPrice" class="form-label">Price (₹)</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      class="form-control"
+                      id="itemPrice"
+                      required
+                    />
+                  </div>
+                  <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary" id="add-item">
+                      Add Item
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Tab content -->
+          <div class="tab-content" id="menuTabsContent">
+            <div
+              class="tab-pane fade show active"
+              id="all"
+              role="tabpanel"
+              aria-labelledby="all-tab"
+            >
+              <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th>Image</th>
+                      <th>Name</th>
+                      <th>Category</th>
+                      <th>Price</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="all-items"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      fetchAndRenderCategories();
+      editId=0;
+      allFoodItems = [];
+      function fetchAndRenderCategories() {
+        console.log("fetch and render Categories");
+        fetch(`${apiUrl}/foodItems`)
+          .then((res) => res.json())
+          .then((data) => {
+            allFoodItems = data;
+            renderCategories(data);
+          });
+      }
+
+      function renderCategories(allFoodItems) {
+        console.log("render Categories");
+        const tbody = document.getElementById("all-items");
+        tbody.innerHTML = "";
+
+        allFoodItems.forEach((item) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+        <td>
+                        <img
+                          src=""
+                          class="rounded"
+                          alt="Food"
+                        />
+                      </td>
+                      <td>${item.name}</td>
+                      <td>${item.category}</td>
+                      <td>${item.price}</td>
+                      <td>
+                        <button
+                          class="btn btn-sm btn-outline-primary me-1 edit-btn"
+                         data-id="${item.id}"
+                        >
+                          <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger delete-btn" data-id="${item.id}">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </td>
+        `;
+          tbody.appendChild(row);
+        });
+        document.querySelectorAll(".edit-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-id");
+            loadRestaurantForEdit(id);
+          });
+        });
+        document.querySelectorAll(".delete-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-id");
+            deleteItem(id);
+          });
+        });
+      }
+
+      document.getElementById("add-item").addEventListener("click", () => {
+        if (editId) {
+          const name = document.getElementById("itemName").value;
+          const category = document.getElementById("itemCategory").value;
+          const price = document.getElementById("itemPrice").value;
+
+          const newItem = { name, category, price };
+
+          fetch(`${apiUrl}/foodItems/${editId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newItem),
+          })
+            .then((res) => res.json())
+            .then(() => {
+              fetchAndRenderCategories();
+              document.getElementById("itemName").value = "";
+              document.getElementById("itemCategory").value = "";
+              document.getElementById("itemPrice").value = "";
+              document.getElementById("add-item").textContent = "Add Item";
+              preventDefault();
+            }).loadpage('manage-items.html');
+        } else {
+          const name = document.getElementById("itemName").value;
+          const category = document.getElementById("itemCategory").value;
+          const price = document.getElementById("itemPrice").value;
+
+          const newItem = { name, category, price };
+
+          fetch(`${apiUrl}/foodItems`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newItem),
+          })
+            .then((res) => res.json())
+            .then(() => {
+              fetchAndRenderCategories();
+              document.getElementById("itemName").value = "";
+              document.getElementById("itemCategory").value = "";
+              document.getElementById("itemPrice").value = "";
+            }).loadpage('manage-items.html');
+        }
+      });
+
+      function deleteItem(id) {
+        console.log("in delete");
+        if (confirm("Are you sure you want to delete this item?")) {
+          console.log(apiUrl);
+          fetch(`${apiUrl}/foodItems/${id}`, {
+            method: "DELETE",
+          }).then(() => fetchAndRenderCategories());
+        }
+      }
+      function loadRestaurantForEdit(id) {
+        fetch(`${apiUrl}/foodItems/${id}`)
+          .then((res) => res.json())
+          .then((data) => {
+            document.getElementById("itemName").value = data.name;
+            document.getElementById("itemCategory").value = data.category;
+            document.getElementById("itemPrice").value = data.price;
+            editId = id;
+            document.getElementById("add-item").textContent = "Update Item";
+          });
+      }
+    </script>
+  </body>
+</html>

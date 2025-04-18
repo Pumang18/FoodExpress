@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Owner Dashboard - FoodExpress</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css"
+    />
+    <link href="../css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+          <div class="position-sticky pt-3">
+            <div class="text-center mb-4">
+              <i class="fas fa-utensils fa-2x text-white"></i>
+              <h5 class="mt-2 text-white">Pizza Palace</h5>
+            </div>
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" href="dashboard.html">
+                  <i class="fas fa-tachometer-alt"></i>
+                  Dashboard
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="loadPage('manage-items.html')">
+                  <i class="fas fa-hamburger"></i>
+                  Manage Menu
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="loadPage('orders.html')">
+                  <i class="fas fa-shopping-bag"></i>
+                  Orders
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="loadPage('reports.html')">
+                  <i class="fas fa-chart-bar"></i>
+                  Reports
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" onclick="loadPage('profile.html')">
+                  <i class="fas fa-user"></i>
+                  Profile
+                </a>
+              </li>
+              <li class="nav-item mt-3">
+                <a class="nav-link text-danger" href="../../index.html">
+                  <i class="fas fa-sign-out-alt"></i>
+                  Logout
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="col-md-9 col-lg-10 ms-sm-auto" id="main-content">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            <h1 class="h2">Dashboard</h1>
+            <div class="d-flex align-items-center">
+              <div class="dropdown">
+                <a
+                  class="btn btn-outline-secondary dropdown-toggle"
+                  href="#"
+                  role="button"
+                  id="dropdownMenuLink"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  <i class="fas fa-user-circle me-1"></i>
+                  Customer
+                </a>
+                <ul
+                  class="dropdown-menu dropdown-menu-end"
+                  aria-labelledby="dropdownMenuLink"
+                >
+                  <li>
+                    <a class="dropdown-item" href="profile.html">Profile</a>
+                  </li>
+                  <li><hr class="dropdown-divider" /></li>
+                  <li>
+                    <a class="dropdown-item" href="../../index.html">Logout</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Stats cards -->
+          <div class="row mb-4">
+            <div class="col-md-3">
+              <div class="card stats-card h-100">
+                <div class="card-body">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div>
+                      <h6 class="text-muted">Total Orders</h6>
+                      <h3>158</h3>
+                    </div>
+                    <i
+                      class="fas fa-shopping-bag fa-2x text-primary opacity-50"
+                    ></i>
+                  </div>
+                  <p class="small text-success mb-0">
+                    <i class="fas fa-arrow-up"></i> 12% since last month
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card stats-card h-100">
+                <div class="card-body">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div>
+                      <h6 class="text-muted">Revenue</h6>
+                      <h3>₹4,285</h3>
+                    </div>
+                    <i
+                      class="fas fa-dollar-sign fa-2x text-primary opacity-50"
+                    ></i>
+                  </div>
+                  <p class="small text-success mb-0">
+                    <i class="fas fa-arrow-up"></i> 8% since last month
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card stats-card h-100">
+                <div class="card-body">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div>
+                      <h6 class="text-muted">Avg. Order Value</h6>
+                      <h3>₹27.12</h3>
+                    </div>
+                    <i class="fas fa-receipt fa-2x text-primary opacity-50"></i>
+                  </div>
+                  <p class="small text-danger mb-0">
+                    <i class="fas fa-arrow-down"></i> 3% since last month
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="card stats-card h-100">
+                <div class="card-body">
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <div>
+                      <h6 class="text-muted">New Customers</h6>
+                      <h3>45</h3>
+                    </div>
+                    <i class="fas fa-users fa-2x text-primary opacity-50"></i>
+                  </div>
+                  <p class="small text-success mb-0">
+                    <i class="fas fa-arrow-up"></i> 18% since last month
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charts row -->
+          <div class="row mb-4">
+            <div class="col-md-8">
+              <div class="card chart-container h-100">
+                <div class="card-header bg-white">
+                  <h5 class="card-title mb-0">Orders Over Time</h5>
+                </div>
+                <div class="card-body">
+                  <canvas id="ordersChart" height="250"></canvas>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card chart-container h-100">
+                <div class="card-header bg-white">
+                  <h5 class="card-title mb-0">Top Categories</h5>
+                </div>
+                <div class="card-body d-flex align-items-center">
+                  <canvas id="categoriesChart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Additional charts row -->
+          <div class="row mb-4">
+            <div class="col-md-8">
+              <div class="card chart-container h-100">
+                <div class="card-header bg-white">
+                  <h5 class="card-title mb-0">Sales by Day of Week</h5>
+                </div>
+                <div class="card-body">
+                  <canvas id="salesByDayChart" height="250"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Top items table -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="card table-container">
+                <div class="card-header bg-white">
+                  <h5 class="card-title mb-0">Top Selling Items</h5>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Item</th>
+                          <th>Category</th>
+                          <th>Units Sold</th>
+                          <th>Revenue</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>Margherita Pizza</td>
+                          <td>Main Course</td>
+                          <td>128</td>
+                          <td>₹1,664.00</td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>Pepperoni Pizza</td>
+                          <td>Main Course</td>
+                          <td>95</td>
+                          <td>₹1,424.00</td>
+                        </tr>
+                        <tr>
+                          <td>3</td>
+                          <td>Garlic Bread</td>
+                          <td>Appetizer</td>
+                          <td>87</td>
+                          <td>₹434.13</td>
+                        </tr>
+                        <tr>
+                          <td>4</td>
+                          <td>Tiramisu</td>
+                          <td>Dessert</td>
+                          <td>64</td>
+                          <td>₹447.36</td>
+                        </tr>
+                        <tr>
+                          <td>5</td>
+                          <td>Hawaiian Pizza</td>
+                          <td>Main Course</td>
+                          <td>58</td>
+                          <td>₹927.42</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Recent orders table -->
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="card table-container">
+                <div
+                  class="card-header bg-white d-flex justify-content-between align-items-center"
+                >
+                  <h5 class="card-title mb-0">Recent Orders</h5>
+                  <a href="orders.html" class="btn btn-sm btn-outline-primary"
+                    >View All</a
+                  >
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Order ID</th>
+                          <th>Customer</th>
+                          <th>Date</th>
+                          <th>Items</th>
+                          <th>Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>#ORD-5273</td>
+                          <td>John Doe</td>
+                          <td>Apr 12, 2025 12:05 PM</td>
+                          <td>Margherita Pizza, Soft Drink</td>
+                          <td>₹15.98</td>
+                        </tr>
+                        <tr>
+                          <td>#ORD-5272</td>
+                          <td>Alice Smith</td>
+                          <td>Apr 12, 2025 11:30 AM</td>
+                          <td>Pepperoni Pizza, Garlic Bread, Iced Tea</td>
+                          <td>₹24.47</td>
+                        </tr>
+                        <tr>
+                          <td>#ORD-5271</td>
+                          <td>Robert Johnson</td>
+                          <td>Apr 12, 2025 10:45 AM</td>
+                          <td>Hawaiian Pizza, Tiramisu</td>
+                          <td>₹22.98</td>
+                        </tr>
+                        <tr>
+                          <td>#ORD-5270</td>
+                          <td>Emily Davis</td>
+                          <td>Apr 12, 2025 10:15 AM</td>
+                          <td>Vegetarian Pizza, Caesar Salad</td>
+                          <td>₹19.98</td>
+                        </tr>
+                        <tr>
+                          <td>#ORD-5269</td>
+                          <td>Michael Wilson</td>
+                          <td>Apr 12, 2025 09:45 AM</td>
+                          <td>Margherita Pizza, Mozzarella Sticks</td>
+                          <td>₹19.98</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <!-- <script src="../../js/owner-dashboard.js"></script> -->
+    <script>
+        const apiUrl = "http://localhost:3000";
+        function loadPage(page) {
+        fetch(`${page}`)
+          .then((response) => response.text())
+          .then((data) => {
+            const container = document.getElementById("main-content");
+            container.innerHTML = data;
+
+            // Extract and evaluate scripts manually
+            const scripts = container.querySelectorAll("script");
+            scripts.forEach((script) => {
+              const newScript = document.createElement("script");
+              if (script.src) {
+                newScript.src = script.src;
+              } else {
+                newScript.textContent = script.textContent;
+              }
+              document.body.appendChild(newScript);
+              script.remove(); // Optional: remove the original script tag
+            });
+          })
+          .catch((err) => {
+            document.getElementById("main-content").innerHTML =
+              '<p class="text-danger">Failed to load content.</p>';
+            console.error(err);
+          });
+        }
+    </script>
+  </body>
+</html>
