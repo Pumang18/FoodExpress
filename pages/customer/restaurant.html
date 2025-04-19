@@ -195,7 +195,7 @@
           (item) => item.restaurantId === restaurantId
         );
 
-        const categories = ["appetizers", "main-courses", "desserts", "drinks"];
+        const categories = ["appetizers", "main-courses", "dessert", "drink"];
         categories.forEach((category) => {
           const categoryItems = filteredItems.filter(
             (item) => item.category === category
@@ -272,6 +272,7 @@
                 price: itemPrice,
                 quantity: quantity,
                 restaurant: currentRestaurantName,
+                restaurantId:restaurantId
               });
             }
 

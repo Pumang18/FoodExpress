@@ -1,889 +1,231 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Reports - FoodExpress</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css">
-    <link href="../css/styles.css" rel="stylesheet">
-</head>
-<body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css"
+    />
+    <link href="../css/styles.css" rel="stylesheet" />
+  </head>
+  <body>
     <div class="container">
-        <div class="row">
-            <!-- Sidebar -->
-            
-            <!-- Main content -->
-            <div class="col-md-9 col-lg-12 ms-sm-auto">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Reports</h1>
-                    <div class="btn-toolbar mb-2 mb-md-0">
-                        <div class="btn-group me-2">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">This Week</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">This Month</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">This Year</button>
-                        </div>
-                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                            <i class="fas fa-download me-1"></i>
-                            Export
-                        </button>
-                    </div>
-                </div>
+      <div class="row">
+        <!-- Sidebar -->
 
-                <!-- Report navigation tabs -->
-                <ul class="nav nav-tabs mb-4" id="reportTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="sales-tab" data-bs-toggle="tab" data-bs-target="#sales" type="button" role="tab" aria-controls="sales" aria-selected="true">Sales & Revenue</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="items-tab" data-bs-toggle="tab" data-bs-target="#items" type="button" role="tab" aria-controls="items" aria-selected="false">Item Performance</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="customers-tab" data-bs-toggle="tab" data-bs-target="#customers" type="button" role="tab" aria-controls="customers" aria-selected="false">Customer Analysis</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="trends-tab" data-bs-toggle="tab" data-bs-target="#trends" type="button" role="tab" aria-controls="trends" aria-selected="false">Trends & Forecasts</button>
-                    </li>
-                </ul>
-
-                <!-- Tab content -->
-                <div class="tab-content" id="reportTabsContent">
-                    <!-- Sales & Revenue Tab -->
-                    <div class="tab-pane fade show active" id="sales" role="tabpanel" aria-labelledby="sales-tab">
-                        <!-- Sales Summary Cards -->
-                        <div class="row mb-4">
-                            <div class="col-md-4">
-                                <div class="card stats-card h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="text-muted">Total Sales</h6>
-                                                <h3>₹14,285</h3>
-                                            </div>
-                                            <i class="fas fa-dollar-sign fa-2x text-primary opacity-50"></i>
-                                        </div>
-                                        <p class="small text-success mb-0">
-                                            <i class="fas fa-arrow-up"></i> 8.5% since last month
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card stats-card h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="text-muted">Total Orders</h6>
-                                                <h3>458</h3>
-                                            </div>
-                                            <i class="fas fa-shopping-cart fa-2x text-primary opacity-50"></i>
-                                        </div>
-                                        <p class="small text-success mb-0">
-                                            <i class="fas fa-arrow-up"></i> 12% since last month
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card stats-card h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="text-muted">Avg. Order Value</h6>
-                                                <h3>₹31.23</h3>
-                                            </div>
-                                            <i class="fas fa-receipt fa-2x text-primary opacity-50"></i>
-                                        </div>
-                                        <p class="small text-danger mb-0">
-                                            <i class="fas fa-arrow-down"></i> 3.2% since last month
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-
-                        <!-- Total Sales Over Time Chart -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <div class="card chart-container">
-                                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                                        <h5 class="card-title mb-0">Total Sales Over Time</h5>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">Daily</button>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary active">Weekly</button>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">Monthly</button>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="salesOverTimeChart" height="300"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Orders Per Day & Payment Methods -->
-                        <div class="row mb-4">
-                            <div class="col-md-12">
-                                <div class="card chart-container h-100">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">Orders Per Day</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="ordersPerDayChart" height="250"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        </div>
-
-                        <!-- Average Order Value -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <div class="card chart-container">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">Average Order Value Over Time</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="avgOrderValueChart" height="250"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Item Performance Tab -->
-                    <div class="tab-pane fade" id="items" role="tabpanel" aria-labelledby="items-tab">
-                        <!-- Top Selling Items -->
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <div class="card chart-container h-100">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">Top Selling Items</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="topSellingItemsChart" height="300"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card table-container h-100">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">Top Performing Items</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Item</th>
-                                                        <th>Orders</th>
-                                                        <th>Revenue</th>
-                                                        <th>Profit Margin</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Margherita Pizza</td>
-                                                        <td>128</td>
-                                                        <td>₹1,664.00</td>
-                                                        <td>32%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Pepperoni Pizza</td>
-                                                        <td>95</td>
-                                                        <td>₹1,424.00</td>
-                                                        <td>34%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Hawaiian Pizza</td>
-                                                        <td>58</td>
-                                                        <td>₹927.42</td>
-                                                        <td>30%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Tiramisu</td>
-                                                        <td>64</td>
-                                                        <td>₹447.36</td>
-                                                        <td>40%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Garlic Bread</td>
-                                                        <td>87</td>
-                                                        <td>₹434.13</td>
-                                                        <td>38%</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Revenue by Category & Item Profitability Analysis -->
-                        <div class="row mb-4">
-                            <div class="col-md-5">
-                                <div class="card chart-container h-100">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">Revenue by Food Category</h5>
-                                    </div>
-                                    <div class="card-body d-flex align-items-center">
-                                        <canvas id="revenueByCategoryChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-7">
-                                <div class="card chart-container h-100">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">Category-wise Quantity Sold</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="categoryQuantityChart" height="250"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Least Performing Items -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <div class="card table-container">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">Least Performing Items</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Item</th>
-                                                        <th>Orders</th>
-                                                        <th>Revenue</th>
-                                                        <th>Profit Margin</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Seafood Pizza</td>
-                                                        <td>12</td>
-                                                        <td>₹203.88</td>
-                                                        <td>25%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Vegetarian Special</td>
-                                                        <td>15</td>
-                                                        <td>₹239.85</td>
-                                                        <td>28%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Buffalo Wings</td>
-                                                        <td>18</td>
-                                                        <td>₹125.82</td>
-                                                        <td>32%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Chocolate Mousse</td>
-                                                        <td>20</td>
-                                                        <td>₹119.80</td>
-                                                        <td>35%</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Greek Salad</td>
-                                                        <td>22</td>
-                                                        <td>₹153.78</td>
-                                                        <td>40%</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Customer Analysis Tab -->
-                    <div class="tab-pane fade" id="customers" role="tabpanel" aria-labelledby="customers-tab">
-                        <!-- Customer Summary Cards -->
-                        <div class="row mb-4">
-                            <div class="col-md-4">
-                                <div class="card stats-card h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="text-muted">Total Customers</h6>
-                                                <h3>246</h3>
-                                            </div>
-                                            <i class="fas fa-users fa-2x text-primary opacity-50"></i>
-                                        </div>
-                                        <p class="small text-success mb-0">
-                                            <i class="fas fa-arrow-up"></i> 12% since last month
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card stats-card h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="text-muted">New Customers</h6>
-                                                <h3>45</h3>
-                                            </div>
-                                            <i class="fas fa-user-plus fa-2x text-primary opacity-50"></i>
-                                        </div>
-                                        <p class="small text-success mb-0">
-                                            <i class="fas fa-arrow-up"></i> 18% since last month
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-4">
-                                <div class="card stats-card h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="text-muted">Avg. Orders/Customer</h6>
-                                                <h3>1.84</h3>
-                                            </div>
-                                            <i class="fas fa-shopping-bag fa-2x text-primary opacity-50"></i>
-                                        </div>
-                                        <p class="small text-success mb-0">
-                                            <i class="fas fa-arrow-up"></i> 0.2 since last month
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Customer Order Frequency & Most Active Customers -->
-                        <div class="row mb-4">
-                            <div class="col-md-7">
-                                <div class="card chart-container h-100">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">Customer Order Frequency</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="orderFrequencyChart" height="250"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-5">
-                                <div class="card chart-container h-100">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">Most Active Customers</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="activeCustomersChart" height="250"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- New vs Returning Customers -->
-                        <div class="row mb-4">
-                            
-                            <div class="col-md-6">
-                                <div class="card table-container h-100">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">Top 5 Customers by Order Value</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Customer</th>
-                                                        <th>Orders</th>
-                                                        <th>Total Spent</th>
-                                                        <th>Last Order</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>John Doe</td>
-                                                        <td>12</td>
-                                                        <td>₹358.45</td>
-                                                        <td>Apr 12, 2025</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Alice Smith</td>
-                                                        <td>8</td>
-                                                        <td>₹245.36</td>
-                                                        <td>Apr 12, 2025</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Robert Johnson</td>
-                                                        <td>7</td>
-                                                        <td>₹231.85</td>
-                                                        <td>Apr 12, 2025</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Emily Davis</td>
-                                                        <td>9</td>
-                                                        <td>₹228.75</td>
-                                                        <td>Apr 12, 2025</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Michael Wilson</td>
-                                                        <td>6</td>
-                                                        <td>₹189.95</td>
-                                                        <td>Apr 12, 2025</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Trends & Forecasts Tab -->
-                    <div class="tab-pane fade" id="trends" role="tabpanel" aria-labelledby="trends-tab">
-                        <!-- Time-based Demand Patterns -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <div class="card chart-container">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">Time-based Demand Patterns</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="demandPatternsChart" height="300"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Sales by Day of Week & Restaurant Revenue -->
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <div class="card chart-container h-100">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">Sales by Day of Week</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="salesByDayChart" height="250"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card chart-container h-100">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">Restaurant-wise Revenue</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="restaurantRevenueChart" height="250"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Growth Metrics -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <div class="card table-container">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">Growth Metrics (Year-over-Year)</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Metric</th>
-                                                        <th>Last Year</th>
-                                                        <th>This Year</th>
-                                                        <th>Growth</th>
-                                                        <th>Trend</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>Total Revenue</td>
-                                                        <td>₹145,230</td>
-                                                        <td>₹168,542</td>
-                                                        <td class="text-success">+16.1%</td>
-                                                        <td><i class="fas fa-arrow-up text-success"></i></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Order Count</td>
-                                                        <td>4,258</td>
-                                                        <td>5,120</td>
-                                                        <td class="text-success">+20.2%</td>
-                                                        <td><i class="fas fa-arrow-up text-success"></i></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Average Order Value</td>
-                                                        <td>₹34.11</td>
-                                                        <td>₹32.92</td>
-                                                        <td class="text-danger">-3.5%</td>
-                                                        <td><i class="fas fa-arrow-down text-danger"></i></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Customer Count</td>
-                                                        <td>843</td>
-                                                        <td>1,258</td>
-                                                        <td class="text-success">+49.2%</td>
-                                                        <td><i class="fas fa-arrow-up text-success"></i></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>Profit Margin</td>
-                                                        <td>26.5%</td>
-                                                        <td>28.4%</td>
-                                                        <td class="text-success">+1.9%</td>
-                                                        <td><i class="fas fa-arrow-up text-success"></i></td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Main content -->
+        <div class="col-md-9 col-lg-12 ms-sm-auto">
+          <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+          >
+            <h1 class="h2">Reports</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-secondary dropdown-toggle"
+              >
+                <i class="fas fa-download me-1"></i>
+                Export
+              </button>
             </div>
+          </div>
+
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="card table-container">
+                <div class="card-header bg-white">
+                  <h5 class="card-title mb-0">Top Selling Items</h5>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Item</th>
+                          <th>Category</th>
+                          <th>Units Sold</th>
+                          <th>Revenue</th>
+                        </tr>
+                      </thead>
+                      <tbody id="top-selling-items-body"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-4">
+            <div class="col-12">
+              <div class="card table-container">
+                <div class="card-header bg-white">
+                  <h5 class="card-title mb-0">Recent Orders</h5>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-striped" >
+                      <thead>
+                        <tr>
+                          <th>Order ID</th>
+                          <th>Customer</th>
+                          <th>Date</th>
+                          <th>Items</th>
+                          <th>Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody id="recent-orders-table">
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Initialize all charts with sample data
+      (() => {
+        async function loadTopSellingItems() {
+          try {
+            const restaurantId = sessionStorage.getItem("restaurantId");
 
-            // 1. Total Sales Over Time Chart
-            const salesTimeCtx = document.getElementById('salesOverTimeChart');
-            if (salesTimeCtx) {
-                const salesTimeChart = new Chart(salesTimeCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8'],
-                        datasets: [{
-                            label: 'Revenue (₹)',
-                            data: [1800, 2100, 1950, 2400, 2200, 2600, 2800, 3000],
-                            borderColor: '#5a67d8',
-                            backgroundColor: 'rgba(90, 103, 216, 0.1)',
-                            fill: true,
-                            tension: 0.3
-                        }, {
-                            label: 'Orders',
-                            data: [58, 65, 62, 73, 68, 79, 85, 92],
-                            borderColor: '#48bb78',
-                            borderDash: [5, 5],
-                            fill: false,
-                            tension: 0.3
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
+            const [ordersRes, orderItemsRes, foodItemsRes] = await Promise.all([
+              fetch(`${apiUrl}/orders`),
+              fetch(`${apiUrl}/orderItems`),
+              fetch(`${apiUrl}/foodItems`),
+            ]);
+
+            const [orders, orderItems, foodItems] = await Promise.all([
+              ordersRes.json(),
+              orderItemsRes.json(),
+              foodItemsRes.json(),
+            ]);
+
+            const filteredOrders = orders.filter(
+              (order) => String(order.restaurantId) === String(restaurantId)
+            );
+
+            const orderIds = filteredOrders.map((order) => order.id);
+            const filteredOrderItems = orderItems.filter((item) =>
+              orderIds.includes(item.orderId)
+            );
+            const itemData = [];
+
+            filteredOrderItems.forEach((item) => {
+              const food = foodItems.find((f) => f.id === item.itemId);
+              if (!food) return;
+
+              const existing = itemData.find((i) => i.id === food.id);
+              if (existing) {
+                existing.qty += item.quantity;
+              } else {
+                itemData.push({
+                  id: food.id,
+                  name: food.name,
+                  category: food.category,
+                  price: food.price,
+                  qty: item.quantity,
                 });
-            }
+              }
+            });
+            itemData.sort((a, b) => b.qty - a.qty);
+
+            populateTopSellingItemsTable(itemData);
+          } catch (error) {
+            console.error("Error loading top selling items:", error);
+          }
+        }
+
+        function populateTopSellingItemsTable(itemData) {
+          const tbody = document.getElementById("top-selling-items-body");
+
+          itemData.slice(0, 5).forEach((item, index) => {
+            const revenue = item.qty * parseFloat(item.price || 0);
+
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${index + 1}</td>
+              <td>${item.name}</td>
+              <td>${item.category}</td>
+              <td>${item.qty}</td>
+              <td>₹${revenue.toFixed(2)}</td>
+            `;
+
+            tbody.appendChild(tr);
+          });
+        }
+
+        loadTopSellingItems();
+
+        async function loadRecentOrders() {
+          try {
+            const restaurantId = sessionStorage.getItem("restaurantId");
+
+            const [ordersRes, orderItemsRes, usersRes, foodItemsRes] =
+              await Promise.all([
+                fetch(`${apiUrl}/orders`),
+                fetch(`${apiUrl}/orderItems`),
+                fetch(`${apiUrl}/users`),
+                fetch(`${apiUrl}/foodItems`),
+              ]);
+
+            const [orders, orderItems, users, foodItems] = await Promise.all([
+              ordersRes.json(),
+              orderItemsRes.json(),
+              usersRes.json(),
+              foodItemsRes.json(),
+            ]);
+
+            const filteredOrders = orders
+              .filter(
+                (order) => String(order.restaurantId) === String(restaurantId)
+              )
+              .sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate))
+              .slice(0, 5);
+
+            const tbody = document.getElementById("recent-orders-table");
+            tbody.innerHTML = "";
             
-            // 2. Orders Per Day Chart
-            const ordersPerDayCtx = document.getElementById('ordersPerDayChart');
-            if (ordersPerDayCtx) {
-                const ordersPerDayChart = new Chart(ordersPerDayCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                        datasets: [{
-                            label: 'Orders',
-                            data: [15, 22, 18, 24, 32, 38, 28],
-                            borderColor: '#3182ce',
-                            backgroundColor: 'rgba(49, 130, 206, 0.1)',
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
-            }
-           
-            // 4. Average Order Value Chart
-            const avgOrderValueCtx = document.getElementById('avgOrderValueChart');
-            if (avgOrderValueCtx) {
-                const avgOrderValueChart = new Chart(avgOrderValueCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
-                        datasets: [{
-                            label: 'Avg. Order Value (₹)',
-                            data: [28.5, 29.2, 30.8, 31.5, 33.2, 32.4, 31.9, 31.2],
-                            borderColor: '#d53f8c',
-                            backgroundColor: 'rgba(213, 63, 140, 0.1)',
-                            fill: true,
-                            tension: 0.3
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
-            }
-            
-            // 5. Top Selling Items Chart
-            const topSellingItemsCtx = document.getElementById('topSellingItemsChart');
-            if (topSellingItemsCtx) {
-                const topSellingItemsChart = new Chart(topSellingItemsCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Margherita Pizza', 'Pepperoni Pizza', 'Hawaiian Pizza', 'Tiramisu', 'Garlic Bread'],
-                        datasets: [{
-                            label: 'Orders',
-                            data: [128, 95, 58, 64, 87],
-                            backgroundColor: [
-                                'rgba(90, 103, 216, 0.7)',
-                                'rgba(72, 187, 120, 0.7)',
-                                'rgba(213, 63, 140, 0.7)',
-                                'rgba(237, 137, 54, 0.7)',
-                                'rgba(49, 130, 206, 0.7)'
-                            ]
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        indexAxis: 'y'
-                    }
-                });
-            }
-            
-            // 6. Revenue by Category Chart
-            const revenueByCategoryCtx = document.getElementById('revenueByCategoryChart');
-            if (revenueByCategoryCtx) {
-                const revenueByCategoryChart = new Chart(revenueByCategoryCtx, {
-                    type: 'pie',
-                    data: {
-                        labels: ['Main Course', 'Appetizers', 'Desserts', 'Drinks'],
-                        datasets: [{
-                            data: [65, 20, 10, 5],
-                            backgroundColor: ['#3182ce', '#48bb78', '#d53f8c', '#d69e2e'],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'right',
-                            }
-                        }
-                    }
-                });
-            }
-            
-            // 7. Category Quantity Chart
-            const categoryQuantityCtx = document.getElementById('categoryQuantityChart');
-            if (categoryQuantityCtx) {
-                const categoryQuantityChart = new Chart(categoryQuantityCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                        datasets: [
-                            {
-                                label: 'Main Course',
-                                data: [120, 135, 125, 140, 155, 165],
-                                backgroundColor: 'rgba(49, 130, 206, 0.7)'
-                            },
-                            {
-                                label: 'Appetizers',
-                                data: [75, 80, 85, 90, 95, 100],
-                                backgroundColor: 'rgba(72, 187, 120, 0.7)'
-                            },
-                            {
-                                label: 'Desserts',
-                                data: [45, 50, 55, 60, 65, 70],
-                                backgroundColor: 'rgba(213, 63, 140, 0.7)'
-                            },
-                            {
-                                label: 'Drinks',
-                                data: [30, 35, 40, 45, 50, 55],
-                                backgroundColor: 'rgba(214, 158, 46, 0.7)'
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            x: {
-                                stacked: true,
-                            },
-                            y: {
-                                stacked: true
-                            }
-                        }
-                    }
-                });
-            }
-            
-            // 8. Order Frequency Chart
-            const orderFrequencyCtx = document.getElementById('orderFrequencyChart');
-            if (orderFrequencyCtx) {
-                const orderFrequencyChart = new Chart(orderFrequencyCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['1', '2', '3', '4', '5+'],
-                        datasets: [{
-                            label: 'Number of Customers',
-                            data: [85, 65, 42, 30, 24],
-                            backgroundColor: 'rgba(128, 90, 213, 0.7)'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: 'Number of Orders per Customer (Monthly)'
-                            }
-                        }
-                    }
-                });
-            }
-            
-            // 9. Active Customers Chart
-            const activeCustomersCtx = document.getElementById('activeCustomersChart');
-            if (activeCustomersCtx) {
-                const activeCustomersChart = new Chart(activeCustomersCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['John D.', 'Alice S.', 'Robert J.', 'Emily D.', 'Michael W.'],
-                        datasets: [{
-                            label: 'Orders',
-                            data: [12, 8, 7, 9, 6],
-                            backgroundColor: 'rgba(213, 63, 140, 0.7)'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        indexAxis: 'y'
-                    }
-                });
-            }
-            
-            // 10. Customer Type Chart
-            const customerTypeCtx = document.getElementById('customerTypeChart');
-            if (customerTypeCtx) {
-                const customerTypeChart = new Chart(customerTypeCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['New', 'Returning'],
-                        datasets: [{
-                            data: [35, 65],
-                            backgroundColor: ['#3182ce', '#48bb78'],
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'right',
-                            }
-                        }
-                    }
-                });
-            }
-            
-            // 11. Demand Patterns Chart
-            const demandPatternsCtx = document.getElementById('demandPatternsChart');
-            if (demandPatternsCtx) {
-                const demandPatternsChart = new Chart(demandPatternsCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['8am', '10am', '12pm', '2pm', '4pm', '6pm', '8pm', '10pm'],
-                        datasets: [
-                            {
-                                label: 'Weekdays',
-                                data: [5, 10, 35, 25, 15, 30, 40, 20],
-                                borderColor: '#3182ce',
-                                backgroundColor: 'transparent',
-                                tension: 0.3
-                            },
-                            {
-                                label: 'Weekends',
-                                data: [8, 15, 30, 35, 25, 35, 45, 30],
-                                borderColor: '#d53f8c',
-                                backgroundColor: 'transparent',
-                                tension: 0.3
-                            }
-                        ]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            title: {
-                                display: true,
-                                text: 'Order Distribution by Time of Day'
-                            }
-                        }
-                    }
-                });
-            }
-            
-            // 12. Sales by Day Chart
-            const salesByDayCtx = document.getElementById('salesByDayChart');
-            if (salesByDayCtx) {
-                const salesByDayChart = new Chart(salesByDayCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-                        datasets: [{
-                            label: 'Sales (₹)',
-                            data: [580, 690, 720, 850, 1250, 1480, 1100],
-                            backgroundColor: 'rgba(72, 187, 120, 0.7)'
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
-            }
-            
-            // 13. Restaurant Revenue Chart (for multiple locations)
-            const restaurantRevenueCtx = document.getElementById('restaurantRevenueChart');
-            if (restaurantRevenueCtx) {
-                const restaurantRevenueChart = new Chart(restaurantRevenueCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Downtown', 'Uptown', 'Westside', 'Eastside'],
-                        datasets: [{
-                            label: 'Revenue (₹)',
-                            data: [52000, 38500, 42800, 35200],
-                            backgroundColor: [
-                                'rgba(90, 103, 216, 0.7)',
-                                'rgba(72, 187, 120, 0.7)',
-                                'rgba(237, 137, 54, 0.7)',
-                                'rgba(213, 63, 140, 0.7)'
-                            ]
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
-                });
-            }
-        });
+            filteredOrders.forEach((order) => {
+              const customer = users.find((u) => u.id === order.userId);
+              const items = orderItems.filter((oi) => oi.orderId === order.id);
+
+              const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
+              const orderDate = new Date(order.orderDate + 'T00:00:00').toLocaleDateString();
+
+              const tr = document.createElement("tr");
+              tr.innerHTML = `
+          <td>${order.id}</td>
+          <td>${customer.name}</td>
+          <td>${orderDate}</td>
+          <td>${totalItems}</td>
+          <td>₹${parseFloat(order.totalAmount).toFixed(2)}</td>
+        `;
+
+              tbody.appendChild(tr);
+            });
+          } catch (error) {
+            console.error("Error loading recent orders:", error);
+          }
+        }
+
+        loadRecentOrders();
+      })();
     </script>
-</body>
+  </body>
 </html>

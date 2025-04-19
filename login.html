@@ -99,52 +99,81 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <script src="js/auth.js"></script> -->
     <script>
-      let apiUrl = "http://localhost:3000/users";
-
+      const apiUrl = "http://localhost:3000";
       const loginForm = document.getElementById("loginForm");
-      let users = [];
 
-      async function fetchUsers() {
-        await fetch(apiUrl)
-          .then((res) => res.json())
-          .then((data) => {
-            users = data;
-          });
-      }
-
-      fetchUsers();
-
-      loginForm.addEventListener("submit", (e) => {
+      loginForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const email = document.getElementById("userEmail").value;
         const password = document.getElementById("userPassword").value;
-        fetch("http://localhost:3000/users")
-          .then((res) => res.json())
-          .then((users) => {
-            const user = users.find(
-              (u) => u.email === email && u.password === password
+
+        try {
+          // Fetch users
+          const userRes = await fetch(`${apiUrl}/users`);
+          const users = await userRes.json();
+
+          // Find matching user
+          const user = users.find(
+            (u) => u.email === email && u.password === password
+          );
+
+          if (!user) {
+            displayError("Invalid email or password.");
+            return;
+          }
+
+          // Set basic session storage
+          sessionStorage.setItem("userId", user.id);
+          sessionStorage.setItem("userName", user.name);
+          sessionStorage.setItem("userType", user.userType);
+
+          if (user.userType === "Admin") {
+            window.location.href = "/pages/admin/dashboard.html";
+          } else if (user.userType === "Owner") {
+            // Fetch restaurants
+            const restRes = await fetch(`${apiUrl}/restaurants`);
+            const restaurants = await restRes.json();
+
+            // Find restaurant by matching userId
+            const ownerRestaurant = restaurants.find(
+              (r) => r.userId === user.id
             );
-            if (user) {
-              sessionStorage.setItem("userId", user.id);
-              sessionStorage.setItem("userName", user.name);
-              sessionStorage.setItem("userType", user.userType);
-              if (user.userType === "Admin") {
-                window.location.href = "/pages/admin/dashboard.html";
-              } else if(user.userType === "Owner"){
-                window.location.href = "/pages/owner/dashboard.html";
-              }
-              else{
-                window.location.href = "/pages/customer/home.html";
-              }
+
+            if (ownerRestaurant) {
+              sessionStorage.setItem("restaurantId", ownerRestaurant.id);
+              sessionStorage.setItem("restaurantName", ownerRestaurant.name);
+              sessionStorage.setItem(
+                "restaurantLocation",
+                ownerRestaurant.location
+              );
+              sessionStorage.setItem(
+                "restaurantContact",
+                ownerRestaurant.contact
+              );
+
+              window.location.href = "/pages/owner/owner-home.html";
             } else {
-              document.getElementById("error").textContent =
-                "Invalid email or password.";
+              displayError("No restaurant found for this owner.");
             }
-          })
-          .catch((err) => {
-            console.error("Error fetching users:", err);
-          });
+          } else {
+            window.location.href = "/pages/customer/home.html";
+          }
+        } catch (err) {
+          console.error("Login Error:", err);
+          displayError("An unexpected error occurred. Please try again.");
+        }
       });
+
+      function displayError(message) {
+        let errorElem = document.getElementById("error");
+        if (!errorElem) {
+          errorElem = document.createElement("p");
+          errorElem.id = "error";
+          errorElem.classList.add("text-danger", "mt-3", "text-center");
+          loginForm.parentElement.appendChild(errorElem);
+        }
+        errorElem.textContent = message;
+      }
     </script>
   </body>
 </html>
