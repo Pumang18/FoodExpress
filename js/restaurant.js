@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('restaurant-contact').textContent = currentRestaurant.contact;
 
     // Filter food items by restaurant
-    const filteredItems = foodItemsData.filter(item => item.restaurantId === restaurantId);
+    const filteredItems = foodItemsData.filter(item => item.id === restaurantId);
 
     const categories = ['appetizers', 'main-courses', 'desserts', 'drinks'];
     categories.forEach(category => {

@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const restaurantList = document.getElementById("restaurantList");
 
   // Fetch data from db.json
-  fetch("http://192.168.1.104:3000/restaurants")
+  fetch("http://localhost:3000/restaurants")
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");

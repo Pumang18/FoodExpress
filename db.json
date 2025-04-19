@@ -116,63 +116,176 @@
   ],
   "foodItems": [
     {
+      "id": "f001",
+      "name": "Tandoori Chicken",
+      "category": "appetizers",
+      "price": 280,
+      "restaurantId": "ded8"
+    },
+    {
+      "id": "f002",
+      "name": "Mutton Rogan Josh",
+      "category": "main-courses",
+      "price": 350,
+      "restaurantId": "ded8"
+    },
+    {
+      "id": "f003",
+      "name": "Lassi",
+      "category": "drink",
+      "price": 40,
+      "restaurantId": "ded8"
+    },
+    {
+      "id": "f004",
+      "name": "Rasgulla",
+      "category": "dessert",
+      "price": 60,
+      "restaurantId": "ded8"
+    },
+    {
+      "id": "f005",
+      "name": "Kolkata Biryani",
+      "category": "main-courses",
+      "price": 320,
+      "restaurantId": "1dd1"
+    },
+    {
+      "id": "f006",
+      "name": "Chicken Pakora",
+      "category": "appetizers",
+      "price": 150,
+      "restaurantId": "1dd1"
+    },
+    {
+      "id": "f007",
+      "name": "Thums Up",
+      "category": "drink",
+      "price": 30,
+      "restaurantId": "1dd1"
+    },
+    {
+      "id": "f008",
+      "name": "Mishti Doi",
+      "category": "dessert",
+      "price": 45,
+      "restaurantId": "1dd1"
+    },
+    {
+      "id": "f009",
       "name": "Chicken Biryani",
       "category": "main-courses",
-      "price": "270",
-      "id": "8cfc"
+      "price": 300,
+      "restaurantId": "ef67"
     },
     {
-      "name": "Paneer Butter Masala ",
-      "category": "main-courses",
-      "price": "250",
-      "id": "6bbc"
-    },
-    {
-      "itemId": 3,
-      "id": "3d1b",
-      "name": "Veg Noodles",
-      "price": 160,
-      "restaurantId": 4,
-      "category": "main-courses"
-    },
-    {
-      "itemId": 4,
-      "id": "8f83",
-      "name": "Tandoori Chicken",
-      "price": 280,
-      "restaurantId": 1,
-      "category": "appetizers"
-    },
-    {
-      "itemId": 5,
-      "id": "2add",
+      "id": "f010",
       "name": "Chicken Butter Masala",
-      "category": "appetizer",
-      "price": 280
+      "category": "appetizers",
+      "price": 280,
+      "restaurantId": "ef67"
     },
     {
-      "itemId": 6,
-      "id": "7988",
+      "id": "f011",
       "name": "Coke",
       "category": "drink",
-      "price": 10
+      "price": 10,
+      "restaurantId": "ef67"
     },
     {
+      "id": "f012",
+      "name": "Rasmalai",
+      "category": "dessert",
+      "price": 70,
+      "restaurantId": "ef67"
+    },
+    {
+      "id": "f013",
+      "name": "Veg Noodles",
+      "category": "main-courses",
+      "price": 160,
+      "restaurantId": "36ed"
+    },
+    {
+      "id": "f014",
+      "name": "Hara Bhara Kabab",
+      "category": "appetizers",
+      "price": 120,
+      "restaurantId": "36ed"
+    },
+    {
+      "id": "f015",
+      "name": "Lime Soda",
+      "category": "drink",
+      "price": 25,
+      "restaurantId": "36ed"
+    },
+    {
+      "id": "f016",
+      "name": "Fruit Salad",
+      "category": "dessert",
+      "price": 50,
+      "restaurantId": "36ed"
+    },
+    {
+      "id": "f017",
+      "name": "Paneer Butter Masala",
+      "category": "main-courses",
+      "price": 250,
+      "restaurantId": "80d3"
+    },
+    {
+      "id": "f018",
+      "name": "Paneer Tikka",
+      "category": "appetizers",
+      "price": 180,
+      "restaurantId": "80d3"
+    },
+    {
+      "id": "f019",
+      "name": "Sweet Lassi",
+      "category": "drink",
+      "price": 35,
+      "restaurantId": "80d3"
+    },
+    {
+      "id": "f020",
+      "name": "Gajar Halwa",
+      "category": "dessert",
+      "price": 55,
+      "restaurantId": "80d3"
+    },
+    {
+      "id": "f021",
       "name": "Dal Khichadi",
       "category": "main-courses",
-      "price": "125",
-      "id": "85ea"
+      "price": 125,
+      "restaurantId": "fc06"
     },
     {
-      "id": "a760",
-      "name": "GulabJamun",
+      "id": "f022",
+      "name": "Misal Pav",
+      "category": "appetizers",
+      "price": 90,
+      "restaurantId": "fc06"
+    },
+    {
+      "id": "f023",
+      "name": "Buttermilk",
+      "category": "drink",
+      "price": 15,
+      "restaurantId": "fc06"
+    },
+    {
+      "id": "f024",
+      "name": "Gulab Jamun",
       "category": "dessert",
-      "price": "50"
+      "price": 50,
+      "restaurantId": "fc06"
     }
   ],
   "orders": [
     {
-      "orderId": 1,
       "userId": "94a9",
       "restaurantId": 3,
       "orderDate": "2025-04-12",
@@ -180,7 +293,6 @@
       "id": "7a93"
     },
     {
-      "orderId": 2,
       "userId": "b63e",
       "restaurantId": 1,
       "orderDate": "2025-04-12",
@@ -188,7 +300,6 @@
       "id": "c041"
     },
     {
-      "orderId": 3,
       "userId": "e189",
       "restaurantId": 5,
       "orderDate": "2025-04-11",
@@ -196,7 +307,6 @@
       "id": "8a07"
     },
     {
-      "orderId": 4,
       "userId": "6e2d",
       "restaurantId": 2,
       "orderDate": "2025-04-10",
@@ -204,7 +314,6 @@
       "id": "b23e"
     },
     {
-      "orderId": 5,
       "userId": "94a9",
       "restaurantId": 4,
       "orderDate": "2025-04-09",
@@ -212,56 +321,115 @@
       "id": "f0b7"
     },
     {
-      "orderId": 6,
       "userId": "b63e",
       "restaurantId": 6,
       "orderDate": "2025-04-08",
       "totalAmount": 160,
       "id": "af8f"
+    },
+    {
+      "id": "2019",
+      "userId": "b63e",
+      "orderDate": "2025-04-18",
+      "totalAmount": 197.39
+    },
+    {
+      "id": "e89f",
+      "userId": "b63e",
+      "orderDate": "2025-04-18",
+      "totalAmount": 607.79
+    },
+    {
+      "id": "5f4b",
+      "userId": "b63e",
+      "orderDate": "2025-04-18",
+      "totalAmount": 132.59
+    },
+    {
+      "id": "f91b",
+      "userId": "b63e",
+      "orderDate": "2025-04-18",
+      "totalAmount": 910.19
+    },
+    {
+      "id": "5a92",
+      "userId": "b63e",
+      "orderDate": "2025-04-19",
+      "totalAmount": 650.99
     }
   ],
   "orderItems": [
     {
-      "orderItemId": 1,
       "orderId": 1,
       "itemId": "8cfc",
       "quantity": 2,
       "id": "5ce8"
     },
     {
-      "orderItemId": 2,
       "orderId": 2,
       "itemId": "8f83",
       "quantity": 1,
       "id": "65d5"
     },
     {
-      "orderItemId": 3,
       "orderId": 3,
       "itemId": "6bbc",
       "quantity": 1,
       "id": "58d3"
     },
     {
-      "orderItemId": 4,
       "orderId": 4,
       "itemId": "2add",
       "quantity": 2,
       "id": "bc36"
     },
     {
-      "orderItemId": 5,
       "orderId": 5,
       "itemId": "3d1b",
       "quantity": 1,
       "id": "dc4a"
     },
     {
-      "orderItemId": 6,
       "orderId": 6,
       "itemId": "8f83",
       "quantity": 2,
       "id": "10f8"
+    },
+    {
+      "id": "1c5a",
+      "orderId": "e8d3",
+      "itemId": "f010",
+      "quantity": 2
+    },
+    {
+      "id": "8b33",
+      "orderId": "2019",
+      "itemId": "f018",
+      "quantity": 1
+    },
+    {
+      "id": "0e46",
+      "orderId": "e89f",
+      "itemId": "f010",
+      "quantity": 2
+    },
+    {
+      "id": "cebf",
+      "orderId": "5f4b",
+      "itemId": "f014",
+      "quantity": 1
+    },
+    {
+      "id": "2a3a",
+      "orderId": "f91b",
+      "itemId": "f001",
+      "quantity": 3
+    },
+    {
+      "id": "d650",
+      "orderId": "5a92",
+      "itemId": "f014",
+      "quantity": 5
     }
   ]
 }

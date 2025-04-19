@@ -125,7 +125,7 @@
               (u) => u.email === email && u.password === password
             );
             if (user) {
-              sessionStorage.setItem("userId", user.userId);
+              sessionStorage.setItem("userId", user.id);
               sessionStorage.setItem("userName", user.name);
               sessionStorage.setItem("userType", user.userType);
               if (user.userType === "Admin") {
