@@ -23,7 +23,7 @@
       "userId": 3,
       "name": "Riya Verma",
       "email": "riya@gmail.com",
-      "password": "pass123",
+      "password": "pass1234",
       "phone": "9988776655",
       "address": "Pune, India",
       "userType": "Owner",
@@ -184,15 +184,23 @@
       "address": "Thiruvananthapuram, India",
       "password": "pass123",
       "userType": "Owner"
+    },
+    {
+      "id": "f018",
+      "name": "Pumang Kirange",
+      "email": "pumang@gmail.com",
+      "password": "Pumang@1812",
+      "phone": "8857888945",
+      "address": "Faizpur",
+      "userType": "Owner"
     }
   ],
   "restaurants": [
     {
-      "restaurantId": 3,
-      "userId": "6004",
       "name": "Biryani Junction",
-      "location": "Pune",
       "contact": "9900887766",
+      "location": "Pune",
+      "userId": "6004",
       "id": "ef67"
     },
     {
@@ -322,6 +330,13 @@
       "location": "Bangalore",
       "contact": "9876543224",
       "userId": "g7h8"
+    },
+    {
+      "id": "6607",
+      "name": "Dhanjisheth",
+      "location": "Faizpur",
+      "contact": "7889654132",
+      "userId": "f018"
     }
   ],
   "foodItems": [
@@ -424,11 +439,11 @@
       "restaurantId": "fc06"
     },
     {
-      "id": "f039",
       "name": "Masala Chaas",
       "category": "drink",
-      "price": 20,
-      "restaurantId": "fc06"
+      "price": "25",
+      "restaurantId": "ef67",
+      "id": "f039"
     },
     {
       "id": "f040",

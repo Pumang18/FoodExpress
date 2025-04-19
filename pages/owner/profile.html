@@ -209,8 +209,9 @@
 
     <script>
       
-        const restaurantId = sessionStorage.getItem(restaurantId); 
-        console.log(restaurantId)
+        (()=>{
+        const restaurantId = sessionStorage.getItem("restaurantId"); 
+        
         if (restaurantId) {
           fetchRestaurantDetails(restaurantId);
         }
@@ -354,6 +355,7 @@
             alert("Failed to change password");
           });
       }
+        })();
     </script>
   </body>
 </html>
