@@ -198,6 +198,7 @@
       "name": "Biryani Junction",
       "location": "Pune",
       "contact": "9900887766",
+      "userId": "6004",
       "id": "ef67"
     },
     {
@@ -975,6 +976,13 @@
       "restaurantId": "36ed",
       "orderDate": "2025-04-20",
       "totalAmount": 218.99
+    },
+    {
+      "id": "4254",
+      "userId": "6e2d",
+      "restaurantId": "36ed",
+      "orderDate": "2025-04-20",
+      "totalAmount": 280
     }
   ],
   "orderItems": [
@@ -1409,6 +1417,12 @@
       "orderId": "8d19",
       "itemId": "f033",
       "quantity": 1
+    },
+    {
+      "id": "2112",
+      "orderId": "4254",
+      "itemId": "f030",
+      "quantity": 2
     }
   ]
 }
