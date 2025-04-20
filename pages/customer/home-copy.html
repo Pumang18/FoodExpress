@@ -45,30 +45,12 @@
             </li>
           </ul>
           <div class="d-flex align-items-center">
-            <div class="dropdown">
-              <a
-                class="btn btn-outline-secondary dropdown-toggle"
-                role="button"
-                id="dropdownMenuLink"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                <i class="fas fa-user-circle me-1"></i>
-                Customer
-              </a>
-              <ul
-                class="dropdown-menu dropdown-menu-end"
-                aria-labelledby="dropdownMenuLink"
-              >
-                <li>
-                  <a class="dropdown-item" onclick="loadPage('profile.html')">Profile</a>
-                </li>
-                <li><hr class="dropdown-divider" /></li>
-                <li>
-                  <a class="dropdown-item" onclick="logout()">Logout</a>
-                </li>
-              </ul>
-            </div>
+            <a class="btn btn-outline-primary me-2" onclick="loadPage('profile.html')">
+              <i class="fas fa-user-circle me-1"></i> Profile
+            </a>
+            <a class="btn btn-outline-danger" onclick="logout()">
+              <i class="fas fa-sign-out-alt me-1"></i> Logout
+            </a>
           </div>
         </div>
       </div>
@@ -162,7 +144,9 @@
       function logout() {
         localStorage.clear();
         sessionStorage.clear();
-        window.location.href = "../../index.html";
+        
+        // Use location.replace to navigate to the root page
+        location.replace("../../index.html");
       }
       
     </script>
