@@ -12,7 +12,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <link href="../css/styles.css" rel="stylesheet" />
   </head>
   <body>
     <div class="container">
@@ -118,7 +117,6 @@
       allFoodItems = [];
 
       function fetchAndRenderCategories() {
-        console.log("fetch and render Categories");
         fetch(`${apiUrl}/foodItems`)
           .then((res) => res.json())
           .then((data) => {
@@ -131,7 +129,6 @@
       }
 
       function renderCategories(items) {
-        console.log("render Categories");
         const tbody = document.getElementById("all-items");
         tbody.innerHTML = "";
 

@@ -16,7 +16,6 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css"
     />
-    <link href="../css/styles.css" rel="stylesheet" />
   </head>
   <body>
     <div
@@ -277,7 +276,6 @@
         //Item Category Chart
         function renderItemCategoryChart(itemData) {
           const categoryMap = {};
-          console.log(itemData);
           itemData.forEach((item) => {
             if (!categoryMap[item.category]) {
               categoryMap[item.category] = 0;
