@@ -10,12 +10,10 @@
 <body>
     <div class="container mt-5">
         <h1 class="mb-4">Reports</h1>
-        <!-- Search Bar -->
         <div class="mb-4">
             <input type="text" id="searchInput" class="form-control" placeholder="Search by name, email, or location">
         </div>
         <div class="row">
-            <!-- Restaurants with Highest Revenue -->
             <div class="col-lg mb-4">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
@@ -62,25 +60,50 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Items Sold per Restaurant -->
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-warning text-white">
+                        Items Sold per Restaurant
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Restaurant Name</th>
+                                    <th>Location</th>
+                                    <th>Items Sold</th>
+                                </tr>
+                            </thead>
+                            <tbody id="items-sold-table">
+                                <!-- Data will be dynamically populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        const apiUrl = "http://localhost:3000"; // JSON server URL
 
-       ( async () => {
+        (async () => {
             try {
-               
-                const [orders, restaurants, users] = await Promise.all([
+                const [orders, restaurants, users, orderItems] = await Promise.all([
                     fetch(`${apiUrl}/orders`).then(res => res.json()),
                     fetch(`${apiUrl}/restaurants`).then(res => res.json()),
-                    fetch(`${apiUrl}/users`).then(res => res.json())
+                    fetch(`${apiUrl}/users`).then(res => res.json()),
+                    fetch(`${apiUrl}/orderItems`).then(res => res.json())
                 ]);
 
                 generateHighestRevenueReport(orders, restaurants);
                 generateMostOrdersReport(orders, users);
+                generateItemsSoldReport(orderItems, orders, restaurants);
 
-            
                 const searchInput = document.getElementById("searchInput");
                 searchInput.addEventListener("input", () => {
                     const searchTerm = searchInput.value.toLowerCase();
@@ -113,7 +136,7 @@
                 .sort((a, b) => b.revenue - a.revenue);
 
             const table = document.getElementById("highest-revenue-table");
-            table.innerHTML = ""; // Clear table
+            table.innerHTML = ""; 
             revenueList.forEach((r, i) => {
                 const row = `<tr>
                     <td>${i + 1}</td>
@@ -147,7 +170,7 @@
                 .sort((a, b) => b.totalOrders - a.totalOrders);
 
             const table = document.getElementById("most-orders-table");
-            table.innerHTML = ""; // Clear table
+            table.innerHTML = ""; 
             userList.forEach((u, i) => {
                 const row = `<tr>
                     <td>${i + 1}</td>
@@ -159,8 +182,45 @@
             });
         }
 
+        function generateItemsSoldReport(orderItems, orders, restaurants) {
+            const itemsSoldMap = {};
+
+            orderItems.forEach(item => {
+                const order = orders.find(o => o.id === item.orderId); 
+                if (order) {
+                    const restaurantId = order.restaurantId;
+                    if (!itemsSoldMap[restaurantId]) {
+                        itemsSoldMap[restaurantId] = 0;
+                    }
+                    itemsSoldMap[restaurantId] += item.quantity; 
+                }
+            });
+
+            const itemsSoldList = Object.entries(itemsSoldMap)
+                .map(([restaurantId, totalItemsSold]) => {
+                    const restaurant = restaurants.find(r => r.id === restaurantId);
+                    return {
+                        name: restaurant?.name || "Unknown",
+                        location: restaurant?.location || "N/A",
+                        itemsSold: totalItemsSold
+                    };
+                })
+                .sort((a, b) => b.itemsSold - a.itemsSold);
+
+            const table = document.getElementById("items-sold-table");
+            table.innerHTML = ""; 
+            itemsSoldList.forEach((r, i) => {
+                const row = `<tr>
+                    <td>${i + 1}</td>
+                    <td>${r.name}</td>
+                    <td>${r.location}</td>
+                    <td>${r.itemsSold}</td>
+                </tr>`;
+                table.innerHTML += row;
+            });
+        }
+
         function filterTables(searchTerm, restaurants, users) {
-            // Filter Restaurants Table
             const revenueTable = document.getElementById("highest-revenue-table");
             const revenueRows = Array.from(revenueTable.querySelectorAll("tr"));
             revenueRows.forEach(row => {
@@ -175,6 +235,14 @@
                 const name = row.children[1]?.textContent.toLowerCase() || "";
                 const email = row.children[2]?.textContent.toLowerCase() || "";
                 row.style.display = name.includes(searchTerm) || email.includes(searchTerm) ? "" : "none";
+            });
+
+            const itemsSoldTable = document.getElementById("items-sold-table");
+            const itemsSoldRows = Array.from(itemsSoldTable.querySelectorAll("tr"));
+            itemsSoldRows.forEach(row => {
+                const name = row.children[1]?.textContent.toLowerCase() || "";
+                const location = row.children[2]?.textContent.toLowerCase() || "";
+                row.style.display = name.includes(searchTerm) || location.includes(searchTerm) ? "" : "none";
             });
         }
     </script>
