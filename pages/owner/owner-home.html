@@ -93,6 +93,7 @@
       setRestaurantName();
 
       function loadLastPage() {
+        
         const lastPage = sessionStorage.getItem("lastPage");
         if (lastPage) {
           loadPage(lastPage);
