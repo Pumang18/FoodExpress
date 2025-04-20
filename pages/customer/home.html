@@ -15,98 +15,201 @@
     <link href="../css/styles.css" rel="stylesheet" />
   </head>
   <body>
-   
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Restaurants</h2>
-        <div class="d-flex">
-          <div class="input-group me-2" style="width: 300px">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="Search restaurants..."
-            />
-            <button class="btn btn-outline-primary" type="button">
-              <i class="fas fa-search"></i>
-            </button>
+    <!-- Restaurant List Section -->
+    <section id="restaurants-list-section">
+      <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2>Restaurants</h2>
+          <div class="d-flex">
+            <div class="input-group me-2" style="width: 300px">
+              <input
+                type="text"
+                class="form-control"
+                id="searchInput"
+                placeholder="Search restaurants..."
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row" id="restaurantList">
+          <!-- Restaurant cards will be dynamically loaded -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Restaurant Info Section -->
+    <section id="restaurant-info-section" class="d-none">
+      <div class="container mt-4">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#" id="back-to-restaurants">Restaurants</a>
+            </li>
+            <li
+              class="breadcrumb-item active"
+              aria-current="page"
+              id="restaurant-name"
+            >
+              Restaurant Name
+            </li>
+          </ol>
+        </nav>
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4 text-center text-md-start">
+                <img
+                  src=""
+                  class="img-fluid rounded"
+                  id="restaurant-image"
+                  alt="Restaurant"
+                />
+              </div>
+              <div class="col-md-8">
+                <h2 id="restaurant-title">Restaurant Name</h2>
+                <p>
+                  <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                  <span id="restaurant-location">Location</span>
+                </p>
+                <p>
+                  <i class="fas fa-phone text-primary me-2"></i>
+                  <span id="restaurant-contact">Contact</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="col-12">
+            <ul class="nav nav-pills" id="menuCategories" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link active"
+                  id="appetizers-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#appetizers"
+                  type="button"
+                  role="tab"
+                >
+                  Appetizers
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link"
+                  id="main-courses-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#main-courses"
+                  type="button"
+                  role="tab"
+                >
+                  Main Courses
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link"
+                  id="desserts-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#desserts"
+                  type="button"
+                  role="tab"
+                >
+                  Desserts
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link"
+                  id="drinks-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#drinks"
+                  type="button"
+                  role="tab"
+                >
+                  Drinks
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="tab-content" id="menuContent">
+          <div
+            class="tab-pane fade show active"
+            id="appetizers"
+            role="tabpanel"
+          >
+            <div class="row" id="appetizers-list"></div>
+          </div>
+          <div class="tab-pane fade" id="main-courses" role="tabpanel">
+            <div class="row" id="main-courses-list"></div>
+          </div>
+          <div class="tab-pane fade" id="desserts" role="tabpanel">
+            <div class="row" id="dessert-list"></div>
+          </div>
+          <div class="tab-pane fade" id="drinks" role="tabpanel">
+            <div class="row" id="drink-list"></div>
           </div>
         </div>
       </div>
-
-      <div class="row" id="restaurantList">
-        <!-- Restaurant cards will be dynamically loaded -->
-        <!-- <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">Grill & Chill</h5>
-                        <p class="card-text mb-1">
-                            <i class="fas fa-map-marker-alt text-primary me-1"></i> Kolkata
-                        </p>
-                        <p class="card-text mb-2">
-                            <i class="fas fa-phone text-primary me-1"></i> +91 9888777666
-                        </p>
-                        <a href="restaurant.html?id=grill-&-chill" class="btn btn-primary w-100">View Menu</a>
-                    </div>
-                </div>
-            </div> -->
-      </div>
-    </div>
-
-   
+    </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <script src="../../js/customer.js"></script> -->
     <script>
-    
-        restaurantList = document.getElementById("restaurantList");
+      (() => {
+        const restaurantListSection = document.getElementById("restaurants-list-section");
+        const restaurantInfoSection = document.getElementById("restaurant-info-section");
+        const restaurantList = document.getElementById("restaurantList");
+        const searchInput = document.getElementById("searchInput");
+        let restaurants = [];
 
-        // Fetch data from db.json
+        // Fetch and display restaurants
         fetch("http://localhost:3000/restaurants")
-          .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
-            return response.json();
-          })
+          .then((response) => response.json())
           .then((data) => {
-            const restaurants = data;
+            restaurants = data;
+            displayRestaurants(restaurants);
+          });
 
-            // Clear existing content
-            if (restaurantList) {
-              restaurantList.innerHTML = "";
-
-              // Create and append restaurant cards
-              restaurants.forEach((restaurant) => {
-                const card = `
+        function displayRestaurants(restaurants) {
+          restaurantList.innerHTML = "";
+          restaurants.forEach((restaurant) => {
+            const card = `
               <div class="col-md-4 mb-4">
                 <div class="card h-100">
-                  <img src="" class="card-img-top" alt="${restaurant.name}">
                   <div class="card-body">
                     <h5 class="card-title">${restaurant.name}</h5>
                     <p class="card-text mb-1">
                       <i class="fas fa-map-marker-alt text-primary me-1"></i> ${restaurant.location}
                     </p>
-                    <a href="restaurant.html?id=${restaurant.id}" class="btn btn-primary w-100">View Menu</a>
+                    <button class="btn btn-primary w-100 view-menu-btn" data-id="${restaurant.id}" data-name="${restaurant.name}" data-location="${restaurant.location}" data-contact="${restaurant.contact}">
+                      View Menu
+                    </button>
                   </div>
                 </div>
               </div>
             `;
-                restaurantList.innerHTML += card;
-              });
-            }
-            
-
-            // Initialize cart count
-            const cartCount = localStorage.getItem("cartCount") || 0;
-            document.querySelectorAll(".cart-count").forEach((el) => {
-              el.textContent = cartCount;
-            });
-          })
-          .catch((error) => {
-            console.error("Error fetching data:", error);
-            restaurantList.innerHTML =
-              "<p class='text-danger'>Failed to load restaurants.</p>";
+            restaurantList.innerHTML += card;
           });
-     
+        }
+
+        // Search functionality on input change
+        searchInput.addEventListener("input", () => {
+          const query = searchInput.value.toLowerCase();
+          const filteredRestaurants = restaurants.filter((restaurant) =>
+            restaurant.name.toLowerCase().includes(query) ||
+            restaurant.location.toLowerCase().includes(query)
+          );
+          displayRestaurants(filteredRestaurants);
+        });
+
+        // Back to restaurant list
+        document.getElementById("back-to-restaurants").addEventListener("click", () => {
+          restaurantInfoSection.classList.add("d-none");
+          restaurantListSection.classList.remove("d-none");
+        });
+      })();
     </script>
   </body>
 </html>
+``` 
