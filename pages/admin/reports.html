@@ -6,284 +6,59 @@
     <title>Reports - FoodExpress Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css">
-    <link href="../css/styles.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container-fluid">
+    <div class="container mt-5">
+        <h1 class="mb-4">Reports</h1>
+        <!-- Search Bar -->
+        <div class="mb-4">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search by name, email, or location">
+        </div>
         <div class="row">
-            <!-- Sidebar -->
-            <div class="col-md-3 col-lg-2 d-md-block sidebar collapse">
-                <div class="position-sticky pt-3">
-                    <div class="text-center mb-4">
-                        <i class="fas fa-utensils fa-2x text-white"></i>
-                        <h5 class="mt-2 text-white">FoodExpress</h5>
-                        <span class="badge bg-light text-dark">Admin Panel</span>
+            <!-- Restaurants with Highest Revenue -->
+            <div class="col-lg mb-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        Restaurants with Highest Revenue
                     </div>
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="dashboard.html">
-                                <i class="fas fa-tachometer-alt"></i>
-                                Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="restaurants.html">
-                                <i class="fas fa-store"></i>
-                                Restaurants
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">
-                                <i class="fas fa-users"></i>
-                                Users
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="orders.html">
-                                <i class="fas fa-shopping-bag"></i>
-                                Orders
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="reports.html">
-                                <i class="fas fa-chart-bar"></i>
-                                Reports
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="settings.html">
-                                <i class="fas fa-cog"></i>
-                                Settings
-                            </a>
-                        </li>
-                        <li class="nav-item mt-3">
-                            <a class="nav-link text-danger" href="../index.html">
-                                <i class="fas fa-sign-out-alt"></i>
-                                Logout
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Restaurant Name</th>
+                                    <th>Location</th>
+                                    <th>Total Revenue (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="highest-revenue-table">
+                                <!-- Data will be dynamically populated -->
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
-            <!-- Main content -->
-            <div class="col-md-9 col-lg-10 ms-sm-auto">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Reports & Analytics</h1>
-                    <div class="btn-toolbar mb-2 mb-md-0">
-                        <div class="btn-group me-2">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">This Week</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">This Month</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">This Year</button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">Custom Range</button>
-                        </div>
-                        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                            <i class="fas fa-download me-1"></i>
-                            Export
-                        </button>
+            <!-- Users Who Order the Most -->
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header bg-success text-white">
+                        Users Who Order the Most
                     </div>
-                </div>
-
-                <!-- Report navigation tabs -->
-                <ul class="nav nav-tabs mb-4" id="reportTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="sales-tab" data-bs-toggle="tab" data-bs-target="#sales" type="button" role="tab" aria-controls="sales" aria-selected="false">Sales & Revenue</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="restaurants-tab" data-bs-toggle="tab" data-bs-target="#restaurants" type="button" role="tab" aria-controls="restaurants" aria-selected="false">Restaurants</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab" aria-controls="users" aria-selected="false">Users</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="items-tab" data-bs-toggle="tab" data-bs-target="#items" type="button" role="tab" aria-controls="items" aria-selected="false">Popular Items</button>
-                    </li>
-                </ul>
-
-                <!-- Tab content -->
-                <div class="tab-content" id="reportTabsContent">
-                    <!-- Overview Tab -->
-                    <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
-                        <!-- Stats cards -->
-                        <div class="row mb-4">
-                            <div class="col-md-3">
-                                <div class="card stats-card h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="text-muted">Total Restaurants</h6>
-                                                <h3>28</h3>
-                                            </div>
-                                            <i class="fas fa-store fa-2x text-primary opacity-50"></i>
-                                        </div>
-                                        <p class="small text-success mb-0">
-                                            <i class="fas fa-arrow-up"></i> 4 new this month
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card stats-card h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="text-muted">Total Users</h6>
-                                                <h3>1,285</h3>
-                                            </div>
-                                            <i class="fas fa-users fa-2x text-primary opacity-50"></i>
-                                        </div>
-                                        <p class="small text-success mb-0">
-                                            <i class="fas fa-arrow-up"></i> 12% since last month
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card stats-card h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="text-muted">Total Orders</h6>
-                                                <h3>8,549</h3>
-                                            </div>
-                                            <i class="fas fa-shopping-bag fa-2x text-primary opacity-50"></i>
-                                        </div>
-                                        <p class="small text-success mb-0">
-                                            <i class="fas fa-arrow-up"></i> 8% since last month
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="card stats-card h-100">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="text-muted">Total Revenue</h6>
-                                                <h3>$241,985</h3>
-                                            </div>
-                                            <i class="fas fa-dollar-sign fa-2x text-primary opacity-50"></i>
-                                        </div>
-                                        <p class="small text-success mb-0">
-                                            <i class="fas fa-arrow-up"></i> 15% since last month
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Platform Performance Chart -->
-                        <div class="row mb-4">
-                            <div class="col-12">
-                                <div class="card chart-container">
-                                    <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                                        <h5 class="card-title mb-0">Platform Performance</h5>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">Daily</button>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary active">Weekly</button>
-                                            <button type="button" class="btn btn-sm btn-outline-secondary">Monthly</button>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="platformPerformanceChart" height="300"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- User & Restaurant Growth -->
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <div class="card chart-container h-100">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">User Growth</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="userGrowthChart" height="250"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card chart-container h-100">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">Restaurant Growth</h5>
-                                    </div>
-                                    <div class="card-body">
-                                        <canvas id="restaurantGrowthChart" height="250"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Quick Stats -->
-                        <div class="row mb-4">
-                            <div class="col-md-4">
-                                <div class="card chart-container h-100">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">User Types</h5>
-                                    </div>
-                                    <div class="card-body d-flex align-items-center">
-                                        <canvas id="userTypesChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card chart-container h-100">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">Popular Cuisines</h5>
-                                    </div>
-                                    <div class="card-body d-flex align-items-center">
-                                        <canvas id="cuisinesChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="card chart-container h-100">
-                                    <div class="card-header bg-white">
-                                        <h5 class="card-title mb-0">Order Types</h5>
-                                    </div>
-                                    <div class="card-body d-flex align-items-center">
-                                        <canvas id="orderTypesChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sales & Revenue Tab -->
-                    <div class="tab-pane fade" id="sales" role="tabpanel" aria-labelledby="sales-tab">
-                        <!-- Sales and revenue specific reports would go here -->
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle me-2"></i> Select the Sales & Revenue tab to view detailed sales reports and revenue analytics.
-                        </div>
-                    </div>
-
-                    <!-- Restaurants Tab -->
-                    <div class="tab-pane fade" id="restaurants" role="tabpanel" aria-labelledby="restaurants-tab">
-                        <!-- Restaurant specific reports would go here -->
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle me-2"></i> Select the Restaurants tab to view detailed performance analytics for all restaurants on the platform.
-                        </div>
-                    </div>
-
-                    <!-- Users Tab -->
-                    <div class="tab-pane fade" id="users" role="tabpanel" aria-labelledby="users-tab">
-                        <!-- User specific reports would go here -->
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle me-2"></i> Select the Users tab to view detailed user analytics, including acquisition, retention, and behavior patterns.
-                        </div>
-                    </div>
-
-                    <!-- Popular Items Tab -->
-                    <div class="tab-pane fade" id="items" role="tabpanel" aria-labelledby="items-tab">
-                        <!-- Item specific reports would go here -->
-                        <div class="alert alert-info">
-                            <i class="fas fa-info-circle me-2"></i> Select the Popular Items tab to view detailed insights into the most ordered items across the platform.
-                        </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>User Name</th>
+                                    <th>Email</th>
+                                    <th>Total Orders</th>
+                                </tr>
+                            </thead>
+                            <tbody id="most-orders-table">
+                                <!-- Data will be dynamically populated -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -291,72 +66,117 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Demo charts for the reports page - these would normally be populated with real data
+
+       ( async () => {
+            try {
+               
+                const [orders, restaurants, users] = await Promise.all([
+                    fetch(`${apiUrl}/orders`).then(res => res.json()),
+                    fetch(`${apiUrl}/restaurants`).then(res => res.json()),
+                    fetch(`${apiUrl}/users`).then(res => res.json())
+                ]);
+
+                generateHighestRevenueReport(orders, restaurants);
+                generateMostOrdersReport(orders, users);
+
             
-            // Platform Performance Chart
-            const platformCtx = document.getElementById('platformPerformanceChart');
-            if (platformCtx) {
-                const platformChart = new Chart(platformCtx, {
-                    type: 'line',
-                    data: {
-                        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8', 'Week 9', 'Week 10', 'Week 11', 'Week 12'],
-                        datasets: [{
-                            label: 'Orders',
-                            data: [520, 550, 620, 680, 720, 800, 850, 900, 950, 1000, 1100, 1200],
-                            borderColor: '#5a67d8',
-                            backgroundColor: 'rgba(90, 103, 216, 0.1)',
-                            fill: true,
-                            tension: 0.4
-                        }, {
-                            label: 'Revenue ($K)',
-                            data: [15, 16, 18, 19, 20, 22, 23, 24, 25, 26, 28, 30],
-                            borderColor: '#48bb78',
-                            borderDash: [5, 5],
-                            fill: false,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false
-                    }
+                const searchInput = document.getElementById("searchInput");
+                searchInput.addEventListener("input", () => {
+                    const searchTerm = searchInput.value.toLowerCase();
+                    filterTables(searchTerm, restaurants, users);
                 });
+            } catch (error) {
+                console.error('Error fetching data:', error);
             }
-            
-            // User Types Chart (for demo)
-            const userTypesCtx = document.getElementById('userTypesChart');
-            if (userTypesCtx) {
-                const userTypesChart = new Chart(userTypesCtx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['Customers', 'Restaurant Owners', 'Delivery Staff', 'Admins'],
-                        datasets: [{
-                            data: [75, 15, 8, 2],
-                            backgroundColor: [
-                                '#5a67d8',
-                                '#48bb78',
-                                '#ed8936',
-                                '#e53e3e'
-                            ]
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
-                            }
-                        }
-                    }
-                });
-            }
-            
-            // Additional charts would be implemented here
-        });
+        })();
+
+        function generateHighestRevenueReport(orders, restaurants) {
+            const revenueMap = {};
+
+            orders.forEach(order => {
+                if (!revenueMap[order.restaurantId]) {
+                    revenueMap[order.restaurantId] = 0;
+                }
+                revenueMap[order.restaurantId] += order.totalAmount;
+            });
+
+            const revenueList = Object.entries(revenueMap)
+                .map(([restaurantId, totalRevenue]) => {
+                    const restaurant = restaurants.find(r => r.id === restaurantId);
+                    return {
+                        name: restaurant?.name || "Unknown",
+                        location: restaurant?.location || "N/A",
+                        revenue: totalRevenue
+                    };
+                })
+                .sort((a, b) => b.revenue - a.revenue);
+
+            const table = document.getElementById("highest-revenue-table");
+            table.innerHTML = ""; // Clear table
+            revenueList.forEach((r, i) => {
+                const row = `<tr>
+                    <td>${i + 1}</td>
+                    <td>${r.name}</td>
+                    <td>${r.location}</td>
+                    <td>₹${r.revenue.toLocaleString()}</td>
+                </tr>`;
+                table.innerHTML += row;
+            });
+        }
+
+        function generateMostOrdersReport(orders, users) {
+            const userOrderCount = {};
+
+            orders.forEach(order => {
+                if (!userOrderCount[order.userId]) {
+                    userOrderCount[order.userId] = 0;
+                }
+                userOrderCount[order.userId]++;
+            });
+
+            const userList = Object.entries(userOrderCount)
+                .map(([userId, count]) => {
+                    const user = users.find(u => u.id === userId);
+                    return {
+                        name: user?.name || "Unknown",
+                        email: user?.email || "N/A",
+                        totalOrders: count
+                    };
+                })
+                .sort((a, b) => b.totalOrders - a.totalOrders);
+
+            const table = document.getElementById("most-orders-table");
+            table.innerHTML = ""; // Clear table
+            userList.forEach((u, i) => {
+                const row = `<tr>
+                    <td>${i + 1}</td>
+                    <td>${u.name}</td>
+                    <td>${u.email}</td>
+                    <td>${u.totalOrders}</td>
+                </tr>`;
+                table.innerHTML += row;
+            });
+        }
+
+        function filterTables(searchTerm, restaurants, users) {
+            // Filter Restaurants Table
+            const revenueTable = document.getElementById("highest-revenue-table");
+            const revenueRows = Array.from(revenueTable.querySelectorAll("tr"));
+            revenueRows.forEach(row => {
+                const name = row.children[1]?.textContent.toLowerCase() || "";
+                const location = row.children[2]?.textContent.toLowerCase() || "";
+                row.style.display = name.includes(searchTerm) || location.includes(searchTerm) ? "" : "none";
+            });
+
+            const usersTable = document.getElementById("most-orders-table");
+            const userRows = Array.from(usersTable.querySelectorAll("tr"));
+            userRows.forEach(row => {
+                const name = row.children[1]?.textContent.toLowerCase() || "";
+                const email = row.children[2]?.textContent.toLowerCase() || "";
+                row.style.display = name.includes(searchTerm) || email.includes(searchTerm) ? "" : "none";
+            });
+        }
     </script>
 </body>
 </html>

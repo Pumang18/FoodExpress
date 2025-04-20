@@ -127,7 +127,7 @@
           sessionStorage.setItem("userType", user.userType);
 
           if (user.userType === "Admin") {
-            window.location.href = "/pages/admin/dashboard.html";
+            window.location.href = "/pages/admin/admin-home.html";
           } else if (user.userType === "Owner") {
             // Fetch restaurants
             const restRes = await fetch(`${apiUrl}/restaurants`);

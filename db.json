@@ -186,21 +186,18 @@
       "userType": "Owner"
     },
     {
-      "id": "f018",
       "name": "Pumang Kirange",
       "email": "pumang@gmail.com",
-      "password": "Pumang@1812",
       "phone": "8857888945",
       "address": "Faizpur",
-      "userType": "Owner"
+      "id": "f018"
     }
   ],
   "restaurants": [
     {
       "name": "Biryani Junction",
-      "contact": "9900887766",
       "location": "Pune",
-      "userId": "6004",
+      "contact": "9900887766",
       "id": "ef67"
     },
     {
