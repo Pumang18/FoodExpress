@@ -79,7 +79,7 @@
                           <th>Amount</th>
                         </tr>
                       </thead>
-                      <tbody id="recent-orders-table">
+                      <tbody id="orders-table">
                         
                       </tbody>
                     </table>
@@ -96,59 +96,63 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
     <script>
       (() => {
+        const restaurantId = sessionStorage.getItem("restaurantId");
+
+        async function fetchOrders() {
+          const response = await fetch(`${apiUrl}/orders`);
+          return response.json();
+        }
+
+        async function fetchOrderItems() {
+          const response = await fetch(`${apiUrl}/orderItems`);
+          return response.json();
+        }
+
+        async function fetchFoodItems() {
+          const response = await fetch(`${apiUrl}/foodItems`);
+          return response.json();
+        }
+
         async function loadTopSellingItems() {
-          try {
-            const restaurantId = sessionStorage.getItem("restaurantId");
+          const orders = await fetchOrders();
+          const orderItems = await fetchOrderItems();
+          const foodItems = await fetchFoodItems();
 
-            const [ordersRes, orderItemsRes, foodItemsRes] = await Promise.all([
-              fetch(`${apiUrl}/orders`),
-              fetch(`${apiUrl}/orderItems`),
-              fetch(`${apiUrl}/foodItems`),
-            ]);
+          const filteredOrders = orders.filter(
+            (order) => String(order.restaurantId) === String(restaurantId)
+          );
 
-            const [orders, orderItems, foodItems] = await Promise.all([
-              ordersRes.json(),
-              orderItemsRes.json(),
-              foodItemsRes.json(),
-            ]);
+          const orderIds = filteredOrders.map((order) => order.id);
+          const filteredOrderItems = orderItems.filter((item) =>
+            orderIds.includes(item.orderId)
+          );
 
-            const filteredOrders = orders.filter(
-              (order) => String(order.restaurantId) === String(restaurantId)
-            );
+          const itemData = [];
+          filteredOrderItems.forEach((item) => {
+            const food = foodItems.find((f) => f.id === item.itemId);
+            if (!food) return;
 
-            const orderIds = filteredOrders.map((order) => order.id);
-            const filteredOrderItems = orderItems.filter((item) =>
-              orderIds.includes(item.orderId)
-            );
-            const itemData = [];
+            const existing = itemData.find((i) => i.id === food.id);
+            if (existing) {
+              existing.qty += item.quantity;
+            } else {
+              itemData.push({
+                id: food.id,
+                name: food.name,
+                category: food.category,
+                price: food.price,
+                qty: item.quantity,
+              });
+            }
+          });
 
-            filteredOrderItems.forEach((item) => {
-              const food = foodItems.find((f) => f.id === item.itemId);
-              if (!food) return;
-
-              const existing = itemData.find((i) => i.id === food.id);
-              if (existing) {
-                existing.qty += item.quantity;
-              } else {
-                itemData.push({
-                  id: food.id,
-                  name: food.name,
-                  category: food.category,
-                  price: food.price,
-                  qty: item.quantity,
-                });
-              }
-            });
-            itemData.sort((a, b) => b.qty - a.qty);
-
-            populateTopSellingItemsTable(itemData);
-          } catch (error) {
-            console.error("Error loading top selling items:", error);
-          }
+          itemData.sort((a, b) => b.qty - a.qty);
+          populateTopSellingItemsTable(itemData);
         }
 
         function populateTopSellingItemsTable(itemData) {
           const tbody = document.getElementById("top-selling-items-body");
+          tbody.innerHTML = "";
 
           itemData.slice(0, 5).forEach((item, index) => {
             const revenue = item.qty * parseFloat(item.price || 0);
@@ -166,62 +170,45 @@
           });
         }
 
-        loadTopSellingItems();
-
         async function loadRecentOrders() {
-          try {
-            const restaurantId = sessionStorage.getItem("restaurantId");
+          const orders = await fetchOrders();
+          const orderItems = await fetchOrderItems();
+          const users = await fetch(`${apiUrl}/users`).then((res) => res.json());
 
-            const [ordersRes, orderItemsRes, usersRes, foodItemsRes] =
-              await Promise.all([
-                fetch(`${apiUrl}/orders`),
-                fetch(`${apiUrl}/orderItems`),
-                fetch(`${apiUrl}/users`),
-                fetch(`${apiUrl}/foodItems`),
-              ]);
+          const filteredOrders = orders
+            .filter(
+              (order) => String(order.restaurantId) === String(restaurantId)
+            )
+            .sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate))
+            .slice(0, 5);
 
-            const [orders, orderItems, users, foodItems] = await Promise.all([
-              ordersRes.json(),
-              orderItemsRes.json(),
-              usersRes.json(),
-              foodItemsRes.json(),
-            ]);
+          const tbody = document.getElementById("orders-table");
+          tbody.innerHTML = "";
 
-            const filteredOrders = orders
-              .filter(
-                (order) => String(order.restaurantId) === String(restaurantId)
-              )
-              .sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate))
-              .slice(0, 5);
+          filteredOrders.forEach((order) => {
+            const customer = users.find((u) => u.id === order.userId);
+            const items = orderItems.filter((oi) => oi.orderId === order.id);
 
-            const tbody = document.getElementById("recent-orders-table");
-            tbody.innerHTML = "";
-            
-            filteredOrders.forEach((order) => {
-              const customer = users.find((u) => u.id === order.userId);
-              const items = orderItems.filter((oi) => oi.orderId === order.id);
+            const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
+            const orderDate = order.orderDate;
 
-              const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);
-              const orderDate = new Date(order.orderDate + 'T00:00:00').toLocaleDateString();
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${order.id}</td>
+              <td>${customer ? customer.name : "Unknown"}</td>
+              <td>${orderDate}</td>
+              <td>${totalItems}</td>
+              <td>₹${parseFloat(order.totalAmount).toFixed(2)}</td>
+            `;
 
-              const tr = document.createElement("tr");
-              tr.innerHTML = `
-          <td>${order.id}</td>
-          <td>${customer.name}</td>
-          <td>${orderDate}</td>
-          <td>${totalItems}</td>
-          <td>₹${parseFloat(order.totalAmount).toFixed(2)}</td>
-        `;
-
-              tbody.appendChild(tr);
-            });
-          } catch (error) {
-            console.error("Error loading recent orders:", error);
-          }
+            tbody.appendChild(tr);
+          });
         }
 
+        loadTopSellingItems();
         loadRecentOrders();
       })();
     </script>
   </body>
 </html>
+``` 

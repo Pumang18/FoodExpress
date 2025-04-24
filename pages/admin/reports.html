@@ -14,13 +14,13 @@
             <input type="text" id="searchInput" class="form-control" placeholder="Search by name, email, or location">
         </div>
         <div class="row">
-            <div class="col-lg mb-4">
+            <div class="col-lg-12 mb-4">
                 <div class="card">
-                    <div class="card-header bg-primary text-white">
+                    <div class="card-header bg-white ">
                         Restaurants with Highest Revenue
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped">
+                        <table class="table ">
                             <thead>
                                 <tr>
                                     <th>Rank</th>
@@ -30,21 +30,20 @@
                                 </tr>
                             </thead>
                             <tbody id="highest-revenue-table">
-                                <!-- Data will be dynamically populated -->
+                                
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Users Who Order the Most -->
-            <div class="col-lg-6 mb-4">
+            <div class="col-lg-12 mb-4">
                 <div class="card">
-                    <div class="card-header bg-success text-white">
+                    <div class="card-header bg-white ">
                         Users Who Order the Most
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>Rank</th>
@@ -54,21 +53,21 @@
                                 </tr>
                             </thead>
                             <tbody id="most-orders-table">
-                                <!-- Data will be dynamically populated -->
+                               
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Items Sold per Restaurant -->
-            <div class="col-lg-6 mb-4">
+          
+            <div class="col-lg-12 mb-4">
                 <div class="card">
-                    <div class="card-header bg-warning text-white">
+                    <div class="card-header bg-white">
                         Items Sold per Restaurant
                     </div>
                     <div class="card-body">
-                        <table class="table table-striped">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>Rank</th>
@@ -78,7 +77,7 @@
                                 </tr>
                             </thead>
                             <tbody id="items-sold-table">
-                                <!-- Data will be dynamically populated -->
+                               
                             </tbody>
                         </table>
                     </div>
@@ -89,162 +88,190 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+  (async () => {
+    const apiUrl = "http://localhost:3000";
 
-        (async () => {
-            try {
-                const [orders, restaurants, users, orderItems] = await Promise.all([
-                    fetch(`${apiUrl}/orders`).then(res => res.json()),
-                    fetch(`${apiUrl}/restaurants`).then(res => res.json()),
-                    fetch(`${apiUrl}/users`).then(res => res.json()),
-                    fetch(`${apiUrl}/orderItems`).then(res => res.json())
-                ]);
+    // Fetch data sequentially
+    async function fetchOrders() {
+      const response = await fetch(`${apiUrl}/orders`);
+      return response.json();
+    }
 
-                generateHighestRevenueReport(orders, restaurants);
-                generateMostOrdersReport(orders, users);
-                generateItemsSoldReport(orderItems, orders, restaurants);
+    async function fetchRestaurants() {
+      const response = await fetch(`${apiUrl}/restaurants`);
+      return response.json();
+    }
 
-                const searchInput = document.getElementById("searchInput");
-                searchInput.addEventListener("input", () => {
-                    const searchTerm = searchInput.value.toLowerCase();
-                    filterTables(searchTerm, restaurants, users);
-                });
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        })();
+    async function fetchUsers() {
+      const response = await fetch(`${apiUrl}/users`);
+      return response.json();
+    }
 
-        function generateHighestRevenueReport(orders, restaurants) {
-            const revenueMap = {};
+    async function fetchOrderItems() {
+      const response = await fetch(`${apiUrl}/orderItems`);
+      return response.json();
+    }
 
-            orders.forEach(order => {
-                if (!revenueMap[order.restaurantId]) {
-                    revenueMap[order.restaurantId] = 0;
-                }
-                revenueMap[order.restaurantId] += order.totalAmount;
-            });
+    // Load data and generate reports
+    async function loadReports() {
+      const orders = await fetchOrders();
+      const restaurants = await fetchRestaurants();
+      const users = await fetchUsers();
+      const orderItems = await fetchOrderItems();
 
-            const revenueList = Object.entries(revenueMap)
-                .map(([restaurantId, totalRevenue]) => {
-                    const restaurant = restaurants.find(r => r.id === restaurantId);
-                    return {
-                        name: restaurant?.name || "Unknown",
-                        location: restaurant?.location || "N/A",
-                        revenue: totalRevenue
-                    };
-                })
-                .sort((a, b) => b.revenue - a.revenue);
+      generateHighestRevenueReport(orders, restaurants);
+      generateMostOrdersReport(orders, users);
+      generateItemsSoldReport(orderItems, orders, restaurants);
 
-            const table = document.getElementById("highest-revenue-table");
-            table.innerHTML = ""; 
-            revenueList.forEach((r, i) => {
-                const row = `<tr>
-                    <td>${i + 1}</td>
-                    <td>${r.name}</td>
-                    <td>${r.location}</td>
-                    <td>₹${r.revenue.toLocaleString()}</td>
-                </tr>`;
-                table.innerHTML += row;
-            });
+      const searchInput = document.getElementById("searchInput");
+      searchInput.addEventListener("input", () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        filterTables(searchTerm, restaurants, users);
+      });
+    }
+
+    loadReports();
+
+    function generateHighestRevenueReport(orders, restaurants) {
+      const revenueMap = {};
+
+      orders.forEach((order) => {
+        if (!revenueMap[order.restaurantId]) {
+          revenueMap[order.restaurantId] = 0;
         }
+        revenueMap[order.restaurantId] += order.totalAmount;
+      });
 
-        function generateMostOrdersReport(orders, users) {
-            const userOrderCount = {};
+      const revenueList = Object.entries(revenueMap)
+        .map(([restaurantId, totalRevenue]) => {
+          const restaurant = restaurants.find((r) => r.id === restaurantId);
+          return {
+            name: restaurant?.name || "Unknown",
+            location: restaurant?.location || "N/A",
+            revenue: totalRevenue,
+          };
+        })
+        .sort((a, b) => b.revenue - a.revenue);
 
-            orders.forEach(order => {
-                if (!userOrderCount[order.userId]) {
-                    userOrderCount[order.userId] = 0;
-                }
-                userOrderCount[order.userId]++;
-            });
+      const table = document.getElementById("highest-revenue-table");
+      table.innerHTML = "";
+      revenueList.forEach((r, i) => {
+        const row = `<tr>
+          <td>${i + 1}</td>
+          <td>${r.name}</td>
+          <td>${r.location}</td>
+          <td>₹${r.revenue.toLocaleString()}</td>
+        </tr>`;
+        table.innerHTML += row;
+      });
+    }
 
-            const userList = Object.entries(userOrderCount)
-                .map(([userId, count]) => {
-                    const user = users.find(u => u.id === userId);
-                    return {
-                        name: user?.name || "Unknown",
-                        email: user?.email || "N/A",
-                        totalOrders: count
-                    };
-                })
-                .sort((a, b) => b.totalOrders - a.totalOrders);
+    function generateMostOrdersReport(orders, users) {
+      const userOrderCount = {};
 
-            const table = document.getElementById("most-orders-table");
-            table.innerHTML = ""; 
-            userList.forEach((u, i) => {
-                const row = `<tr>
-                    <td>${i + 1}</td>
-                    <td>${u.name}</td>
-                    <td>${u.email}</td>
-                    <td>${u.totalOrders}</td>
-                </tr>`;
-                table.innerHTML += row;
-            });
+      orders.forEach((order) => {
+        if (!userOrderCount[order.userId]) {
+          userOrderCount[order.userId] = 0;
         }
+        userOrderCount[order.userId]++;
+      });
 
-        function generateItemsSoldReport(orderItems, orders, restaurants) {
-            const itemsSoldMap = {};
+      const userList = Object.entries(userOrderCount)
+        .map(([userId, count]) => {
+          const user = users.find((u) => u.id === userId);
+          return {
+            name: user?.name || "Unknown",
+            email: user?.email || "N/A",
+            totalOrders: count,
+          };
+        })
+        .sort((a, b) => b.totalOrders - a.totalOrders);
 
-            orderItems.forEach(item => {
-                const order = orders.find(o => o.id === item.orderId); 
-                if (order) {
-                    const restaurantId = order.restaurantId;
-                    if (!itemsSoldMap[restaurantId]) {
-                        itemsSoldMap[restaurantId] = 0;
-                    }
-                    itemsSoldMap[restaurantId] += item.quantity; 
-                }
-            });
+      const table = document.getElementById("most-orders-table");
+      table.innerHTML = "";
+      userList.forEach((u, i) => {
+        const row = `<tr>
+          <td>${i + 1}</td>
+          <td>${u.name}</td>
+          <td>${u.email}</td>
+          <td>${u.totalOrders}</td>
+        </tr>`;
+        table.innerHTML += row;
+      });
+    }
 
-            const itemsSoldList = Object.entries(itemsSoldMap)
-                .map(([restaurantId, totalItemsSold]) => {
-                    const restaurant = restaurants.find(r => r.id === restaurantId);
-                    return {
-                        name: restaurant?.name || "Unknown",
-                        location: restaurant?.location || "N/A",
-                        itemsSold: totalItemsSold
-                    };
-                })
-                .sort((a, b) => b.itemsSold - a.itemsSold);
+    function generateItemsSoldReport(orderItems, orders, restaurants) {
+      const itemsSoldMap = {};
 
-            const table = document.getElementById("items-sold-table");
-            table.innerHTML = ""; 
-            itemsSoldList.forEach((r, i) => {
-                const row = `<tr>
-                    <td>${i + 1}</td>
-                    <td>${r.name}</td>
-                    <td>${r.location}</td>
-                    <td>${r.itemsSold}</td>
-                </tr>`;
-                table.innerHTML += row;
-            });
+      orderItems.forEach((item) => {
+        const order = orders.find((o) => o.id === item.orderId);
+        if (order) {
+          const restaurantId = order.restaurantId;
+          if (!itemsSoldMap[restaurantId]) {
+            itemsSoldMap[restaurantId] = 0;
+          }
+          itemsSoldMap[restaurantId] += item.quantity;
         }
+      });
 
-        function filterTables(searchTerm, restaurants, users) {
-            const revenueTable = document.getElementById("highest-revenue-table");
-            const revenueRows = Array.from(revenueTable.querySelectorAll("tr"));
-            revenueRows.forEach(row => {
-                const name = row.children[1]?.textContent.toLowerCase() || "";
-                const location = row.children[2]?.textContent.toLowerCase() || "";
-                row.style.display = name.includes(searchTerm) || location.includes(searchTerm) ? "" : "none";
-            });
+      const itemsSoldList = Object.entries(itemsSoldMap)
+        .map(([restaurantId, totalItemsSold]) => {
+          const restaurant = restaurants.find((r) => r.id === restaurantId);
+          return {
+            name: restaurant?.name || "Unknown",
+            location: restaurant?.location || "N/A",
+            itemsSold: totalItemsSold,
+          };
+        })
+        .sort((a, b) => b.itemsSold - a.itemsSold);
 
-            const usersTable = document.getElementById("most-orders-table");
-            const userRows = Array.from(usersTable.querySelectorAll("tr"));
-            userRows.forEach(row => {
-                const name = row.children[1]?.textContent.toLowerCase() || "";
-                const email = row.children[2]?.textContent.toLowerCase() || "";
-                row.style.display = name.includes(searchTerm) || email.includes(searchTerm) ? "" : "none";
-            });
+      const table = document.getElementById("items-sold-table");
+      table.innerHTML = "";
+      itemsSoldList.forEach((r, i) => {
+        const row = `<tr>
+          <td>${i + 1}</td>
+          <td>${r.name}</td>
+          <td>${r.location}</td>
+          <td>${r.itemsSold}</td>
+        </tr>`;
+        table.innerHTML += row;
+      });
+    }
 
-            const itemsSoldTable = document.getElementById("items-sold-table");
-            const itemsSoldRows = Array.from(itemsSoldTable.querySelectorAll("tr"));
-            itemsSoldRows.forEach(row => {
-                const name = row.children[1]?.textContent.toLowerCase() || "";
-                const location = row.children[2]?.textContent.toLowerCase() || "";
-                row.style.display = name.includes(searchTerm) || location.includes(searchTerm) ? "" : "none";
-            });
-        }
-    </script>
+    function filterTables(searchTerm, restaurants, users) {
+      const revenueTable = document.getElementById("highest-revenue-table");
+      const revenueRows = Array.from(revenueTable.querySelectorAll("tr"));
+      revenueRows.forEach((row) => {
+        const name = row.children[1]?.textContent.toLowerCase() || "";
+        const location = row.children[2]?.textContent.toLowerCase() || "";
+        row.style.display =
+          name.includes(searchTerm) || location.includes(searchTerm)
+            ? ""
+            : "none";
+      });
+
+      const usersTable = document.getElementById("most-orders-table");
+      const userRows = Array.from(usersTable.querySelectorAll("tr"));
+      userRows.forEach((row) => {
+        const name = row.children[1]?.textContent.toLowerCase() || "";
+        const email = row.children[2]?.textContent.toLowerCase() || "";
+        row.style.display =
+          name.includes(searchTerm) || email.includes(searchTerm) ? "" : "none";
+      });
+
+      const itemsSoldTable = document.getElementById("items-sold-table");
+      const itemsSoldRows = Array.from(itemsSoldTable.querySelectorAll("tr"));
+      itemsSoldRows.forEach((row) => {
+        const name = row.children[1]?.textContent.toLowerCase() || "";
+        const location = row.children[2]?.textContent.toLowerCase() || "";
+        row.style.display =
+          name.includes(searchTerm) || location.includes(searchTerm)
+            ? ""
+            : "none";
+      });
+    }
+  })();
+</script>
 </body>
 </html>
 

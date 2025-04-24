@@ -154,12 +154,10 @@
           try {
             const orderIds = filteredOrders.map((order) => order.id);
 
-            const [orderItemsRes, foodItemsRes] = await Promise.all([
-              fetch(`${apiUrl}/orderItems`),
-              fetch(`${apiUrl}/foodItems`),
-            ]);
-
+            const orderItemsRes = await fetch(`${apiUrl}/orderItems`);
             const orderItems = await orderItemsRes.json();
+
+            const foodItemsRes = await fetch(`${apiUrl}/foodItems`);
             const foodItems = await foodItemsRes.json();
 
             const relatedOrderItems = orderItems.filter((item) =>
@@ -193,7 +191,6 @@
           }
         }
 
-        // Top Items Chart
         function renderTopItemsChart(topItems) {
           const ctx = document.getElementById("topItemsChart").getContext("2d");
           new Chart(ctx, {
@@ -220,7 +217,6 @@
           });
         }
 
-        // Orders Over Time Chart
         function renderOrdersOverTimeChart(orders) {
           const groupedByDate = {};
 
@@ -273,7 +269,6 @@
           });
         }
 
-        //Item Category Chart
         function renderItemCategoryChart(itemData) {
           const categoryMap = {};
           itemData.forEach((item) => {

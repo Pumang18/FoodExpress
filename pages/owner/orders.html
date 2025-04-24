@@ -55,11 +55,11 @@
                   <thead>
                     <tr>
                       <th>Order ID</th>
-                      <th>Date & Time</th>
+                      <th>Date</th>
                       <th>Customer</th>
                       <th>Items</th>
                       <th>Total</th>
-                      <th>Actions</th>
+                     
                     </tr>
                   </thead>
                   <tbody id="orders-table"></tbody>
@@ -74,109 +74,117 @@
    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-      (()=>{
+      (async () => {
         const currentRestaurantId = sessionStorage.getItem("restaurantId");
-    
-      async function getOrders() {
-        const response = await fetch(`${apiUrl}/orders`);
-        return await response.json();
-      }
-    
-      async function getUsers() {
-        const response = await fetch(`${apiUrl}/users`);
-        return await response.json();
-      }
-    
-      async function getOrderItems() {
-        const response = await fetch(`${apiUrl}/orderItems`);
-        return await response.json();
-      }
-    
-      async function getFoodItems() {
-        const response = await fetch(`${apiUrl}/foodItems`);
-        return await response.json();
-      }
-    
-      async function buildOrdersWithItems() {
-        const [orders, orderItems, users, foodItems] = await Promise.all([
-          getOrders(),
-          getOrderItems(),
-          getUsers(),
-          getFoodItems(),
-        ]);
-    
-        return orders
-          .map((order) => {
-            // Get all items for this order
-            const items = orderItems
-              .filter((item) => item.orderId === order.id)
-              .map((item) => {
-                const food = foodItems.find((f) => f.id === item.itemId);
-                return {
-                  ...item,
-                  name: food ? food.name : "Unknown Item",
-                  restaurantId: food ? food.restaurantId : null,
-                };
-              });
-    
-            // Check if at least one item is from current restaurant
-            const belongsToThisRestaurant = items.some(
-              (item) => item.restaurantId == currentRestaurantId
-            );
-    
-            if (!belongsToThisRestaurant) return null; // skip this order
-    
-            const customer = users.find((u) => u.id === order.userId);
-    
-            return {
-              ...order,
-              items: items.filter(
-                (item) => item.restaurantId == currentRestaurantId
-              ),
-              customerName: customer ? customer.name : "Unknown",
-            };
-          })
-          .filter((order) => order !== null); // filter out skipped orders
-      }
-    
-      async function renderOrdersTable() {
-        const ordersWithItems = await buildOrdersWithItems();
-        const tableBody = document.getElementById("orders-table");
-        tableBody.innerHTML = "";
-    
-        for (const order of ordersWithItems) {
-          const itemList = order.items
-            .map((item) => `${item.name} x${item.quantity}`)
-            .join(", ");
-    
-          const row = document.createElement("tr");
-          row.innerHTML = `
-            <td><a href="#" onclick="openOrderDetails('${order.id}')">#ORD-${order.id}</a></td>
-            <td>${new Date(order.orderDate).toLocaleString()}</td>
-            <td>${order.customerName}</td>
-            <td>${itemList}</td>
-            <td>₹${parseFloat(order.totalAmount).toFixed(2)}</td>
-            <td>
-              <div class="dropdown">
-                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Actions
-                </button>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#" onclick="openOrderDetails('${order.id}')">View Details</a></li>
-                  <li><a class="dropdown-item" href="#">Print Receipt</a></li>
-                </ul>
-              </div>
-            </td>
-          `;
-          tableBody.appendChild(row);
+
+        async function getOrders() {
+          return fetch(`${apiUrl}/orders`)
+            .then((response) => response.json())
+            .catch((error) => {
+              console.error("Error fetching orders:", error);
+              return [];
+            });
         }
-      }
-    
-      function openOrderDetails(orderId) {
-        alert(`Order details for: #ORD-${orderId}`);
-      }
-    
-      renderOrdersTable();
+
+        async function getUsers() {
+          return fetch(`${apiUrl}/users`)
+            .then((response) => response.json())
+            .catch((error) => {
+              console.error("Error fetching users:", error);
+              return [];
+            });
+        }
+
+        async function getOrderItems() {
+          return fetch(`${apiUrl}/orderItems`)
+            .then((response) => response.json())
+            .catch((error) => {
+              console.error("Error fetching order items:", error);
+              return [];
+            });
+        }
+
+        async function getFoodItems() {
+          return fetch(`${apiUrl}/foodItems`)
+            .then((response) => response.json())
+            .catch((error) => {
+              console.error("Error fetching food items:", error);
+              return [];
+            });
+        }
+
+        async function buildOrdersWithItems() {
+          const orders = await getOrders();
+          const orderItems = await getOrderItems();
+          const users = await getUsers();
+          const foodItems = await getFoodItems();
+
+          const processedOrders = orders
+            .map((order) => {
+              const items = orderItems
+                .filter((item) => item.orderId === order.id)
+                .map((item) => {
+                  const food = foodItems.find((f) => f.id === item.itemId);
+                  return {
+                    ...item,
+                    name: food ? food.name : "Unknown Item",
+                    restaurantId: food ? food.restaurantId : null,
+                  };
+                });
+
+              const belongsToThisRestaurant = items.some(
+                (item) => item.restaurantId == currentRestaurantId
+              );
+
+              if (!belongsToThisRestaurant) return null;
+
+              const customer = users.find((u) => u.id === order.userId);
+
+              return {
+                ...order,
+                items: items.filter(
+                  (item) => item.restaurantId == currentRestaurantId
+                ),
+                customerName: customer ? customer.name : "Unknown",
+              };
+            })
+            .filter((order) => order !== null);
+
+          return processedOrders;
+        }
+
+        async function renderOrdersTable() {
+          buildOrdersWithItems()
+            .then((ordersWithItems) => {
+              const tableBody = document.getElementById("orders-table");
+              tableBody.innerHTML = "";
+
+              ordersWithItems.forEach((order) => {
+                const itemList = order.items
+                  .map((item) => `${item.name} x${item.quantity}`)
+                  .join(", ");
+
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                  <td><a href="#" onclick="openOrderDetails('${order.id}')">#ORD-${order.id}</a></td>
+                  <td>${order.orderDate}</td>
+                  <td>${order.customerName}</td>
+                  <td>${itemList}</td>
+                  <td>₹${parseFloat(order.totalAmount).toFixed(2)}</td>
+                `;
+                tableBody.appendChild(row);
+              });
+            })
+            .catch((error) => {
+              console.error("Error rendering orders table:", error);
+            });
+        }
+
+        function openOrderDetails(orderId) {
+          alert(`Order details for: #ORD-${orderId}`);
+        }
+
+        renderOrdersTable();
       })();
     </script>
     

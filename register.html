@@ -3,29 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login - FoodExpress</title>
+    <title>Register - FoodExpress</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- <link href="css/styles.css" rel="stylesheet"> -->
 </head>
 <body>
-
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container">
             <a class="navbar-brand" href="index.html">
                 <i class="fas fa-utensils text-primary me-2"></i>
                 FoodExpress
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
-                    </li>
-                </ul>
-            </div>
         </div>
     </nav>
 
@@ -38,68 +26,59 @@
                             <i class="fas fa-user-circle fa-3x text-primary"></i>
                             <h2 class="mt-3">Register</h2>
                         </div>
-                        
-                        <div class="tab-content" id="loginTabContent">
-                            <div class="tab-pane fade show active" id="customer" role="tabpanel">
-                                <form id="registrationForm">
-                                    <div class="mb-3">
-                                        <label for="userName" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="userName"  required>
-                                        <div class="invalid-feedback">At least 5 characters required.</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="userEmail" class="form-label">Email</label>
-                                        <input type="email" class="form-control" id="userEmail" placeholder="example@gmail.com" required>
-                                        <div class="text-danger d-none" id="emailExist">Email Already Exist.</div>
-
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="customerPassword" class="form-label">Password</label>
-                                        <input type="password" class="form-control" id="userPassword" required>
-                                        <div class="invalid-feedback">At least 5 characters required.</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="userPhone" class="form-label">Phone</label>
-                                        <input type="text" class="form-control" id="userPhone" required>
-                                        <div class="invalid-feedback">At least 5 characters required.</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="userAddress" class="form-label">Address</label>
-                                        <input type="text" class="form-control" id="userAddress" required>
-                                        <div class="invalid-feedback">At least 5 characters required.</div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="userType" class="form-label">User Type</label>
-                                        <select id="userType" class="form-control">
-                                            <option value="">--Choose--</option>
-                                            <option value="Customer">Customer</option>
-                                            <option value="Owner">Restaurant Owner</option>
-                                            <option value="Admin">Admin</option>
-                                        </select>
-                                    </div>
-                                    <div id="restaurantDetails" class="d-none">
-                                      <div class="mb-3">
-                                        <label for="restaurantName" class="form-label">Restaurant Name</label>
-                                        <input type="text" class="form-control" id="restaurantName" required>
-                                      </div>
-                                      <div class="mb-3">
-                                        <label for="restaurantLocation" class="form-label">Restaurant Location</label>
-                                        <input type="text" class="form-control" id="restaurantLocation" required>
-                                      </div>
-                                      <div class="mb-3">
-                                        <label for="restaurantContact" class="form-label">Restaurant Contact</label>
-                                        <input type="text" class="form-control" id="restaurantContact" required>
-                                      </div>
-                                    </div>
-                                    <div class="resultBox"></div>
-                                    <div class="d-grid">
-                                        <button type="submit" class="btn btn-primary">Register</button>
-                                    </div>
-                                </form>
+                        <form id="registrationForm">
+                            <div class="mb-3">
+                                <label for="userName" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="userName" required>
+                                <div class="invalid-feedback">At least 5 characters required.</div>
                             </div>
-                            
-                        </div>
-                       
+                            <div class="mb-3">
+                                <label for="userEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="userEmail" placeholder="example@gmail.com" required>
+                                <div class="text-danger d-none" id="emailExist">Email Already Exists.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="userPassword" required>
+                                <div class="invalid-feedback">Password must be at least 8 characters, include uppercase, lowercase, and a special character.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userPhone" class="form-label">Phone</label>
+                                <input type="text" class="form-control" id="userPhone" required>
+                                <div class="invalid-feedback">Enter a valid 10-digit phone number.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userAddress" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="userAddress" required>
+                                <div class="invalid-feedback">At least 5 characters required.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="userType" class="form-label">User Type</label>
+                                <select id="userType" class="form-control">
+                                    <option value="">--Choose--</option>
+                                    <option value="Customer">Customer</option>
+                                    <option value="Owner">Restaurant Owner</option>
+                                    <option value="Admin">Admin</option>
+                                </select>
+                            </div>
+                            <div id="restaurantDetails" class="d-none">
+                                <div class="mb-3">
+                                    <label for="restaurantName" class="form-label">Restaurant Name</label>
+                                    <input type="text" class="form-control" id="restaurantName" >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="restaurantLocation" class="form-label">Restaurant Location</label>
+                                    <input type="text" class="form-control" id="restaurantLocation" >
+                                </div>
+                                <div class="mb-3">
+                                    <label for="restaurantContact" class="form-label">Restaurant Contact</label>
+                                    <input type="text" class="form-control" id="restaurantContact" >
+                                </div>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Register</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -107,93 +86,141 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- <script src="js/registration.js"></script> -->
     <script>
-      const apiUrlUsers = "http://localhost:3000/users";
-      const apiUrlRestaurants = "http://localhost:3000/restaurants";
+        const apiUrlUsers = "http://localhost:3000/users";
+        const apiUrlRestaurants = "http://localhost:3000/restaurants";
 
-      let form = document.getElementById("registrationForm");
-      let userName = document.getElementById("userName");
-      let userEmail = document.getElementById("userEmail");
-      let userPassword = document.getElementById("userPassword");
-      let userPhone = document.getElementById("userPhone");
-      let userAddress = document.getElementById("userAddress");
-      let userUserType = document.getElementById("userType");
-      let restaurantDetails = document.getElementById("restaurantDetails");
-      let restaurantName = document.getElementById("restaurantName");
-      let restaurantLocation = document.getElementById("restaurantLocation");
-      let restaurantContact = document.getElementById("restaurantContact");
-      let emailExist = document.getElementById("emailExist");
-      let users = [];
+        const form = document.getElementById("registrationForm");
+        const userName = document.getElementById("userName");
+        const userEmail = document.getElementById("userEmail");
+        const userPassword = document.getElementById("userPassword");
+        const userPhone = document.getElementById("userPhone");
+        const userAddress = document.getElementById("userAddress");
+        const userType = document.getElementById("userType");
+        const restaurantDetails = document.getElementById("restaurantDetails");
+        const restaurantName = document.getElementById("restaurantName");
+        const restaurantLocation = document.getElementById("restaurantLocation");
+        const restaurantContact = document.getElementById("restaurantContact");
+        const emailExist = document.getElementById("emailExist");
+        let users = [];
 
-      // Show/Hide Restaurant Details Based on User Type
-      userUserType.addEventListener("change", function () {
-        if (this.value === "Owner") {
-          restaurantDetails.classList.remove("d-none");
-        } else {
-          restaurantDetails.classList.add("d-none");
+        async function fetchUsers() {
+            const response = await fetch(apiUrlUsers);
+            users = await response.json();
         }
-      });
+        fetchUsers();
 
-      // Fetch Existing Users
-      async function fetchUsers() {
-        await fetch(apiUrlUsers)
-          .then((res) => res.json())
-          .then((data) => {
-            users = data;
-          });
-      }
+        userType.addEventListener("change", function () {
+            if (this.value === "Owner") {
+                restaurantDetails.classList.remove("d-none");
+            } else {
+                restaurantDetails.classList.add("d-none");
+            }
+        });
 
-      fetchUsers();
-
-      // Form Submission
-      form.addEventListener("submit", async function (e) {
-        e.preventDefault();
-
-        const user = {
-          name: userName.value.trim(),
-          email: userEmail.value.trim(),
-          password: userPassword.value,
-          phone: userPhone.value.trim(),
-          address: userAddress.value.trim(),
-          userType: userUserType.value.trim(),
-        };
-
-        // Check if Email Already Exists
-        let isPresent = users.some((u) => u.email === user.email);
-        if (isPresent) {
-          emailExist.classList.remove("d-none");
-          return;
+        function validateName() {
+            if (userName.value.trim().length >= 5) {
+                userName.classList.add("is-valid");
+                userName.classList.remove("is-invalid");
+                return true;
+            } else {
+                userName.classList.add("is-invalid");
+                userName.classList.remove("is-valid");
+                return false;
+            }
         }
 
-        // Add User to Users API
-        const newUser = await fetch(apiUrlUsers, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(user),
-        }).then((res) => res.json());
-
-        // If User is an Owner, Add Restaurant Details
-        if (user.userType === "Owner") {
-          const restaurant = {
-            name: restaurantName.value.trim(),
-            location: restaurantLocation.value.trim(),
-            contact: restaurantContact.value.trim(),
-            userId: newUser.id, // Link restaurant to the user
-          };
-
-          await fetch(apiUrlRestaurants, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(restaurant),
-          });
+        function validatePassword() {
+            const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
+            if (passRegex.test(userPassword.value)) {
+                userPassword.classList.add("is-valid");
+                userPassword.classList.remove("is-invalid");
+                return true;
+            } else {
+                userPassword.classList.add("is-invalid");
+                userPassword.classList.remove("is-valid");
+                return false;
+            }
         }
 
-        // Reset Form and Redirect
-        form.reset();
-        restaurantDetails.classList.add("d-none");
-        window.location.href = "login.html";
-      });
+        function validatePhone() {
+            const phoneRegex = /^[789]\d{9}$/;
+            if (phoneRegex.test(userPhone.value.trim())) {
+                userPhone.classList.add("is-valid");
+                userPhone.classList.remove("is-invalid");
+                return true;
+            } else {
+                userPhone.classList.add("is-invalid");
+                userPhone.classList.remove("is-valid");
+                return false;
+            }
+        }
+
+        function validateAddress() {
+            if (userAddress.value.trim().length >= 5) {
+                userAddress.classList.add("is-valid");
+                userAddress.classList.remove("is-invalid");
+                return true;
+            } else {
+                userAddress.classList.add("is-invalid");
+                userAddress.classList.remove("is-valid");
+                return false;
+            }
+        }
+
+        userName.addEventListener("blur", validateName);
+        userPassword.addEventListener("blur", validatePassword);
+        userPhone.addEventListener("blur", validatePhone);
+        userAddress.addEventListener("blur", validateAddress);
+
+        form.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            if (!validateName() || !validatePassword() || !validatePhone() || !validateAddress()) {
+                return;
+            }
+
+            const user = {
+                name: userName.value.trim(),
+                email: userEmail.value.trim(),
+                password: userPassword.value,
+                phone: userPhone.value.trim(),
+                address: userAddress.value.trim(),
+                userType: userType.value.trim(),
+            };
+
+            const isPresent = users.some((u) => u.email === user.email);
+            if (isPresent) {
+                alert("Email already exists.");
+                window.location.href = "/login.html";
+                
+            }
+
+            const newUser = await fetch(apiUrlUsers, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(user),
+            }).then((res) => res.json());
+
+            if (user.userType === "Owner") {
+                const restaurant = {
+                    name: restaurantName.value.trim(),
+                    location: restaurantLocation.value.trim(),
+                    contact: restaurantContact.value.trim(),
+                    userId: newUser.id,
+                };
+
+                await fetch(apiUrlRestaurants, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(restaurant),
+                });
+            }
+
+            form.reset();
+            restaurantDetails.classList.add("d-none");
+            window.location.href = "/login.html";
+        });
     </script>
 </body>
 </html>

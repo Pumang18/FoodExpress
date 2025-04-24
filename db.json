@@ -186,11 +186,40 @@
       "userType": "Owner"
     },
     {
-      "name": "Pumang Kirange",
+      "id": "34d1",
+      "name": "Rohan Mishra",
+      "email": "rohan123@gmail.com",
+      "password": "Rohan@123",
+      "phone": "7894563214",
+      "address": "Pimpri",
+      "userType": "Owner"
+    },
+    {
+      "id": "a46a",
+      "name": "Pumang",
       "email": "pumang@gmail.com",
-      "phone": "8857888945",
+      "password": "Pumang@123",
+      "phone": "8857888965",
       "address": "Faizpur",
-      "id": "f018"
+      "userType": "Admin"
+    },
+    {
+      "id": "e31b",
+      "name": "Aryan",
+      "email": "aryan@gmail.com",
+      "password": "Aryan@123",
+      "phone": "7777777777",
+      "address": "Badlapur",
+      "userType": "Customer"
+    },
+    {
+      "id": "d03d",
+      "name": "Pumang",
+      "email": "pumang@gmail.com",
+      "password": "Pumang@123",
+      "phone": "8857888965",
+      "address": "Pimpri",
+      "userType": "Customer"
     }
   ],
   "restaurants": [
@@ -335,6 +364,13 @@
       "location": "Faizpur",
       "contact": "7889654132",
       "userId": "f018"
+    },
+    {
+      "id": "286e",
+      "name": "Nagalanad Corner",
+      "location": "Pandharpur",
+      "contact": "7894563214",
+      "userId": "34d1"
     }
   ],
   "foodItems": [
@@ -736,6 +772,13 @@
       "category": "appetizers",
       "price": 90,
       "restaurantId": "k1l2"
+    },
+    {
+      "name": "Hydrabadi Biryani",
+      "category": "main-courses",
+      "price": "450",
+      "restaurantId": "ef67",
+      "id": "8d3a"
     }
   ],
   "orders": [
@@ -983,6 +1026,41 @@
       "restaurantId": "36ed",
       "orderDate": "2025-04-20",
       "totalAmount": 280
+    },
+    {
+      "id": "2e0f",
+      "userId": "b63e",
+      "restaurantId": "36ed",
+      "orderDate": "2025-04-21",
+      "totalAmount": 140
+    },
+    {
+      "id": "922d",
+      "userId": "b63e",
+      "restaurantId": "fc06",
+      "orderDate": "2025-04-21",
+      "totalAmount": 70
+    },
+    {
+      "id": "c852",
+      "userId": "b63e",
+      "restaurantId": "fc06",
+      "orderDate": "2025-04-21",
+      "totalAmount": 140
+    },
+    {
+      "id": "612f",
+      "userId": "b63e",
+      "restaurantId": "c3d4",
+      "orderDate": "2025-04-21",
+      "totalAmount": 320
+    },
+    {
+      "id": "39f0",
+      "userId": "b63e",
+      "restaurantId": "80d3",
+      "orderDate": "2025-04-22",
+      "totalAmount": 100
     }
   ],
   "orderItems": [
@@ -1423,6 +1501,36 @@
       "orderId": "4254",
       "itemId": "f030",
       "quantity": 2
+    },
+    {
+      "id": "288c",
+      "orderId": "2e0f",
+      "itemId": "f030",
+      "quantity": 1
+    },
+    {
+      "id": "57b1",
+      "orderId": "922d",
+      "itemId": "f038",
+      "quantity": 1
+    },
+    {
+      "id": "5509",
+      "orderId": "c852",
+      "itemId": "f038",
+      "quantity": 2
+    },
+    {
+      "id": "8fcf",
+      "orderId": "612f",
+      "itemId": "f044",
+      "quantity": 1
+    },
+    {
+      "id": "4033",
+      "orderId": "39f0",
+      "itemId": "f034",
+      "quantity": 1
     }
   ]
 }

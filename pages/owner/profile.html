@@ -215,7 +215,6 @@
           fetchRestaurantDetails(restaurantId);
         }
 
-        // Form submission for updating restaurant details
         document
           .getElementById("restaurantDetailsForm")
           .addEventListener("submit", function (e) {
@@ -223,7 +222,6 @@
             updateRestaurantDetails(restaurantId);
           });
 
-        // Password change handler
         document
           .getElementById("updatePasswordBtn")
           .addEventListener("click", function () {
@@ -231,17 +229,10 @@
           });
       
 
-      function getCurrentRestaurantId() {
-        // In a real app, you would get this from your authentication system
-        // For this example, we'll use the first restaurant ID from your JSON
-        return "ef67"; // Replace with actual logic to get current restaurant ID
-      }
-
       function fetchRestaurantDetails(restaurantId) {
         fetch(`http://localhost:3000/restaurants/${restaurantId}`)
           .then((response) => response.json())
           .then((restaurant) => {
-            // Update the display elements
             document.getElementById("restaurantNameDisplay").textContent =
               restaurant.name;
             document.getElementById("restaurantLocationDisplay").textContent =
@@ -249,7 +240,6 @@
             document.getElementById("restaurantPhoneDisplay").textContent =
               restaurant.contact;
 
-            // Fill the form fields
             document.getElementById("restaurantName").value = restaurant.name;
             document.getElementById("contactPhone").value = restaurant.contact;
             document.getElementById("restaurantAddress").value =
@@ -285,7 +275,6 @@
             return response.json();
           })
           .then((updatedRestaurant) => {
-            // Update the display with new values
             document.getElementById("restaurantNameDisplay").textContent =
               updatedRestaurant.name;
             document.getElementById("restaurantLocationDisplay").textContent =
@@ -315,7 +304,6 @@
 
         const userId = document.getElementById("userId").value;
 
-        // First verify current password
         fetch(`http://localhost:3000/users/${userId}`)
           .then((response) => response.json())
           .then((user) => {
@@ -324,7 +312,6 @@
               return;
             }
 
-            // Update password
             return fetch(`http://localhost:3000/users/${userId}`, {
               method: "PATCH",
               headers: {
@@ -341,12 +328,10 @@
           })
           .then(() => {
             alert("Password updated successfully!");
-            // Close the modal
             const modal = bootstrap.Modal.getInstance(
               document.getElementById("updatePasswordModal")
             );
             modal.hide();
-            // Clear the form
             document.getElementById("passwordChangeForm").reset();
           })
           .catch((error) => {

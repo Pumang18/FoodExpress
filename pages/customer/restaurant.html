@@ -168,10 +168,7 @@
           ]);
           foodItemsData = await foodRes.json();
           restaurantsData = await restRes.json();
-        } catch (error) {
-          console.error("Error fetching data:", error);
-          return;
-        }
+        
         console.log(foodItemsData);
         console.log(restaurantsData);
         const currentRestaurant = restaurantsData.find(
@@ -180,7 +177,6 @@
         console.log(currentRestaurant);
         if (!currentRestaurant) return;
 
-        // Update restaurant info
         document.getElementById("restaurant-name").textContent =
           currentRestaurant.name;
         document.getElementById("restaurant-title").textContent =
@@ -190,7 +186,6 @@
         document.getElementById("restaurant-contact").textContent =
           currentRestaurant.contact;
 
-        // Filter food items by restaurant
         const filteredItems = foodItemsData.filter(
           (item) => item.restaurantId === restaurantId
         );
@@ -230,11 +225,9 @@
           });
         });
 
-        // Initialize cart
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
         updateCartCount();
 
-        // Add to Cart
      
         document.querySelectorAll(".add-to-cart").forEach((button) => {
           button.addEventListener("click", function () {
@@ -246,7 +239,6 @@
 
             const currentRestaurantName = currentRestaurant.name;
 
-            // Check for different restaurant
             if (
               cart.length > 0 &&
               cart[0].restaurant !== currentRestaurantName
@@ -257,7 +249,6 @@
               );
               if (!proceed) return;
 
-              // Clear cart
               cart = [];
             }
 
@@ -302,7 +293,6 @@
         }
       });
 
-      // Quantity functions
       function increaseQty(btn) {
         const input = btn.parentElement.querySelector("input");
         input.value = parseInt(input.value) + 1;

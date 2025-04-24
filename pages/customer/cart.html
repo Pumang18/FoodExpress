@@ -164,13 +164,11 @@
               return;
             }
 
-            // const deliveryAddress = document.getElementById('address').value;
-            // const paymentMethod = document.getElementById('payment-method').value;
+    
             const restaurantId = cart[0].restaurantId;
             const orderDate = new Date().toISOString().split("T")[0];
             const totalAmount = parseFloat(calculateTotal());
 
-            // Create order
             const orderRes = await fetch(`${API_BASE}/orders`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -184,7 +182,6 @@
 
             const newOrder = await orderRes.json();
 
-            // Save order items
             for (let item of cart) {
               await fetch(`${API_BASE}/orderItems`, {
                 method: "POST",
@@ -197,12 +194,10 @@
               });
             }
 
-            // Clear cart
             localStorage.removeItem("cart");
             cart = [];
             updateCart();
 
-            // Show success modal
             document.getElementById("order-number").textContent = newOrder.id;
             orderSuccessModal.show();
           });

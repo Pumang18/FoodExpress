@@ -177,7 +177,6 @@
           updateCartCount();
         }
 
-        // Fetch restaurants from the API
         function fetchRestaurants() {
           fetch(`${apiUrl}/restaurants`)
             .then((response) => response.json())
@@ -185,10 +184,8 @@
               restaurants = data;
               displayRestaurants(restaurants);
             })
-            .catch((error) => console.error("Error fetching restaurants:", error));
         }
 
-        // Display restaurants in the list
         function displayRestaurants(restaurants) {
           restaurantList.innerHTML = restaurants
             .map(
@@ -219,8 +216,7 @@
           });
         }
 
-        // Handle "View Menu" button click
-        function handleViewMenuClick(event) {
+          function handleViewMenuClick(event) {
           const button = event.target;
           const restaurantId = button.getAttribute("data-id");
           const restaurantName = button.getAttribute("data-name");
@@ -235,14 +231,12 @@
           restaurantInfoSection.classList.remove("d-none");
         }
 
-        // Update restaurant info section
         function updateRestaurantInfo(name, location, contact) {
           document.getElementById("restaurant-title").textContent = name;
           document.getElementById("restaurant-location").textContent = location;
           document.getElementById("restaurant-contact").textContent = contact;
         }
 
-        // Fetch menu items for a restaurant
         function fetchMenuItems(restaurantId) {
           fetch(`${apiUrl}/foodItems`)
             .then((response) => response.json())
@@ -250,10 +244,8 @@
               const filteredItems = foodItems.filter((item) => item.restaurantId === restaurantId);
               displayMenuItems(filteredItems);
             })
-            .catch((error) => console.error("Error fetching menu items:", error));
         }
 
-        // Display menu items in categories
         function displayMenuItems(items) {
           const categories = ["appetizers", "main-courses", "dessert", "drink"];
           categories.forEach((category) => {
@@ -289,7 +281,6 @@
 
         
 
-        // Handle "Add to Cart" button click
         function handleAddToCart(event) {
           if (!event.target.classList.contains("add-to-cart")) return;
 
@@ -302,7 +293,6 @@
 
           const currentRestaurantName = currentRestaurant.name;
 
-          // Check for different restaurant
           if (cart.length > 0 && cart[0].restaurant !== currentRestaurantName) {
             const proceed = confirm(
               `Your cart contains items from "${cart[0].restaurant}".\n` +
@@ -310,7 +300,6 @@
             );
             if (!proceed) return;
 
-            // Clear cart
             cart.length = 0;
           }
 
@@ -342,7 +331,6 @@
           }, 1500);
         }
 
-        // Update cart count
         function updateCartCount() {
           const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
           localStorage.setItem("cartCount", totalItems);
@@ -351,7 +339,6 @@
           });
         }
 
-        // Setup event listeners
         function setupEventListeners() {
           searchInput.addEventListener("input", handleSearch);
           document.getElementById("back-to-restaurants").addEventListener("click", () => {
@@ -361,7 +348,6 @@
           menuContent.addEventListener("click", handleAddToCart);
         }
 
-        // Handle search input
         function handleSearch() {
           const query = searchInput.value.toLowerCase();
           const filteredRestaurants = restaurants.filter(
@@ -372,7 +358,6 @@
           displayRestaurants(filteredRestaurants);
         }
 
-        // Quantity functions
         window.increaseQty = (btn) => {
           const input = btn.parentElement.querySelector("input");
           input.value = parseInt(input.value) + 1;
@@ -385,7 +370,6 @@
           }
         };
 
-        // Initialize the app
         init();
       })();
     </script>
