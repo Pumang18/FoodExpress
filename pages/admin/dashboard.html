@@ -1,199 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Admin Dashboard - FoodExpress</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css">
-</head>
-<body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css"
+    />
+  </head>
+  <body>
     <div class="container mt-5">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Admin Dashboard</h1>
-        </div>
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <h1 class="h2">Admin Dashboard</h1>
+      </div>
 
-        <!-- Stats cards -->
-        <div class="row mb-4">
-            <div class="col-md-3">
-                <div class="card stats-card h-100">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="text-muted">Total Restaurants</h6>
-                                <h3 id="total-restaurants">0</h3>
-                            </div>
-                            <i class="fas fa-store fa-2x text-primary opacity-50"></i>
-                        </div>
-                    </div>
+      <!-- Stats cards -->
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <div class="card stats-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-muted">Total Restaurants</h6>
+                  <h3 id="total-restaurants">0</h3>
                 </div>
+                <i class="fas fa-store fa-2x text-primary opacity-50"></i>
+              </div>
             </div>
-            <div class="col-md-3">
-                <div class="card stats-card h-100">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="text-muted">Total Users</h6>
-                                <h3 id="total-users">0</h3>
-                            </div>
-                            <i class="fas fa-users fa-2x text-primary opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card stats-card h-100">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="text-muted">Total Orders</h6>
-                                <h3 id="total-orders">0</h3>
-                            </div>
-                            <i class="fas fa-shopping-bag fa-2x text-primary opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card stats-card h-100">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="text-muted">Total Revenue</h6>
-                                <h3 id="total-revenue">₹0</h3>
-                            </div>
-                            <i class="fas fa-indian-rupee-sign fa-2x text-primary opacity-50"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+        <div class="col-md-3">
+          <div class="card stats-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-muted">Total Users</h6>
+                  <h3 id="total-users">0</h3>
+                </div>
+                <i class="fas fa-users fa-2x text-primary opacity-50"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card stats-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-muted">Total Orders</h6>
+                  <h3 id="total-orders">0</h3>
+                </div>
+                <i
+                  class="fas fa-shopping-bag fa-2x text-primary opacity-50"
+                ></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card stats-card h-100">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-muted">Total Revenue</h6>
+                  <h3 id="total-revenue">₹0</h3>
+                </div>
+                <i
+                  class="fas fa-indian-rupee-sign fa-2x text-primary opacity-50"
+                ></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        <!-- Charts row -->
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <div class="card chart-container h-100">
-                    <div class="card-header bg-white">
-                        <h5 class="card-title mb-0">Sales per Restaurant</h5>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="salesPerRestaurantChart" height="250"></canvas>
-                    </div>
-                </div>
+      <!-- Charts row -->
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <div class="card chart-container h-100">
+            <div class="card-header bg-white">
+              <h5 class="card-title mb-0">Sales per Restaurant</h5>
             </div>
-            <div class="col-md-6">
-                <div class="card chart-container h-100">
-                    <div class="card-header bg-white">
-                        <h5 class="card-title mb-0">Orders per Day</h5>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="ordersPerDayChart" height="250"></canvas>
-                    </div>
-                </div>
+            <div class="card-body">
+              <canvas id="salesPerRestaurantChart" height="250"></canvas>
             </div>
+          </div>
         </div>
+        <div class="col-md-6">
+          <div class="card chart-container h-100">
+            <div class="card-header bg-white">
+              <h5 class="card-title mb-0">Orders per Day</h5>
+            </div>
+            <div class="card-body">
+              <canvas id="ordersPerDayChart" height="250"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
     <script>
+      (async () => {
+        fetch("http://localhost:8080/api/admin-dashboard")
+          .then((res) => res.json())
+          .then((data) => {
+            document.getElementById("total-restaurants").textContent =
+              data.totalRestaurants;
+            document.getElementById("total-users").textContent =
+              data.totalUsers;
+            document.getElementById("total-orders").textContent =
+              data.totalOrders;
+            document.getElementById(
+              "total-revenue"
+            ).textContent = `₹${data.totalRevenue.toLocaleString()}`;
 
-        (async () => {
-            try {
-                // Fetch data from JSON server
-                const [restaurants, users, orders] = await Promise.all([
-                    fetch(`${apiUrl}/restaurants`).then(res => res.json()),
-                    fetch(`${apiUrl}/users`).then(res => res.json()),
-                    fetch(`${apiUrl}/orders`).then(res => res.json())
-                ]);
+            // Bar Chart: Sales per Restaurant
+            const salesLabels = data.salesPerRestaurant.map((r) => r.name);
+            const salesData = data.salesPerRestaurant.map((r) => r.totalSales);
+            const colors = salesLabels.map(
+              () =>
+                `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(
+                  Math.random() * 255
+                )}, ${Math.floor(Math.random() * 255)}, 0.7)`
+            );
 
-                // Calculate totals
-                const totalRestaurants = restaurants.length;
-                const totalUsers = users.length;
-                const totalOrders = orders.length;
-                const totalRevenue = orders.reduce((sum, order) => sum + order.totalAmount, 0);
+            new Chart(document.getElementById("salesPerRestaurantChart"), {
+              type: "bar",
+              data: {
+                labels: salesLabels,
+                datasets: [
+                  {
+                    label: "Total Sales (₹)",
+                    data: salesData,
+                    backgroundColor: colors,
+                    borderColor: colors.map((c) => c.replace("0.7", "1")),
+                    borderWidth: 1,
+                  },
+                ],
+              },
+              options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+              },
+            });
 
-                // Update stats cards
-                document.getElementById('total-restaurants').textContent = totalRestaurants;
-                document.getElementById('total-users').textContent = totalUsers;
-                document.getElementById('total-orders').textContent = totalOrders;
-                document.getElementById('total-revenue').textContent = `₹${totalRevenue.toLocaleString()}`;
+            // Line Chart: Orders per Day
+            const orderDates = Object.keys(data.ordersPerDay);
+            const orderCounts = Object.values(data.ordersPerDay);
 
-                // Generate random colors
-                const generateRandomColors = (count) => {
-                    return Array.from({ length: count }, () =>
-                        `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.7)`
-                    );
-                };
-
-                // Sales per Restaurant (Bar Chart)
-                const salesPerRestaurant = restaurants.map(restaurant => {
-                    const restaurantOrders = orders.filter(order => order.restaurantId === restaurant.id);
-                    return {
-                        name: restaurant.name,
-                        totalSales: restaurantOrders.reduce((sum, order) => sum + order.totalAmount, 0)
-                    };
-                });
-
-                const salesLabels = salesPerRestaurant.map(r => r.name);
-                const salesData = salesPerRestaurant.map(r => r.totalSales);
-                const salesColors = generateRandomColors(salesLabels.length);
-
-                new Chart(document.getElementById('salesPerRestaurantChart'), {
-                    type: 'bar',
-                    data: {
-                        labels: salesLabels,
-                        datasets: [{
-                            label: 'Total Sales (₹)',
-                            data: salesData,
-                            backgroundColor: salesColors,
-                            borderColor: salesColors.map(color => color.replace('0.7', '1')),
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: { display: false }
-                        }
-                    }
-                });
-
-                // Orders per Day (Line Chart)
-                const ordersPerDay = orders.reduce((acc, order) => {
-                    const date = new Date(order.orderDate).toLocaleDateString();
-                    acc[date] = (acc[date] || 0) + 1;
-                    return acc;
-                }, {});
-
-                const orderDates = Object.keys(ordersPerDay);
-                const orderCounts = Object.values(ordersPerDay);
-
-                new Chart(document.getElementById('ordersPerDayChart'), {
-                    type: 'line',
-                    data: {
-                        labels: orderDates,
-                        datasets: [{
-                            label: 'Orders',
-                            data: orderCounts,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 2,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: { display: false }
-                        }
-                    }
-                });
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        })();
+            new Chart(document.getElementById("ordersPerDayChart"), {
+              type: "line",
+              data: {
+                labels: orderDates,
+                datasets: [
+                  {
+                    label: "Orders",
+                    data: orderCounts,
+                    backgroundColor: "rgba(75, 192, 192, 0.2)",
+                    borderColor: "rgba(75, 192, 192, 1)",
+                    borderWidth: 2,
+                    tension: 0.4,
+                  },
+                ],
+              },
+              options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+              },
+            });
+          })
+          .catch((err) => console.error("Dashboard error:", err));
+      })();
     </script>
-</body>
+  </body>
 </html>

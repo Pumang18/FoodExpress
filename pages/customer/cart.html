@@ -78,43 +78,9 @@
       </div>
     </div>
 
-    <!-- Footer -->
+    
 
-    <!-- Order Success Modal -->
-    <div
-      class="modal fade"
-      id="orderSuccessModal"
-      tabindex="-1"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Order Placed Successfully</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body text-center">
-            <div class="py-4">
-              <i class="fas fa-check-circle text-success fa-5x mb-3"></i>
-              <h4>Thank you for your order!</h4>
-              <p>Your order has been placed successfully.</p>
-              <p>Order #: <span id="order-number" class="fw-bold"></span></p>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <a href="profile.html" class="btn btn-primary">View My Orders</a>
-            <a href="home.html" class="btn btn-outline-secondary"
-              >Continue Shopping</a
-            >
-          </div>
-        </div>
-      </div>
-    </div>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <script src="../../js/cart.js"></script> -->
@@ -140,7 +106,7 @@
           document.getElementById("orderSuccessModal")
         );
 
-        const API_BASE = "http://localhost:3000";
+        const apiUrl = "http://localhost:8080/api";
 
         if (cart.length === 0) {
           emptyCartMessage.classList.remove("d-none");
@@ -169,7 +135,7 @@
             const orderDate = new Date().toISOString().split("T")[0];
             const totalAmount = parseFloat(calculateTotal());
 
-            const orderRes = await fetch(`${API_BASE}/orders`, {
+            const orderRes = await fetch(`${apiUrl}/orders`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -183,7 +149,7 @@
             const newOrder = await orderRes.json();
 
             for (let item of cart) {
-              await fetch(`${API_BASE}/orderItems`, {
+              await fetch(`${apiUrl}/orderItems`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -199,7 +165,7 @@
             updateCart();
 
             document.getElementById("order-number").textContent = newOrder.id;
-            orderSuccessModal.show();
+          
           });
         }
 
@@ -217,7 +183,7 @@
                     </div>
                     <div class="flex-grow-1">
                         <h6 class="mb-0">${item.name}</h6>
-                        <p class="text-muted mb-0">₹${item.price.toFixed(2)}</p>
+                        <p class="text-muted mb-0">₹${item.price}</p>
                     </div>
                     <div class="d-flex align-items-center">
                         <button class="btn btn-sm btn-outline-secondary decrease-quantity" data-index="${index}">-</button>
@@ -230,7 +196,7 @@
                     <div class="ms-3 text-end">
                         <span class="fw-bold">₹${(
                           item.price * item.quantity
-                        ).toFixed(2)}</span>
+                        )}</span>
                     </div>
                 `;
             cartItemsContainer.appendChild(cartItem);

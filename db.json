@@ -10,7 +10,7 @@
       "id": "94a9"
     },
     {
-      "userId": 2,
+
       "name": "Bob Khan",
       "email": "bob@gmail.com",
       "password": "pass123",
@@ -20,7 +20,7 @@
       "id": "b63e"
     },
     {
-      "userId": 3,
+
       "name": "Riya Verma",
       "email": "riya@gmail.com",
       "password": "pass1234",
@@ -30,7 +30,6 @@
       "id": "6004"
     },
     {
-      "userId": 4,
       "name": "Raj Malhotra",
       "email": "raj@gmail.com",
       "password": "pass123",
@@ -40,7 +39,7 @@
       "id": "eba8"
     },
     {
-      "userId": 5,
+
       "name": "Sneha Das",
       "email": "sneha@gmail.com",
       "password": "pass123",
@@ -50,7 +49,7 @@
       "id": "e189"
     },
     {
-      "userId": 6,
+
       "name": "Kunal Mehta",
       "email": "kunal@gmail.com",
       "password": "pass123",
@@ -220,6 +219,16 @@
       "phone": "8857888965",
       "address": "Pimpri",
       "userType": "Customer"
+    },
+
+    {
+      "id": "5997",
+      "name": "Atul Rathi",
+      "email": "rathi@gmail.com",
+      "phone": "8888888888",
+      "address": "Mathura, India",
+      "password": "pass123",
+      "userType": "Owner"
     }
   ],
   "restaurants": [
@@ -231,7 +240,6 @@
       "id": "ef67"
     },
     {
-      "restaurantId": 4,
       "userId": "eba8",
       "name": "Veggie Delight",
       "location": "Chennai",
@@ -239,7 +247,6 @@
       "id": "36ed"
     },
     {
-      "restaurantId": 5,
       "userId": 3,
       "name": "Paneer Palace",
       "location": "Pune",

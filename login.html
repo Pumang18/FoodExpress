@@ -98,7 +98,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <script src="js/auth.js"></script> -->
     <script>
-      const apiUrl = "http://localhost:3000";
+      const apiUrl = "http://localhost:8080/api";
       const loginForm = document.getElementById("loginForm");
 
       loginForm.addEventListener("submit", async (e) => {
@@ -110,7 +110,7 @@
           // Fetch users
           const userRes = await fetch(`${apiUrl}/users`);
           const users = await userRes.json();
-
+          console.log(users)
           // Find matching user
           const user = users.find(
             (u) => u.email === email && u.password === password

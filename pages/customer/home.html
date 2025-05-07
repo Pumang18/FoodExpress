@@ -154,15 +154,18 @@
           </div>
         </div>
       </div>
-      
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
       (() => {
-        const apiUrl = "http://localhost:3000";
-        const restaurantListSection = document.getElementById("restaurants-list-section");
-        const restaurantInfoSection = document.getElementById("restaurant-info-section");
+        const apiUrl = "http://localhost:8080/api";
+        const restaurantListSection = document.getElementById(
+          "restaurants-list-section"
+        );
+        const restaurantInfoSection = document.getElementById(
+          "restaurant-info-section"
+        );
         const searchInput = document.getElementById("searchInput");
         const restaurantList = document.getElementById("restaurantList");
         const menuContent = document.getElementById("menuContent");
@@ -176,14 +179,13 @@
           setupEventListeners();
           updateCartCount();
         }
-
         function fetchRestaurants() {
           fetch(`${apiUrl}/restaurants`)
             .then((response) => response.json())
             .then((data) => {
               restaurants = data;
               displayRestaurants(restaurants);
-            })
+            });
         }
 
         function displayRestaurants(restaurants) {
@@ -216,16 +218,20 @@
           });
         }
 
-          function handleViewMenuClick(event) {
+        function handleViewMenuClick(event) {
           const button = event.target;
           const restaurantId = button.getAttribute("data-id");
           const restaurantName = button.getAttribute("data-name");
           const restaurantLocation = button.getAttribute("data-location");
           const restaurantContact = button.getAttribute("data-contact");
-          
-          currentRestaurant = restaurants.find((r) => r.id === restaurantId);
 
-          updateRestaurantInfo(restaurantName, restaurantLocation, restaurantContact);
+          currentRestaurant = restaurants.find((r) => r.id == restaurantId);
+
+          updateRestaurantInfo(
+            restaurantName,
+            restaurantLocation,
+            restaurantContact
+          );
           fetchMenuItems(restaurantId);
           restaurantListSection.classList.add("d-none");
           restaurantInfoSection.classList.remove("d-none");
@@ -238,12 +244,13 @@
         }
 
         function fetchMenuItems(restaurantId) {
-          fetch(`${apiUrl}/foodItems`)
+          console.log("Fetching")
+          fetch(`${apiUrl}/foodItems/menu-items?restaurantId=${restaurantId}`)
             .then((response) => response.json())
-            .then((foodItems) => {
-              const filteredItems = foodItems.filter((item) => item.restaurantId === restaurantId);
-              displayMenuItems(filteredItems);
-            })
+            .then((data) => displayMenuItems(data))
+            .catch((error) =>
+              console.error("Error fetching menu items:", error)
+            );
         }
 
         function displayMenuItems(items) {
@@ -251,7 +258,7 @@
           categories.forEach((category) => {
             const container = document.getElementById(`${category}-list`);
             container.innerHTML = items
-              .filter((item) => item.category === category)
+              .filter((item) => item.category == category)
               .map(
                 (item) => `
                 <div class="col-md-4 mb-4">
@@ -268,7 +275,7 @@
                               data-item-id="${item.id}" 
                               data-item-name="${item.name}" 
                               data-item-price="${item.price}">
-                        Add to Cart
+                        Add to Cart 
                       </button>
                     </div>
                   </div>
@@ -279,18 +286,15 @@
           });
         }
 
-        
-
         function handleAddToCart(event) {
           if (!event.target.classList.contains("add-to-cart")) return;
 
           const button = event.target;
           const itemId = button.getAttribute("data-item-id");
           const itemName = button.getAttribute("data-item-name");
-          const itemPrice = parseFloat(button.getAttribute("data-item-price"));
+          const itemPrice = button.getAttribute("data-item-price");
           const card = button.closest(".card");
           const quantity = parseInt(card.querySelector("input").value);
-
           const currentRestaurantName = currentRestaurant.name;
 
           if (cart.length > 0 && cart[0].restaurant !== currentRestaurantName) {
@@ -332,7 +336,10 @@
         }
 
         function updateCartCount() {
-          const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+          const totalItems = cart.reduce(
+            (total, item) => total + item.quantity,
+            0
+          );
           localStorage.setItem("cartCount", totalItems);
           document.querySelectorAll(".cart-count").forEach((el) => {
             el.textContent = totalItems;
@@ -341,10 +348,12 @@
 
         function setupEventListeners() {
           searchInput.addEventListener("input", handleSearch);
-          document.getElementById("back-to-restaurants").addEventListener("click", () => {
-            restaurantListSection.classList.remove("d-none");
-            restaurantInfoSection.classList.add("d-none");
-          });
+          document
+            .getElementById("back-to-restaurants")
+            .addEventListener("click", () => {
+              restaurantListSection.classList.remove("d-none");
+              restaurantInfoSection.classList.add("d-none");
+            });
           menuContent.addEventListener("click", handleAddToCart);
         }
 

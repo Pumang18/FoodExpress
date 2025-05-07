@@ -26,7 +26,7 @@
 
           <div class="row">
             <div class="col-lg-4 mb-4">
-              <!-- Restaurant Profile Card -->
+              <!-- Restaurant Profile -->
               <div class="card profile-section">
                 <div class="card-body text-center">
                   <div class="mb-3">
@@ -69,7 +69,7 @@
             </div>
 
             <div class="col-lg-8">
-              <!-- Restaurant Details Form -->
+              <!-- Restaurant Details -->
               <div class="card profile-section">
                 <div class="card-header bg-white">
                   <h5 class="card-title mb-0">Restaurant Details</h5>
@@ -130,7 +130,6 @@
       </div>
     </div>
 
-    <!-- Change Password Modal -->
     <div
       class="modal fade"
       id="updatePasswordModal"
@@ -230,7 +229,7 @@
       
 
       function fetchRestaurantDetails(restaurantId) {
-        fetch(`http://localhost:3000/restaurants/${restaurantId}`)
+        fetch(`${apiUrl}/restaurants/${restaurantId}`)
           .then((response) => response.json())
           .then((restaurant) => {
             document.getElementById("restaurantNameDisplay").textContent =
@@ -261,7 +260,7 @@
           userId: document.getElementById("userId").value,
         };
 
-        fetch(`http://localhost:3000/restaurants/${restaurantId}`, {
+        fetch(`${apiUrl}/restaurants/${restaurantId}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -269,9 +268,6 @@
           body: JSON.stringify(updatedData),
         })
           .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
             return response.json();
           })
           .then((updatedRestaurant) => {
@@ -304,7 +300,7 @@
 
         const userId = document.getElementById("userId").value;
 
-        fetch(`http://localhost:3000/users/${userId}`)
+        fetch(`${apiUrl}/users/${userId}`)
           .then((response) => response.json())
           .then((user) => {
             if (user.password !== currentPassword) {
@@ -312,7 +308,7 @@
               return;
             }
 
-            return fetch(`http://localhost:3000/users/${userId}`, {
+            return fetch(`${apiUrl}/users/${userId}`, {
               method: "PATCH",
               headers: {
                 "Content-Type": "application/json",
@@ -321,9 +317,6 @@
             });
           })
           .then((response) => {
-            if (!response.ok) {
-              throw new Error("Network response was not ok");
-            }
             return response.json();
           })
           .then(() => {

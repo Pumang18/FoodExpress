@@ -130,7 +130,6 @@
       </div>
     </div>
 
-    <!-- Change Password Modal -->
     <div
       class="modal fade"
       id="updatePasswordModal"
@@ -214,7 +213,6 @@
           fetchUserDetails(userId);
         }
 
-        // Form submission for updating user details
         document
           .getElementById("userDetailsForm")
           .addEventListener("submit", function (e) {
@@ -222,7 +220,6 @@
             updateUserDetails(userId);
           });
 
-        // Password change handler
         document
           .getElementById("updatePasswordBtn")
           .addEventListener("click", function () {
@@ -230,10 +227,9 @@
           });
 
         function fetchUserDetails(userId) {
-          fetch(`http://localhost:3000/users/${userId}`)
+          fetch(`${apiUrl}/users/${userId}`)
             .then((response) => response.json())
             .then((user) => {
-              // Update the display elements
               document.getElementById("userNameDisplay").textContent =
                 user.name;
               document.getElementById("userEmailDisplay").textContent =
@@ -243,7 +239,6 @@
               document.getElementById("userAddressDisplay").textContent =
                 user.address;
 
-              // Fill the form fields
               document.getElementById("userName").value = user.name;
               document.getElementById("userEmail").value = user.email;
               document.getElementById("userPhone").value = user.phone;
@@ -251,7 +246,7 @@
               document.getElementById("userId").value = user.id;
             })
             .catch((error) => {
-              console.error("Error fetching user details:", error);
+              console.error("Error :", error);
               alert("Failed to load user details");
             });
         }
@@ -264,7 +259,7 @@
             address: document.getElementById("userAddress").value,
           };
 
-          fetch(`http://localhost:3000/users/${userId}`, {
+          fetch(`${apiUrl}/users/${userId}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -308,8 +303,7 @@
             return;
           }
 
-          // First verify current password
-          fetch(`http://localhost:3000/users/${userId}`)
+          fetch(`http://localhost:8080/users/${userId}`)
             .then((response) => response.json())
             .then((user) => {
               if (user.password !== currentPassword) {
@@ -317,8 +311,7 @@
                 return;
               }
 
-              // Update password
-              return fetch(`http://localhost:3000/users/${userId}`, {
+              return fetch(`http://localhost:8080/users/${userId}`, {
                 method: "PATCH",
                 headers: {
                   "Content-Type": "application/json",
@@ -334,12 +327,10 @@
             })
             .then(() => {
               alert("Password updated successfully!");
-              // Close the modal
               const modal = bootstrap.Modal.getInstance(
                 document.getElementById("updatePasswordModal")
               );
               modal.hide();
-              // Clear the form
               document.getElementById("passwordChangeForm").reset();
             })
             .catch((error) => {

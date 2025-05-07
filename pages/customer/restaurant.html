@@ -153,30 +153,31 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- <script src="../../js/restaurant.js"></script> -->
     <script>
-    
-      document.addEventListener("DOMContentLoaded", async () => {
-      
+      (async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const restaurantId = urlParams.get("id");
         console.log(restaurantId);
 
         let foodItemsData, restaurantsData;
-        try {
-          const [foodRes, restRes] = await Promise.all([
-            fetch("http://localhost:3000/foodItems"),
-            fetch("http://localhost:3000/restaurants"),
-          ]);
-          foodItemsData = await foodRes.json();
-          restaurantsData = await restRes.json();
-        
+
+        // Fetch data for food items and restaurants
+        const foodRes = await fetch(`${apiUrl}/foodItems`);
+        foodItemsData = await foodRes.json();
+        console.log(foodItemsData)
+        const restRes = await fetch(`${apiUrl}/restaurants`);
+        restaurantsData = await restRes.json();
+
         console.log(foodItemsData);
         console.log(restaurantsData);
+
         const currentRestaurant = restaurantsData.find(
           (r) => r.id == restaurantId
         );
         console.log(currentRestaurant);
+
         if (!currentRestaurant) return;
 
+        // Update restaurant details
         document.getElementById("restaurant-name").textContent =
           currentRestaurant.name;
         document.getElementById("restaurant-title").textContent =
@@ -201,26 +202,26 @@
           container.innerHTML = "";
           categoryItems.forEach((item) => {
             const itemCard = `
-                <div class="col-md-4 mb-4">
-                  <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                      <h5 class="card-title">${item.name}</h5>
-                      <p class="card-text text-muted">Price: ₹${item.price}</p>
-                      <div class="input-group mb-3">
-                        <button class="btn btn-outline-secondary" type="button" onclick="decreaseQty(this)">−</button>
-                        <input type="text" class="form-control text-center" value="1" readonly />
-                        <button class="btn btn-outline-secondary" type="button" onclick="increaseQty(this)">+</button>
-                      </div>
-                      <button class="btn btn-primary w-100 add-to-cart"
-                              data-id="${item.id}"
-                              data-name="${item.name}"
-                              data-price="${item.price}">
-                        Add to Cart
-                      </button>
-                    </div>
-                  </div>
+          <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title">${item.name}</h5>
+                <p class="card-text text-muted">Price: ₹${item.price}</p>
+                <div class="input-group mb-3">
+                  <button class="btn btn-outline-secondary" type="button" onclick="decreaseQty(this)">−</button>
+                  <input type="text" class="form-control text-center" value="1" readonly />
+                  <button class="btn btn-outline-secondary" type="button" onclick="increaseQty(this)">+</button>
                 </div>
-            `;
+                <button class="btn btn-primary w-100 add-to-cart"
+                        data-id="${item.id}"
+                        data-name="${item.name}"
+                        data-price="${item.price}">
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
             container.innerHTML += itemCard;
           });
         });
@@ -228,7 +229,6 @@
         let cart = JSON.parse(localStorage.getItem("cart")) || [];
         updateCartCount();
 
-     
         document.querySelectorAll(".add-to-cart").forEach((button) => {
           button.addEventListener("click", function () {
             const itemId = this.getAttribute("data-id");
@@ -263,7 +263,7 @@
                 price: itemPrice,
                 quantity: quantity,
                 restaurant: currentRestaurantName,
-                restaurantId:restaurantId
+                restaurantId: restaurantId,
               });
             }
 
@@ -291,12 +291,13 @@
             el.textContent = totalItems;
           });
         }
-      });
+      })();
 
       function increaseQty(btn) {
         const input = btn.parentElement.querySelector("input");
         input.value = parseInt(input.value) + 1;
       }
+
       function decreaseQty(btn) {
         const input = btn.parentElement.querySelector("input");
         if (parseInt(input.value) > 1) {

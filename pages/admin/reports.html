@@ -1,277 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Reports - FoodExpress Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
     <div class="container mt-5">
-        <h1 class="mb-4">Reports</h1>
-        <div class="mb-4">
-            <input type="text" id="searchInput" class="form-control" placeholder="Search by name, email, or location">
+      <h1 class="mb-4">Reports</h1>
+      <div class="mb-4">
+        <input
+          type="text"
+          id="searchInput"
+          class="form-control"
+          placeholder="Search by name, email, or location"
+        />
+      </div>
+      <div class="row">
+        <div class="col-lg-6   mb-4">
+          <div class="card">
+            <div class="card-header bg-white">
+              Restaurants with Highest Revenue
+            </div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Restaurant Name</th>
+                    <th>Location</th>
+                    <th>Total Revenue (₹)</th>
+                  </tr>
+                </thead>
+                <tbody id="highest-revenue-table"></tbody>
+              </table>
+            </div>
+          </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12 mb-4">
-                <div class="card">
-                    <div class="card-header bg-white ">
-                        Restaurants with Highest Revenue
-                    </div>
-                    <div class="card-body">
-                        <table class="table ">
-                            <thead>
-                                <tr>
-                                    <th>Rank</th>
-                                    <th>Restaurant Name</th>
-                                    <th>Location</th>
-                                    <th>Total Revenue (₹)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="highest-revenue-table">
-                                
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
 
-            <div class="col-lg-12 mb-4">
-                <div class="card">
-                    <div class="card-header bg-white ">
-                        Users Who Order the Most
-                    </div>
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Rank</th>
-                                    <th>User Name</th>
-                                    <th>Email</th>
-                                    <th>Total Orders</th>
-                                </tr>
-                            </thead>
-                            <tbody id="most-orders-table">
-                               
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+        <div class="col-lg-6 mb-4">
+          <div class="card">
+            <div class="card-header bg-white">Users Who Order the Most</div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>User Name</th>
+                    <th>Email</th>
+                    <th>Total Orders</th>
+                  </tr>
+                </thead>
+                <tbody id="most-orders-table"></tbody>
+              </table>
             </div>
-
-          
-            <div class="col-lg-12 mb-4">
-                <div class="card">
-                    <div class="card-header bg-white">
-                        Items Sold per Restaurant
-                    </div>
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Rank</th>
-                                    <th>Restaurant Name</th>
-                                    <th>Location</th>
-                                    <th>Items Sold</th>
-                                </tr>
-                            </thead>
-                            <tbody id="items-sold-table">
-                               
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+
+        <div class="col-lg-12 mb-4">
+          <div class="card">
+            <div class="card-header bg-white">Items Sold per Restaurant</div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Restaurant Name</th>
+                    <th>Location</th>
+                    <th>Items Sold</th>
+                  </tr>
+                </thead>
+                <tbody id="items-sold-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-  (async () => {
-    const apiUrl = "http://localhost:3000";
+      (async () => {
+        const apiUrl = "http://localhost:8080/api/reports"; // Adjusted to new report endpoints
 
-    // Fetch data sequentially
-    async function fetchOrders() {
-      const response = await fetch(`${apiUrl}/orders`);
-      return response.json();
-    }
-
-    async function fetchRestaurants() {
-      const response = await fetch(`${apiUrl}/restaurants`);
-      return response.json();
-    }
-
-    async function fetchUsers() {
-      const response = await fetch(`${apiUrl}/users`);
-      return response.json();
-    }
-
-    async function fetchOrderItems() {
-      const response = await fetch(`${apiUrl}/orderItems`);
-      return response.json();
-    }
-
-    // Load data and generate reports
-    async function loadReports() {
-      const orders = await fetchOrders();
-      const restaurants = await fetchRestaurants();
-      const users = await fetchUsers();
-      const orderItems = await fetchOrderItems();
-
-      generateHighestRevenueReport(orders, restaurants);
-      generateMostOrdersReport(orders, users);
-      generateItemsSoldReport(orderItems, orders, restaurants);
-
-      const searchInput = document.getElementById("searchInput");
-      searchInput.addEventListener("input", () => {
-        const searchTerm = searchInput.value.toLowerCase();
-        filterTables(searchTerm, restaurants, users);
-      });
-    }
-
-    loadReports();
-
-    function generateHighestRevenueReport(orders, restaurants) {
-      const revenueMap = {};
-
-      orders.forEach((order) => {
-        if (!revenueMap[order.restaurantId]) {
-          revenueMap[order.restaurantId] = 0;
+        async function fetchHighestRevenueReport() {
+          const response = await fetch(`${apiUrl}/highest-revenue`);
+          return response.json();
         }
-        revenueMap[order.restaurantId] += order.totalAmount;
-      });
 
-      const revenueList = Object.entries(revenueMap)
-        .map(([restaurantId, totalRevenue]) => {
-          const restaurant = restaurants.find((r) => r.id === restaurantId);
-          return {
-            name: restaurant?.name || "Unknown",
-            location: restaurant?.location || "N/A",
-            revenue: totalRevenue,
-          };
-        })
-        .sort((a, b) => b.revenue - a.revenue);
-
-      const table = document.getElementById("highest-revenue-table");
-      table.innerHTML = "";
-      revenueList.forEach((r, i) => {
-        const row = `<tr>
-          <td>${i + 1}</td>
-          <td>${r.name}</td>
-          <td>${r.location}</td>
-          <td>₹${r.revenue.toLocaleString()}</td>
-        </tr>`;
-        table.innerHTML += row;
-      });
-    }
-
-    function generateMostOrdersReport(orders, users) {
-      const userOrderCount = {};
-
-      orders.forEach((order) => {
-        if (!userOrderCount[order.userId]) {
-          userOrderCount[order.userId] = 0;
+        async function fetchMostOrdersReport() {
+          const response = await fetch(`${apiUrl}/most-orders`);
+          return response.json();
         }
-        userOrderCount[order.userId]++;
-      });
 
-      const userList = Object.entries(userOrderCount)
-        .map(([userId, count]) => {
-          const user = users.find((u) => u.id === userId);
-          return {
-            name: user?.name || "Unknown",
-            email: user?.email || "N/A",
-            totalOrders: count,
-          };
-        })
-        .sort((a, b) => b.totalOrders - a.totalOrders);
-
-      const table = document.getElementById("most-orders-table");
-      table.innerHTML = "";
-      userList.forEach((u, i) => {
-        const row = `<tr>
-          <td>${i + 1}</td>
-          <td>${u.name}</td>
-          <td>${u.email}</td>
-          <td>${u.totalOrders}</td>
-        </tr>`;
-        table.innerHTML += row;
-      });
-    }
-
-    function generateItemsSoldReport(orderItems, orders, restaurants) {
-      const itemsSoldMap = {};
-
-      orderItems.forEach((item) => {
-        const order = orders.find((o) => o.id === item.orderId);
-        if (order) {
-          const restaurantId = order.restaurantId;
-          if (!itemsSoldMap[restaurantId]) {
-            itemsSoldMap[restaurantId] = 0;
-          }
-          itemsSoldMap[restaurantId] += item.quantity;
+        async function fetchItemsSoldReport() {
+          const response = await fetch(`${apiUrl}/items-sold`);
+          return response.json();
         }
-      });
 
-      const itemsSoldList = Object.entries(itemsSoldMap)
-        .map(([restaurantId, totalItemsSold]) => {
-          const restaurant = restaurants.find((r) => r.id === restaurantId);
-          return {
-            name: restaurant?.name || "Unknown",
-            location: restaurant?.location || "N/A",
-            itemsSold: totalItemsSold,
-          };
-        })
-        .sort((a, b) => b.itemsSold - a.itemsSold);
+        async function loadReports() {
+          const [revenueList, mostOrdersList, itemsSoldList] =
+            await Promise.all([
+              fetchHighestRevenueReport(),
+              fetchMostOrdersReport(),
+              fetchItemsSoldReport(),
+            ]);
 
-      const table = document.getElementById("items-sold-table");
-      table.innerHTML = "";
-      itemsSoldList.forEach((r, i) => {
-        const row = `<tr>
-          <td>${i + 1}</td>
-          <td>${r.name}</td>
-          <td>${r.location}</td>
-          <td>${r.itemsSold}</td>
-        </tr>`;
-        table.innerHTML += row;
-      });
-    }
+          renderHighestRevenueReport(revenueList);
+          renderMostOrdersReport(mostOrdersList);
+          renderItemsSoldReport(itemsSoldList);
 
-    function filterTables(searchTerm, restaurants, users) {
-      const revenueTable = document.getElementById("highest-revenue-table");
-      const revenueRows = Array.from(revenueTable.querySelectorAll("tr"));
-      revenueRows.forEach((row) => {
-        const name = row.children[1]?.textContent.toLowerCase() || "";
-        const location = row.children[2]?.textContent.toLowerCase() || "";
-        row.style.display =
-          name.includes(searchTerm) || location.includes(searchTerm)
-            ? ""
-            : "none";
-      });
+          const searchInput = document.getElementById("searchInput");
+          searchInput.addEventListener("input", () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            filterTables(searchTerm);
+          });
+        }
 
-      const usersTable = document.getElementById("most-orders-table");
-      const userRows = Array.from(usersTable.querySelectorAll("tr"));
-      userRows.forEach((row) => {
-        const name = row.children[1]?.textContent.toLowerCase() || "";
-        const email = row.children[2]?.textContent.toLowerCase() || "";
-        row.style.display =
-          name.includes(searchTerm) || email.includes(searchTerm) ? "" : "none";
-      });
+        loadReports();
 
-      const itemsSoldTable = document.getElementById("items-sold-table");
-      const itemsSoldRows = Array.from(itemsSoldTable.querySelectorAll("tr"));
-      itemsSoldRows.forEach((row) => {
-        const name = row.children[1]?.textContent.toLowerCase() || "";
-        const location = row.children[2]?.textContent.toLowerCase() || "";
-        row.style.display =
-          name.includes(searchTerm) || location.includes(searchTerm)
-            ? ""
-            : "none";
-      });
-    }
-  })();
-</script>
-</body>
+        function renderHighestRevenueReport(data) {
+          const table = document.getElementById("highest-revenue-table");
+          table.innerHTML = "";
+          data.forEach((r, i) => {
+            const row = `<tr>
+        <td>${i + 1}</td>
+        <td>${r.name}</td>
+        <td>${r.location}</td>
+        <td>₹${r.revenue.toLocaleString()}</td>
+      </tr>`;
+            table.innerHTML += row;
+          });
+        }
+
+        function renderMostOrdersReport(data) {
+          const table = document.getElementById("most-orders-table");
+          table.innerHTML = "";
+          data.forEach((u, i) => {
+            const row = `<tr>
+        <td>${i + 1}</td>
+        <td>${u.name}</td>
+        <td>${u.email}</td>
+        <td>${u.totalOrders}</td>
+      </tr>`;
+            table.innerHTML += row;
+          });
+        }
+
+        function renderItemsSoldReport(data) {
+          const table = document.getElementById("items-sold-table");
+          table.innerHTML = "";
+          data.forEach((r, i) => {
+            const row = `<tr>
+        <td>${i + 1}</td>
+        <td>${r.name}</td>
+        <td>${r.location}</td>
+        <td>${r.itemsSold}</td>
+      </tr>`;
+            table.innerHTML += row;
+          });
+        }
+
+        function filterTables(searchTerm) {
+          const tables = [
+            "highest-revenue-table",
+            "most-orders-table",
+            "items-sold-table",
+          ];
+
+          tables.forEach((tableId) => {
+            const rows = document
+              .getElementById(tableId)
+              .querySelectorAll("tr");
+            rows.forEach((row) => {
+              const text = Array.from(row.children)
+                .map((td) => td.textContent.toLowerCase())
+                .join(" ");
+              row.style.display = text.includes(searchTerm) ? "" : "none";
+            });
+          });
+        }
+      })();
+    </script>
+  </body>
 </html>
-
