@@ -206,10 +206,9 @@
     </div>
 
     <script>
-      
-        (()=>{
-        const restaurantId = sessionStorage.getItem("restaurantId"); 
-        
+      (() => {
+        const restaurantId = getRestaurantId();
+
         if (restaurantId) {
           fetchRestaurantDetails(restaurantId);
         }
@@ -226,113 +225,127 @@
           .addEventListener("click", function () {
             changePassword();
           });
-      
 
-      function fetchRestaurantDetails(restaurantId) {
-        fetch(`${apiUrl}/restaurants/${restaurantId}`)
-          .then((response) => response.json())
-          .then((restaurant) => {
-            document.getElementById("restaurantNameDisplay").textContent =
-              restaurant.name;
-            document.getElementById("restaurantLocationDisplay").textContent =
-              restaurant.location;
-            document.getElementById("restaurantPhoneDisplay").textContent =
-              restaurant.contact;
-
-            document.getElementById("restaurantName").value = restaurant.name;
-            document.getElementById("contactPhone").value = restaurant.contact;
-            document.getElementById("restaurantAddress").value =
-              restaurant.location;
-            document.getElementById("restaurantId").value = restaurant.id;
-            document.getElementById("userId").value = restaurant.userId;
+        function fetchRestaurantDetails(restaurantId) {
+          fetch(`${apiUrl}/restaurants/${restaurantId}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: getAuthorization(),
+            },
           })
-          .catch((error) => {
-            console.error("Error fetching restaurant details:", error);
-            alert("Failed to load restaurant details");
-          });
-      }
+            .then((response) => response.json())
+            .then((restaurant) => {
+              document.getElementById("restaurantNameDisplay").textContent =
+                restaurant.name;
+              document.getElementById("restaurantLocationDisplay").textContent =
+                restaurant.location;
+              document.getElementById("restaurantPhoneDisplay").textContent =
+                restaurant.contact;
 
-      function updateRestaurantDetails(restaurantId) {
-        const updatedData = {
-          name: document.getElementById("restaurantName").value,
-          contact: document.getElementById("contactPhone").value,
-          location: document.getElementById("restaurantAddress").value,
-          userId: document.getElementById("userId").value,
-        };
-
-        fetch(`${apiUrl}/restaurants/${restaurantId}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedData),
-        })
-          .then((response) => {
-            return response.json();
-          })
-          .then((updatedRestaurant) => {
-            document.getElementById("restaurantNameDisplay").textContent =
-              updatedRestaurant.name;
-            document.getElementById("restaurantLocationDisplay").textContent =
-              updatedRestaurant.location;
-            document.getElementById("restaurantPhoneDisplay").textContent =
-              updatedRestaurant.contact;
-
-            alert("Restaurant details updated successfully!");
-          })
-          .catch((error) => {
-            console.error("Error updating restaurant:", error);
-            alert("Failed to update restaurant details");
-          });
-      }
-
-      function changePassword() {
-        const currentPassword =
-          document.getElementById("currentPassword").value;
-        const newPassword = document.getElementById("newPassword").value;
-        const confirmPassword =
-          document.getElementById("confirmPassword").value;
-
-        if (newPassword !== confirmPassword) {
-          alert("New passwords don't match!");
-          return;
+              document.getElementById("restaurantName").value = restaurant.name;
+              document.getElementById("contactPhone").value =
+                restaurant.contact;
+              document.getElementById("restaurantAddress").value =
+                restaurant.location;
+              document.getElementById("restaurantId").value = restaurant.id;
+              document.getElementById("userId").value = restaurant.userId;
+            })
+            .catch((error) => {
+              console.error("Error fetching restaurant details:", error);
+              alert("Failed to load restaurant details");
+            });
         }
 
-        const userId = document.getElementById("userId").value;
+        function updateRestaurantDetails(restaurantId) {
+          const updatedData = {
+            name: document.getElementById("restaurantName").value,
+            contact: document.getElementById("contactPhone").value,
+            location: document.getElementById("restaurantAddress").value,
+            userId: document.getElementById("userId").value,
+          };
 
-        fetch(`${apiUrl}/users/${userId}`)
-          .then((response) => response.json())
-          .then((user) => {
-            if (user.password !== currentPassword) {
-              alert("Current password is incorrect!");
-              return;
-            }
+          fetch(`${apiUrl}/restaurants/${restaurantId}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: getAuthorization(),
+            },
+            body: JSON.stringify(updatedData),
+          })
+            .then((response) => {
+              return response.json();
+            })
+            .then((updatedRestaurant) => {
+              document.getElementById("restaurantNameDisplay").textContent =
+                updatedRestaurant.name;
+              document.getElementById("restaurantLocationDisplay").textContent =
+                updatedRestaurant.location;
+              document.getElementById("restaurantPhoneDisplay").textContent =
+                updatedRestaurant.contact;
 
-            return fetch(`${apiUrl}/users/${userId}`, {
-              method: "PATCH",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ password: newPassword }),
+              alert("Restaurant details updated successfully!");
+            })
+            .catch((error) => {
+              console.error("Error updating restaurant:", error);
+              alert("Failed to update restaurant details");
             });
+        }
+
+        function changePassword() {
+          const currentPassword =
+            document.getElementById("currentPassword").value;
+          const newPassword = document.getElementById("newPassword").value;
+          const confirmPassword =
+            document.getElementById("confirmPassword").value;
+
+          if (newPassword !== confirmPassword) {
+            alert("New passwords don't match!");
+            return;
+          }
+
+          const userId = document.getElementById("userId").value;
+
+          fetch(`${apiUrl}/users/${userId}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: getAuthorization(),
+            },
           })
-          .then((response) => {
-            return response.json();
-          })
-          .then(() => {
-            alert("Password updated successfully!");
-            const modal = bootstrap.Modal.getInstance(
-              document.getElementById("updatePasswordModal")
-            );
-            modal.hide();
-            document.getElementById("passwordChangeForm").reset();
-          })
-          .catch((error) => {
-            console.error("Error changing password:", error);
-            alert("Failed to change password");
-          });
-      }
-        })();
+            .then((response) => response.json())
+            .then((user) => {
+              if (user.password !== currentPassword) {
+                alert("Current password is incorrect!");
+                return;
+              }
+
+              return fetch(`${apiUrl}/users/${userId}`, {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: getAuthorization(),
+                },
+                body: JSON.stringify({ password: newPassword }),
+              });
+            })
+            .then((response) => {
+              return response.json();
+            })
+            .then(() => {
+              alert("Password updated successfully!");
+              const modal = bootstrap.Modal.getInstance(
+                document.getElementById("updatePasswordModal")
+              );
+              modal.hide();
+              document.getElementById("passwordChangeForm").reset();
+            })
+            .catch((error) => {
+              console.error("Error changing password:", error);
+              alert("Failed to change password");
+            });
+        }
+      })();
     </script>
   </body>
 </html>

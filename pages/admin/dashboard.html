@@ -114,7 +114,13 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
     <script>
       (async () => {
-        fetch("http://localhost:8080/api/admin-dashboard")
+        fetch("http://localhost:8080/api/dashboard/admin", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: getAuthorization(),
+          },
+        })
           .then((res) => res.json())
           .then((data) => {
             document.getElementById("total-restaurants").textContent =

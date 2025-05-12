@@ -25,7 +25,7 @@
         />
       </div>
       <div class="row">
-        <div class="col-lg-6   mb-4">
+        <div class="col-lg-6 mb-4">
           <div class="card">
             <div class="card-header bg-white">
               Restaurants with Highest Revenue
@@ -92,17 +92,35 @@
         const apiUrl = "http://localhost:8080/api/reports"; // Adjusted to new report endpoints
 
         async function fetchHighestRevenueReport() {
-          const response = await fetch(`${apiUrl}/highest-revenue`);
+          const response = await fetch(`${apiUrl}/highest-revenue`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: getAuthorization(),
+            },
+          });
           return response.json();
         }
 
         async function fetchMostOrdersReport() {
-          const response = await fetch(`${apiUrl}/most-orders`);
+          const response = await fetch(`${apiUrl}/most-orders`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: getAuthorization(),
+            },
+          });
           return response.json();
         }
 
         async function fetchItemsSoldReport() {
-          const response = await fetch(`${apiUrl}/items-sold`);
+          const response = await fetch(`${apiUrl}/items-sold`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: getAuthorization(),
+            },
+          });
           return response.json();
         }
 

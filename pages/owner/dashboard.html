@@ -22,11 +22,9 @@
       class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
     >
       <h1 class="h2">Dashboard</h1>
-      <div class="d-flex align-items-center">
-      </div>
+      <div class="d-flex align-items-center"></div>
     </div>
 
-    
     <div class="row mb-4">
       <div class="col-md-4">
         <div class="card stats-card h-100">
@@ -77,7 +75,7 @@
             <h5 class="card-title mb-0">Orders Over Time</h5>
           </div>
           <div class="card-body">
-            <canvas id="ordersOverTimeChart" width="400" height="200"></canvas>
+            <canvas id="ordersOverTimeChart" width="800" height="400"></canvas>
           </div>
         </div>
       </div>
@@ -98,7 +96,7 @@
       <div class="col-md-8">
         <div class="card chart-container h-100">
           <div class="card-header bg-white">
-            <h5 class="card-title mb-0">Sales by Day of Week</h5>
+            <h5 class="card-title mb-0">Top Selling Items</h5>
           </div>
           <div class="card-body">
             <canvas id="topItemsChart" width="400" height="200"></canvas>
@@ -113,81 +111,35 @@
 
     <script>
       (() => {
-        const restaurantId = sessionStorage.getItem("restaurantId");
-
         async function loadDashboardData() {
           try {
-            const ordersRes = await fetch(`${apiUrl}/orders`);
-            const orders = await ordersRes.json();
-
-            const filteredOrders = orders.filter(
-              (order) => String(order.restaurantId) === String(restaurantId)
+            const restaurantId = getRestaurantId();
+            const res = await fetch(
+              `${apiUrl}/dashboard/owner?restaurantId=${restaurantId}`,
+              {
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: getAuthorization(),
+                },
+              }
             );
+            const data = await res.json();
 
-            const totalOrders = filteredOrders.length;
-
-            const totalRevenue = filteredOrders.reduce(
-              (sum, order) => sum + Number(order.totalAmount || 0),
-              0
-            );
-
-            const avgOrderValue =
-              totalOrders > 0
-                ? (totalRevenue / totalOrders).toFixed(2)
-                : "0.00";
-
-            document.getElementById("total-orders").textContent = totalOrders;
+            document.getElementById("total-orders").textContent =
+              data.totalOrders;
             document.getElementById(
               "revenue"
-            ).textContent = `₹${totalRevenue.toFixed(2)}`;
+            ).textContent = `₹${data.totalRevenue.toFixed(2)}`;
             document.getElementById(
               "avg-order-value"
-            ).textContent = `₹${avgOrderValue}`;
+            ).textContent = `₹${data.avgOrderValue.toFixed(2)}`;
 
-            loadOrderRelatedData(filteredOrders);
+            renderTopItemsChart(data.topItems);
+            renderOrdersOverTimeChart(data.ordersOverTime);
+            renderItemCategoryChart(data.categoryDistribution);
           } catch (error) {
             console.error("Error loading dashboard data:", error);
-          }
-        }
-
-        async function loadOrderRelatedData(filteredOrders) {
-          try {
-            const orderIds = filteredOrders.map((order) => order.id);
-
-            const orderItemsRes = await fetch(`${apiUrl}/orderItems`);
-            const orderItems = await orderItemsRes.json();
-
-            const foodItemsRes = await fetch(`${apiUrl}/foodItems`);
-            const foodItems = await foodItemsRes.json();
-
-            const relatedOrderItems = orderItems.filter((item) =>
-              orderIds.includes(item.orderId)
-            );
-
-            const itemCountMap = {};
-            relatedOrderItems.forEach((item) => {
-              if (!itemCountMap[item.itemId]) {
-                itemCountMap[item.itemId] = 0;
-              }
-              itemCountMap[item.itemId] += item.quantity;
-            });
-
-            const itemData = Object.entries(itemCountMap)
-              .map(([id, qty]) => {
-                const food = foodItems.find((f) => f.id == id);
-                return food
-                  ? { name: food.name, qty, category: food.category }
-                  : null;
-              })
-              .filter(Boolean);
-
-            const topItems = itemData.sort((a, b) => b.qty - a.qty).slice(0, 5);
-
-            renderTopItemsChart(topItems);
-            renderOrdersOverTimeChart(filteredOrders);
-            renderItemCategoryChart(itemData);
-          } catch (error) {
-            console.error("Error loading related data:", error);
           }
         }
 
@@ -200,7 +152,7 @@
               datasets: [
                 {
                   label: "Quantity Sold",
-                  data: topItems.map((item) => item.qty),
+                  data: topItems.map((item) => item.quantity),
                   backgroundColor: "#4caf50",
                 },
               ],
@@ -217,20 +169,9 @@
           });
         }
 
-        function renderOrdersOverTimeChart(orders) {
-          const groupedByDate = {};
-
-          orders.forEach((order) => {
-            const rawDate = String(order.orderDate || "").trim();
-            const dateObj = new Date(rawDate + "T00:00:00");
-            if (!isNaN(dateObj)) {
-              const dateStr = dateObj.toISOString().split("T")[0]; // Get 'YYYY-MM-DD'
-              groupedByDate[dateStr] = (groupedByDate[dateStr] || 0) + 1;
-            }
-          });
-
-          const dates = Object.keys(groupedByDate).sort();
-          const values = dates.map((date) => groupedByDate[date]);
+        function renderOrdersOverTimeChart(ordersOverTime) {
+          const dates = Object.keys(ordersOverTime).sort();
+          const values = dates.map((date) => ordersOverTime[date]);
 
           const ctx = document
             .getElementById("ordersOverTimeChart")
@@ -269,17 +210,9 @@
           });
         }
 
-        function renderItemCategoryChart(itemData) {
-          const categoryMap = {};
-          itemData.forEach((item) => {
-            if (!categoryMap[item.category]) {
-              categoryMap[item.category] = 0;
-            }
-            categoryMap[item.category] += item.qty;
-          });
-
-          const categories = Object.keys(categoryMap);
-          const quantities = Object.values(categoryMap);
+        function renderItemCategoryChart(categoryDistribution) {
+          const categories = Object.keys(categoryDistribution);
+          const quantities = Object.values(categoryDistribution);
 
           const ctx = document
             .getElementById("categoryPieChart")

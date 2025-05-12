@@ -1,156 +1,216 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Add Owner + Restaurant</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-</head>
-<body>
-  <div class="container mt-5">
-    <h2>Add Owner and Restaurant</h2>
-    <form id="combinedForm">
-      <h5 class="mt-4">Owner Details</h5>
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Name</label>
-          <input type="text" id="ownerName" class="form-control owner-field" />
+  <head>
+    <meta charset="UTF-8" />
+    <title>Add Owner + Restaurant</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h2>Add Owner and Restaurant</h2>
+      <form id="combinedForm">
+        <h5 class="mt-4">Owner Details</h5>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Name</label>
+            <input
+              type="text"
+              id="ownerName"
+              class="form-control owner-field"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Email</label>
+            <input
+              type="email"
+              id="ownerEmail"
+              class="form-control owner-field"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Phone</label>
+            <input
+              type="text"
+              id="ownerPhone"
+              class="form-control owner-field"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Address</label>
+            <input
+              type="text"
+              id="ownerAddress"
+              class="form-control owner-field"
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Password</label>
+            <input
+              type="password"
+              id="ownerPassword"
+              class="form-control owner-field"
+            />
+          </div>
         </div>
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Email</label>
-          <input type="email" id="ownerEmail" class="form-control owner-field" />
+
+        <h5 class="mt-4">Restaurant Details</h5>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Restaurant Name</label>
+            <input
+              type="text"
+              id="restaurantName"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Location</label>
+            <input
+              type="text"
+              id="restaurantLocation"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Contact</label>
+            <input
+              type="text"
+              id="restaurantContact"
+              class="form-control"
+              required
+            />
+          </div>
         </div>
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Phone</label>
-          <input type="text" id="ownerPhone" class="form-control owner-field" />
+
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-success">Add Restaurant</button>
         </div>
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Address</label>
-          <input type="text" id="ownerAddress" class="form-control owner-field" />
-        </div>
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Password</label>
-          <input type="password" id="ownerPassword" class="form-control owner-field" />
-        </div>
-      </div>
+      </form>
 
-      <h5 class="mt-4">Restaurant Details</h5>
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Restaurant Name</label>
-          <input type="text" id="restaurantName" class="form-control" required />
-        </div>
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Location</label>
-          <input type="text" id="restaurantLocation" class="form-control" required />
-        </div>
-        <div class="col-md-6 mb-3">
-          <label class="form-label">Contact</label>
-          <input type="text" id="restaurantContact" class="form-control" required />
-        </div>
-      </div>
+      <h3 class="mt-5">Restaurant List</h3>
+      <table class="table mt-3">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Contact</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="restaurantList"></tbody>
+      </table>
+    </div>
 
-      <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-success">Add Restaurant</button>
-      </div>
-    </form>
+    <script>
+      editRestaurantId = null;
 
-    <h3 class="mt-5">Restaurant List</h3>
-    <table class="table mt-3">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Location</th>
-          <th>Contact</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="restaurantList"></tbody>
-    </table>
-  </div>
+      document
+        .getElementById("combinedForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
 
-  <script>
-    editRestaurantId = null;
+          const restaurantData = {
+            name: document.getElementById("restaurantName").value.trim(),
+            location: document
+              .getElementById("restaurantLocation")
+              .value.trim(),
+            contact: document.getElementById("restaurantContact").value.trim(),
+          };
 
-    document.getElementById('combinedForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
+          if (editRestaurantId) {
+            // UPDATE restaurant only
+            await fetch(`${apiUrl}/restaurants/${editRestaurantId}`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: getAuthorization(),
+              },
+              body: JSON.stringify(restaurantData),
+            });
 
-      const restaurantData = {
-        name: document.getElementById('restaurantName').value.trim(),
-        location: document.getElementById('restaurantLocation').value.trim(),
-        contact: document.getElementById('restaurantContact').value.trim(),
-      };
+            editRestaurantId = null;
+            document.querySelector('button[type="submit"]').textContent =
+              "Add Restaurant";
+            document.getElementById("combinedForm").reset();
+            fetchRestaurants();
+          } else {
+            // Validate owner fields
+            const ownerFields = document.querySelectorAll(".owner-field");
+            for (const input of ownerFields) {
+              if (!input.value.trim()) {
+                alert("Please fill all owner fields");
+                return;
+              }
+            }
 
-      if (editRestaurantId) {
-        // UPDATE restaurant only
-        await fetch(`${apiUrl}/restaurants/${editRestaurantId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(restaurantData),
-        });
+            const ownerData = {
+              name: document.getElementById("ownerName").value.trim(),
+              email: document.getElementById("ownerEmail").value.trim(),
+              phone: document.getElementById("ownerPhone").value.trim(),
+              address: document.getElementById("ownerAddress").value.trim(),
+              password: document.getElementById("ownerPassword").value.trim(),
+              userType: "Owner",
+            };
 
-        editRestaurantId = null;
-        document.querySelector('button[type="submit"]').textContent = 'Add Restaurant';
-        document.getElementById('combinedForm').reset();
-        fetchRestaurants();
+            // Step 1: Add user (Owner)
+            const userResponse = await fetch(`${apiUrl}/users`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: getAuthorization(),
+              },
+              body: JSON.stringify(ownerData),
+            });
 
-      } else {
-        // Validate owner fields
-        const ownerFields = document.querySelectorAll('.owner-field');
-        for (const input of ownerFields) {
-          if (!input.value.trim()) {
-            alert('Please fill all owner fields');
-            return;
+            const newUser = await userResponse.json();
+            const userId = newUser.id || newUser.userId;
+
+            // Step 2: Add restaurant
+            restaurantData.userId = userId;
+            await fetch(`${apiUrl}/restaurants`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: getAuthorization(),
+              },
+              body: JSON.stringify(restaurantData),
+            });
+
+            document.getElementById("combinedForm").reset();
+            fetchRestaurants();
           }
-        }
-
-        const ownerData = {
-          name: document.getElementById('ownerName').value.trim(),
-          email: document.getElementById('ownerEmail').value.trim(),
-          phone: document.getElementById('ownerPhone').value.trim(),
-          address: document.getElementById('ownerAddress').value.trim(),
-          password: document.getElementById('ownerPassword').value.trim(),
-          userType: 'Owner'
-        };
-
-        // Step 1: Add user (Owner)
-        const userResponse = await fetch(`${apiUrl}/users`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(ownerData)
         });
 
-        const newUser = await userResponse.json();
-        const userId = newUser.id || newUser.userId;
-
-        // Step 2: Add restaurant
-        restaurantData.userId = userId;
-        await fetch(`${apiUrl}/restaurants`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(restaurantData)
-        });
-
-        document.getElementById('combinedForm').reset();
-        fetchRestaurants();
+      // Fetch all restaurants
+      function fetchRestaurants() {
+        fetch(`${apiUrl}/restaurants`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: getAuthorization(),
+          },
+        })
+          .then((res) => res.json())
+          .then((data) => renderRestaurantTable(data));
       }
-    });
 
-    // Fetch all restaurants
-    function fetchRestaurants() {
-      fetch(`${apiUrl}/restaurants`)
-        .then(res => res.json())
-        .then(data => renderRestaurantTable(data));
-    }
+      // Render restaurant table
+      function renderRestaurantTable(restaurants) {
+        const tbody = document.getElementById("restaurantList");
+        tbody.innerHTML = "";
 
-    // Render restaurant table
-    function renderRestaurantTable(restaurants) {
-      const tbody = document.getElementById('restaurantList');
-      tbody.innerHTML = '';
-
-      restaurants.forEach((rest) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
+        restaurants.forEach((rest) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
           <td>${rest.name}</td>
           <td>${rest.location}</td>
           <td>${rest.contact}</td>
@@ -163,49 +223,65 @@
             </button>
           </td>
         `;
-        tbody.appendChild(tr);
-      });
-
-      document.querySelectorAll(".edit-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const id = btn.getAttribute("data-id");
-          editRestaurant(id);
+          tbody.appendChild(tr);
         });
-      });
 
-      document.querySelectorAll(".delete-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const id = btn.getAttribute("data-id");
-          deleteRestaurant(id);
+        document.querySelectorAll(".edit-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-id");
+            editRestaurant(id);
+          });
         });
-      });
-    }
 
-    // Edit restaurant details
-    function editRestaurant(id) {
-      fetch(`${apiUrl}/restaurants/${id}`)
-        .then(res => res.json())
-        .then(restaurant => {
-          document.getElementById('restaurantName').value = restaurant.name;
-          document.getElementById('restaurantLocation').value = restaurant.location;
-          document.getElementById('restaurantContact').value = restaurant.contact;
-
-          document.querySelectorAll('.owner-field').forEach(el => el.value = '');
-
-          editRestaurantId = id;
-          document.querySelector('button[type="submit"]').textContent = 'Update Restaurant';
+        document.querySelectorAll(".delete-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-id");
+            deleteRestaurant(id);
+          });
         });
-    }
-
-    // Delete restaurant
-    function deleteRestaurant(id) {
-      if (confirm('Are you sure you want to delete this restaurant?')) {
-        fetch(`${apiUrl}/restaurants/${id}`, { method: 'DELETE' })
-          .then(() => fetchRestaurants());
       }
-    }
 
-    fetchRestaurants();
-  </script>
-</body>
+      // Edit restaurant details
+      function editRestaurant(id) {
+        fetch(`${apiUrl}/restaurants/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: getAuthorization(),
+          },
+        })
+          .then((res) => res.json())
+          .then((restaurant) => {
+            document.getElementById("restaurantName").value = restaurant.name;
+            document.getElementById("restaurantLocation").value =
+              restaurant.location;
+            document.getElementById("restaurantContact").value =
+              restaurant.contact;
+
+            document
+              .querySelectorAll(".owner-field")
+              .forEach((el) => (el.value = ""));
+
+            editRestaurantId = id;
+            document.querySelector('button[type="submit"]').textContent =
+              "Update Restaurant";
+          });
+      }
+
+      // Delete restaurant
+      function deleteRestaurant(id) {
+        if (confirm("Are you sure you want to delete this restaurant?")) {
+          fetch(`${apiUrl}/restaurants/${id}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: getAuthorization(),
+            },
+          }).then(() => fetchRestaurants());
+        }
+      }
+
+      fetchRestaurants();
+    </script>
+  </body>
 </html>

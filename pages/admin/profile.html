@@ -106,7 +106,9 @@
                       </div>
                     </div>
                     <div class="mb-3">
-                      <label for="userAddress" class="form-label">Address</label>
+                      <label for="userAddress" class="form-label"
+                        >Address</label
+                      >
                       <input
                         type="text"
                         class="form-control"
@@ -207,8 +209,8 @@
 
     <script>
       (() => {
-        const userId = sessionStorage.getItem("userId");
-
+        const userId = getUserId();
+        currentUser=null
         if (userId) {
           fetchUserDetails(userId);
         }
@@ -219,7 +221,6 @@
             e.preventDefault();
             updateUserDetails(userId);
           });
-
         document
           .getElementById("updatePasswordBtn")
           .addEventListener("click", function () {
@@ -227,9 +228,16 @@
           });
 
         function fetchUserDetails(userId) {
-          fetch(`${apiUrl}/users/${userId}`)
+          fetch(`${apiUrl}/users/${userId}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: getAuthorization(),
+            },
+          })
             .then((response) => response.json())
             .then((user) => {
+              currentUser=user
               document.getElementById("userNameDisplay").textContent =
                 user.name;
               document.getElementById("userEmailDisplay").textContent =
@@ -260,13 +268,15 @@
           };
 
           fetch(`${apiUrl}/users/${userId}`, {
-            method: "PUT",
+            method: "PATCH",
             headers: {
               "Content-Type": "application/json",
+              Authorization: getAuthorization(),
             },
             body: JSON.stringify(updatedData),
           })
             .then((response) => {
+              console.log("Patching...")
               if (!response.ok) {
                 throw new Error("Network response was not ok");
               }
@@ -292,50 +302,54 @@
         }
 
         function changePassword(userId) {
-          const currentPassword =
-            document.getElementById("currentPassword").value;
-          const newPassword = document.getElementById("newPassword").value;
-          const confirmPassword =
-            document.getElementById("confirmPassword").value;
+          const currentPassword = document.getElementById("currentPassword").value.trim();
+          const newPassword = document.getElementById("newPassword").value.trim();
+          const confirmPassword = document.getElementById("confirmPassword").value.trim();
 
-          if (newPassword !== confirmPassword) {
-            alert("New passwords don't match!");
+          if (!currentPassword || !newPassword || !confirmPassword) {
+            alert("All fields are required.");
             return;
           }
 
-          fetch(`http://localhost:8080/users/${userId}`)
-            .then((response) => response.json())
-            .then((user) => {
-              if (user.password !== currentPassword) {
-                alert("Current password is incorrect!");
-                return;
-              }
+          if (newPassword !== confirmPassword) {
+            alert("New password and confirm password do not match.");
+            return;
+          }
 
-              return fetch(`http://localhost:8080/users/${userId}`, {
-                method: "PATCH",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ password: newPassword }),
-              });
-            })
+          // Call the backend to verify the current password and update it
+          fetch("http://localhost:8080/api/users/change-password", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: getAuthorization(),
+            },
+            body: JSON.stringify({
+              email: currentUser.email,
+              currentPassword: currentPassword,
+              newPassword: newPassword,
+            }),
+          })
             .then((response) => {
               if (!response.ok) {
-                throw new Error("Network response was not ok");
+                return response.text().then((msg) => {
+                  alert(msg);
+                  throw new Error(msg);
+                });
               }
-              return response.json();
+              return response.text();
             })
-            .then(() => {
-              alert("Password updated successfully!");
+            .then((msg) => {
+              // Close the modal and reset the form
               const modal = bootstrap.Modal.getInstance(
                 document.getElementById("updatePasswordModal")
               );
               modal.hide();
               document.getElementById("passwordChangeForm").reset();
+              alert(msg);
             })
             .catch((error) => {
               console.error("Error changing password:", error);
-              alert("Failed to change password");
+              alert("Failed to change password. Please try again.");
             });
         }
       })();

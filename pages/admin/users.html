@@ -1,115 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>User Management</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-</head>
-<body>
-  <div class="container mt-5">
-    <h2>User Management</h2>
+  <head>
+    <meta charset="UTF-8" />
+    <title>User Management</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h2>User Management</h2>
 
-    <form id="userForm" class="mb-4">
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          <label>Name</label>
-          <input type="text" id="userName" class="form-control" required />
+      <form id="userForm" class="mb-4">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label>Name</label>
+            <input type="text" id="userName" class="form-control" required />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Email</label>
+            <input type="email" id="userEmail" class="form-control" required />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Phone</label>
+            <input type="text" id="userPhone" class="form-control" required />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Address</label>
+            <input type="text" id="userAddress" class="form-control" required />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>Password</label>
+            <input
+              type="password"
+              id="userPassword"
+              class="form-control"
+              required
+            />
+          </div>
+          <div class="col-md-6 mb-3">
+            <label>User Type</label>
+            <select id="userType" class="form-select" required>
+              <option value="Customer">Customer</option>
+              <option value="Owner">Owner</option>
+              <option value="Admin">Admin</option>
+            </select>
+          </div>
         </div>
-        <div class="col-md-6 mb-3">
-          <label>Email</label>
-          <input type="email" id="userEmail" class="form-control" required />
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="btn btn-primary">Add User</button>
         </div>
-        <div class="col-md-6 mb-3">
-          <label>Phone</label>
-          <input type="text" id="userPhone" class="form-control" required />
-        </div>
-        <div class="col-md-6 mb-3">
-          <label>Address</label>
-          <input type="text" id="userAddress" class="form-control" required />
-        </div>
-        <div class="col-md-6 mb-3">
-          <label>Password</label>
-          <input type="password" id="userPassword" class="form-control" required />
-        </div>
-        <div class="col-md-6 mb-3">
-          <label>User Type</label>
-          <select id="userType" class="form-select" required>
-            <option value="Customer">Customer</option>
-            <option value="Owner">Owner</option>
-            <option value="Admin">Admin</option>
-          </select>
-        </div>
-      </div>
-      <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary">Add User</button>
-      </div>
-    </form>
+      </form>
 
-    <h3>All Users</h3>
-    <table class="table mt-3">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Phone</th>
-          <th>User Type</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="userList"></tbody>
-    </table>
-  </div>
+      <h3>All Users</h3>
+      <table class="table mt-3">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>User Type</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="userList"></tbody>
+      </table>
+    </div>
 
-  <script>
+    <script>
       editUserId = null;
 
-    document.getElementById('userForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
+      document
+        .getElementById("userForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
 
-      const userData = {
-        name: document.getElementById('userName').value.trim(),
-        email: document.getElementById('userEmail').value.trim(),
-        phone: document.getElementById('userPhone').value.trim(),
-        address: document.getElementById('userAddress').value.trim(),
-        password: document.getElementById('userPassword').value.trim(),
-        userType: document.getElementById('userType').value
-      };
+          const userData = {
+            name: document.getElementById("userName").value.trim(),
+            email: document.getElementById("userEmail").value.trim(),
+            phone: document.getElementById("userPhone").value.trim(),
+            address: document.getElementById("userAddress").value.trim(),
+            password: document.getElementById("userPassword").value.trim(),
+            userType: document.getElementById("userType").value,
+          };
 
-      if (editUserId) {
-        await fetch(`${apiUrl}/users/${editUserId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(userData)
+          if (editUserId) {
+            await fetch(`${apiUrl}/users/${editUserId}`, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: getAuthorization(),
+              },
+              body: JSON.stringify(userData),
+            });
+
+            editUserId = null;
+            document.querySelector('button[type="submit"]').textContent =
+              "Add User";
+          } else {
+            await fetch(`${apiUrl}/users`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(userData),
+            });
+          }
+
+          document.getElementById("userForm").reset();
+          fetchUsers();
         });
 
-        editUserId = null;
-        document.querySelector('button[type="submit"]').textContent = 'Add User';
-      } else {
-        await fetch(`${apiUrl}/users`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(userData)
-        });
+      function fetchUsers() {
+        fetch(`${apiUrl}/users`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: getAuthorization(),
+          },
+        })
+          .then((res) => res.json())
+          .then((users) => renderUserTable(users));
       }
 
-      document.getElementById('userForm').reset();
-      fetchUsers();
-    });
+      function renderUserTable(users) {
+        const tbody = document.getElementById("userList");
+        tbody.innerHTML = "";
 
-    function fetchUsers() {
-      fetch(`${apiUrl}/users`)
-        .then(res => res.json())
-        .then(users => renderUserTable(users));
-    }
-
-    function renderUserTable(users) {
-      const tbody = document.getElementById('userList');
-      tbody.innerHTML = '';
-
-      users.forEach(user => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
+        users.forEach((user) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
           <td>${user.name}</td>
           <td>${user.email}</td>
           <td>${user.phone}</td>
@@ -123,49 +146,61 @@
             </button>
           </td>
         `;
-        tbody.appendChild(tr);
-      });
-
-      document.querySelectorAll('.edit-user').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const id = btn.getAttribute('data-id');
-          editUser(id);
+          tbody.appendChild(tr);
         });
-      });
 
-      document.querySelectorAll('.delete-user').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const id = btn.getAttribute('data-id');
-          deleteUser(id);
+        document.querySelectorAll(".edit-user").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-id");
+            editUser(id);
+          });
         });
-      });
-    }
 
-    function editUser(id) {
-      fetch(`${apiUrl}/users/${id}`)
-        .then(res => res.json())
-        .then(user => {
-          document.getElementById('userName').value = user.name;
-          document.getElementById('userEmail').value = user.email;
-          document.getElementById('userPhone').value = user.phone;
-          document.getElementById('userAddress').value = user.address;
-          document.getElementById('userPassword').value = user.password;
-          document.getElementById('userType').value = user.userType;
-
-          editUserId = id;
-          document.querySelector('button[type="submit"]').textContent = 'Update User';
+        document.querySelectorAll(".delete-user").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-id");
+            deleteUser(id);
+          });
         });
-    }
-
-    function deleteUser(id) {
-      if (confirm('Are you sure you want to delete this user?')) {
-        fetch(`${apiUrl}/users/${id}`, { method: 'DELETE' })
-          .then(() => fetchUsers());
       }
-    }
 
-    // Initial Load
-    fetchUsers();
-  </script>
-</body>
+      function editUser(id) {
+        fetch(`${apiUrl}/users/${id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: getAuthorization(),
+          },
+        })
+          .then((res) => res.json())
+          .then((user) => {
+            document.getElementById("userName").value = user.name;
+            document.getElementById("userEmail").value = user.email;
+            document.getElementById("userPhone").value = user.phone;
+            document.getElementById("userAddress").value = user.address;
+            document.getElementById("userPassword").value = user.password;
+            document.getElementById("userType").value = user.userType;
+
+            editUserId = id;
+            document.querySelector('button[type="submit"]').textContent =
+              "Update User";
+          });
+      }
+
+      function deleteUser(id) {
+        if (confirm("Are you sure you want to delete this user?")) {
+          fetch(`${apiUrl}/users/${id}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: getAuthorization(),
+            },
+          }).then(() => fetchUsers());
+        }
+      }
+
+      // Initial Load
+      fetchUsers();
+    </script>
+  </body>
 </html>
