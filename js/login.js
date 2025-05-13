@@ -3,6 +3,77 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
   verify();
 });
 
+const apiUrl = "http://localhost:8080/auth";
+
+document.getElementById("forgotPasswordForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("email").value;
+
+  try {
+    const response = await fetch(`${apiUrl}/forgot-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+
+      body: JSON.stringify({ email }),
+    });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      alert(errorMessage);
+      return;
+    }
+
+    alert("OTP sent to your email.");
+    document.getElementById("otpSection").classList.remove("d-none");
+  } catch (err) {
+    console.error("Error sending OTP:", err);
+    alert("Failed to send OTP. Please try again.");
+  }
+});
+
+document.getElementById("verifyOtpForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("email").value;
+  const otp = document.getElementById("otp").value;
+  const newPassword = document.getElementById("newPassword").value;
+
+  try {
+    const response = await fetch(`${apiUrl}/verify-otp`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, otp }),
+    });
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      alert(errorMessage);
+      return;
+    }
+
+    // Reset the password
+    const resetResponse = await fetch(`${apiUrl}/reset-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, newPassword }),
+    });
+
+    if (!resetResponse.ok) {
+      const errorMessage = await resetResponse.text();
+      alert(errorMessage);
+      return;
+    }
+
+    alert("Password reset successfully!");
+    const modal = bootstrap.Modal.getInstance(
+      document.getElementById("forgotPasswordModal")
+    );
+    modal.hide();
+  } catch (err) {
+    console.error("Error resetting password:", err);
+    alert("Failed to reset password. Please try again.");
+  }
+});
+
 function verify() {
   const email = document.getElementById("userEmail").value;
   const password = document.getElementById("userPassword").value;
@@ -16,6 +87,7 @@ function verify() {
     body: JSON.stringify({ email: email, password: password})
   })
     .then(response => {
+      
       // Handle HTTP status codes with console logs
       if (response.status === 200) {
         return response.json();
